@@ -1,0 +1,101 @@
+﻿@model List<WSite_ShowRoom_CtyThoiTrang.Models.tb_Products>
+@{
+    ViewBag.Title = "Trang Chủ";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<h2>thuanajn</h2>
+<div >
+    <div class="row">
+        <div class="col-1">
+            <p>
+                Thuaajn ne
+            </p>
+        </div>
+        <div class="col-8">
+            <p>
+                Thuaajn ne
+            </p>
+        </div>
+        <div class="col-1">
+            <p>
+                Thuaajn ne
+            </p>
+        </div>
+    </div>
+
+    <br />
+    <div class="row bg-danger">
+        <div class="col-1">
+            <p>
+                Thuaajn ne
+            </p>
+        </div>
+        <div class="col-10 bg-info">
+            <p>
+                San Pham
+            </p>
+            <div>
+                @foreach (var item in Model)
+                {
+
+                  <a href="/Product/Details/@item.ProductId">
+                      <ul class="pro-item">
+
+                          <li>
+
+                              <div class="products">
+
+
+                                  <img src="~/Photo/SanPham/@item.Image" />
+                                  <br />
+                                  <div>
+                                      <b class="d-flex justify-content-center">
+                                          @item.Title
+                                      </b>
+                                  </div>
+
+                                  <br />
+                                  <br />
+                                  <b class="price text-danger">Giá Tiền:  @item.Price</b>
+                                  <br />
+                              </div>
+
+                          </li>
+
+                      </ul>
+                  </a>
+
+                     
+
+                  }
+</div>
+
+        </div>
+        <div class="col-1">
+            <p>
+                Thuaajn ne
+            </p>
+        </div>
+    </div>
+    <br />
+    <div class="row bg-black">
+        <div class="col-1">
+            <p>
+                Thuaajn ne
+            </p>
+        </div>
+        <div class="col-8">
+            <p>
+                Thuaajn ne
+            </p>
+        </div>
+        <div class="col-1">
+            <p>
+                Thuaajn ne
+            </p>
+        </div>
+
+    </div>
+
+</div>

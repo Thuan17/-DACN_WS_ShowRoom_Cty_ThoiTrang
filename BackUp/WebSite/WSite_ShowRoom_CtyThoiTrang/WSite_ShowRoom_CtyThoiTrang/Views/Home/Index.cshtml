@@ -1,0 +1,116 @@
+﻿@model List<WSite_ShowRoom_CtyThoiTrang.Models.tb_Products>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+@*<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">*@
+
+
+<div>
+
+    <div class="row justify-content-md-center">
+        @Html.Action("MenuArrivals", "Menu")
+        <button class="btn btn-outline-primary my-1 my-sm-0 " style="width:200px" type="submit"> <a href="/Product/Index">Xem Thêm</a></button>
+    </div>
+    <br />
+    <div class="row  text-center">
+        <div class="col">
+            <img src="~/hinh/thoitrangnam.jpg" width="600px" />
+            <h2> Thời Trang Nam</h2>
+            <p>Cùng với sự phát triển không ngừng của thời trang thế giới, rất nhiều thương hiệu cho ra đời những mẫu thời trang nam chính hãng đa dạng về phong cách, kiểu dáng, màu sắc, kích cỡ…</p>
+            <button class="btn btn-outline-primary my-1 my-sm-0 " style="width:200px" type="submit">Xem Thêm</button>
+
+        </div>
+        <div class="col">
+            <img src="~/hinh/3.jpg" width="535px" />
+            <h2> Thời Trang Nữ</h2>
+            <div class=" text-center">
+                <p>
+                    Ngày nay, thế giới trang sức nam, nữ chính hãng rất đẹp, đa dạng với nhiều kiểu dáng, chất liệu khác nhau
+                    <span>(vàng, bạc, đính đá), từ vòng tay, hoa tai, dây chuyền cho đến cả nhẫn</span>
+                </p>
+                <button class="btn btn-outline-primary my-1 my-sm-0 " style="width:200px" type="submit">Xem Thêm</button>
+            </div>
+
+        </div>
+    </div>
+    <div class="row ">
+        @Html.Action("Partial_ProSale", "Product")
+    </div>
+    <div class="row">
+        <div class="col">
+            <img src="~/hinh/trangsuc.jpg" class="w-100" />
+        </div>
+        <div class="col text-center p-5">
+            <h2> Đồ Trang Sức Độc Quyền</h2>
+            <h5>
+                Ngày nay, thế giới trang sức nam, nữ chính hãng rất đẹp, đa dạng với nhiều kiểu dáng, chất liệu khác nhau (vàng, bạc, đính đá), từ vòng tay, hoa tai, dây chuyền cho đến cả nhẫn.
+            </h5>
+            <button class="btn btn-outline-primary my-1 my-sm-0 " style="width:200px" type="submit">Xem Thêm</button>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col text-center p-5">
+            <h2> Vòng Lắc Tay</h2>
+            <h5>
+
+                Với chất liệu làm từ thép không gỉ 316L, đi kèm với đó là lớp mạ vàng hồng thời thượng bên ngoài (tùy phiên bản), những chiếc vòng tay, lắc tay đến từ thương hiệu Daniel Wellington đã tạo nên cơn sốt không hề nhỏ trên thị trường kể từ thời điểm ra mắt.
+
+            </h5>
+            <button class="btn btn-outline-primary my-1 my-sm-0 " style="width:200px" type="submit">Xem Thêm</button>
+        </div>
+        <div class="col">
+            <img src="~/hinh/vong.jpg" class="w-100" />
+        </div>
+    </div>
+    <div class="row">
+        <h2 class="text-center p-2"> Tin Tức Nổi Bật</h2>
+        <div class="col ">
+            <img src="~/hinh/fashon.jpg" class="w-100" />
+            <h4> 🔥 Quà tặng tri ân: Voucher giảm 100K khi mua hàng</h4>
+            <p>
+                Để cảm ơn tình cảm yêu mến của các cô gái trong thời gian qua, một lời cảm ơn chưa...
+            </p>
+            <b> <a href="#" style="text-decoration:none"> Xem thêm ></a></b>
+        </div>
+        <div class="col ">
+            <img src="~/hinh/noel1.jpg" class="w-100" />
+            <h4> Cách phối đồ nam mùa đông cực thời trang và trendy</h4>
+            <p>
+
+                Bật mí tip phối đồ nam mùa đông chuẩn stylist hiện nay&nbsp;Thời nay, biết cách ăn mặc là điều vô...
+
+            </p>
+            <b> <a href="#" style="text-decoration:none"> Xem thêm ></a></b>
+        </div>
+        <div class="col">
+            <img src="~/hinh/style.jpg" class="w-100" />
+            <h4> Tips phối đồ với boots nam thêm lịch lãm, fashion</h4>
+            <p>
+
+                Phối đồ với boot nam nên mặc với áo gì?&nbsp;Boot đã có nhưng kết hợp với áo gì cũng khiến...
+
+            </p>
+            <b> <a href="#" style="text-decoration:none"> Xem thêm ></a></b>
+        </div>
+        <div class="col ">
+            <img src="~/hinh/fashon.jpg" class="w-100" />
+            <h4> 🔥 Quà tặng tri ân: Voucher giảm 100K khi mua hàng</h4>
+            <p>
+                Để cảm ơn tình cảm yêu mến của các cô gái trong thời gian qua, một lời cảm ơn chưa...
+            </p>
+            <b> <a href="#" style="text-decoration:none"> Xem thêm ></a></b>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+
+</script>

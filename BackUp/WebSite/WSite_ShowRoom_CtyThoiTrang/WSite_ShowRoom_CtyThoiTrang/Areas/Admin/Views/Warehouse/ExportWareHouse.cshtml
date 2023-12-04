@@ -1,0 +1,114 @@
+﻿@model WSite_ShowRoom_CtyThoiTrang.Models.Admin_WareHouse_Export_ToKen
+@using (Ajax.BeginForm("ExportWareHouse", "WareHouse", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "load_data",
+    OnSuccess = "OnSuccessCO",
+    OnFailure = "OnFailure",
+    OnBegin = "OnBeginCO"
+}, new { @Id = "myForm" }))
+{
+    <script>
+        function OnBeginCO() {
+            $('#btnSuccessCandelOrder').attr("disabled", "disabled");
+        }
+
+        function OnSuccessCO(res) {
+            if (res.Success) {
+                if (res.Code == 1) {
+                    alert("Xuất thành công");
+                } else if (res.Code === -1) {
+                    alert("Xuất hàng thất bại");
+                    /*location.href = res.Url;*/
+                }
+            }
+            else
+            {
+                if (res.Code == -1) {
+                    alert("Đơn hàng đã hủy trên hệ thống ");
+                    $.ajax({
+                        url: '/WareHouse/ExportWareHouse',
+                        type: 'GET',
+                        success: function (rs) {
+                            $('#myForm').html(rs);
+                        }
+                    });
+                }
+                if (res.Code == -2) {
+
+                    alert("Mã đơn hàng xuất bị trùng vui lòng kiểm tra lại ");
+                    $.ajax({
+                        url: '/WareHouse/ExportWareHouse',
+                        type: 'GET',
+                        success: function (rs) {
+                            $('#myForm').html(rs);
+                        }
+                    });
+                }
+               if (res.Code == -3) {
+                  
+                    alert("Đơn hàng chưa được xác nhận ");
+                    $.ajax({
+                        url: '/WareHouse/ExportWareHouse',
+                        type: 'GET',
+                        success: function (rs) {
+                            $('#myForm').html(rs);
+                        }
+                    });
+                }
+                
+            }
+        }
+
+        //$(document).ready(function () {
+        //    // Kiểm tra mã đơn hàng khi mất focus
+        //    $("#Code").blur(function () {
+        //        validateCode();
+        //    });
+
+        //    // Kiểm tra mã đơn hàng khi form được submit
+        //    $("#myForm").submit(function (event) {
+        //        if (!validateCode()) {
+        //            event.preventDefault(); // Ngăn chặn việc submit nếu có lỗi
+        //        }
+        //        // Các xử lý khác nếu cần
+        //    });
+
+        //    // Hàm kiểm tra mã đơn hàng
+        //    function validateCode() {
+        //        var code = $("#Code").val().trim();
+        //        var codeError = $("#code-error");
+
+        //        if (code === "") {
+        //            codeError.text("Mã đơn hàng không được để trống");
+        //            return false;
+        //        } else {
+        //            codeError.text(""); // Xóa thông báo lỗi nếu có
+        //            return true;
+        //        }
+        //    }
+        //});
+    </script>
+
+    <hr />
+
+    @Html.AntiForgeryToken()
+    <h3>Thông tin xuất đơn hàng</h3>
+    <h4 class="Text-danger">@ViewBag.Error</h4>
+    <div class="form-group">
+        <label>Mã Đơn hàng </label>
+        <input type="text" name="Code" id="Code" required class="form-control" autocomplete="off" placeholder="Mã Đơn hàng DH**** " />
+        <span id="code-error" class="text-danger"></span>
+    </div>
+
+    @Html.DropDownListFor(model => model.Idkho, (IEnumerable<SelectListItem>)ViewBag.Kho, "Chọn Kho", new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Idkho, null, new { @class = "text-danger" })
+
+    <div class="form-group" id="load_send"></div>
+    <div class="row">
+        <div class="col-1"></div>
+        <button type="submit">thuan</button>
+        <div class="col-10 d-grid gap-2 col-10 mx-auto"><button type="submit" class="btn btn-danger btnSuccessCandelOrder ">Xác nhận trả hàng</button></div>
+        <div class="col-1"></div>
+    </div>
+}

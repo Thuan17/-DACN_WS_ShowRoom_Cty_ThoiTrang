@@ -1,0 +1,137 @@
+﻿@model WSite_ShowRoom_CtyThoiTrang.Models.tb_Order
+@{
+    ViewBag.Title = "CancelOrder";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<h2>CancelOrder</h2>
+
+@using (Html.BeginForm())
+{
+
+    <div class="container pb-5 mb-2">
+        <!-- Alert-->
+        <div class="alert alert-info alert-dismissible fade show text-center mb-30"><span class="alert-close" data-dismiss="alert"></span><i class="fe-icon-award"></i>&nbsp;&nbsp;Bạn muốn hủy đơn hàng này.</div>
+        <div class="">
+            <div class="row">
+                <div class="col-xl-12">
+                    @if (Model != null)
+                    {
+
+
+
+                        <div class="card border shadow-none">
+                            <div class="card-body">
+                                <h6>Mã đơn hàng : @Model.Code</h6>
+                                @Html.Action("Par_OrderDetailSuccess", "User", new { id = Model.OrderId })
+                                <div>
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                @Html.AntiForgeryToken()
+                                                <span> Lý do hủy đơn hàng</span>
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="mt-3">
+                                                <span></span>
+                                                <h5 class="text-muted mb-2">Tổng tiền : @WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(Model.TotalAmount)</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+                                            <div class="form-horizontal">
+
+
+                                                <div class="form-group">
+                                                    <div class="col-md-offset-2 col-md-10">
+                                                        <input type="submit" value="Save" class="btn  btn-success" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    }
+                    else
+                    {
+                        <div class="col-xl-4">
+                            <div class="mt-5 mt-lg-0">
+                                <div class="card border shadow-none">
+                                    <div class="card-header bg-transparent border-bottom py-3 px-4">
+                                        <h5 class="font-size-16 mb-0">Order Summary <span class="float-end">#MN0124</span></h5>
+                                    </div>
+                                    <div class="card-body p-4 pt-2">
+
+                                        <div class="table-responsive">
+                                            <table class="table mb-0">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Sub Total :</td>
+                                                        <td class="text-end">$ 780</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Discount : </td>
+                                                        <td class="text-end">- $ 78</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Shipping Charge :</td>
+                                                        <td class="text-end">$ 25</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Estimated Tax : </td>
+                                                        <td class="text-end">$ 18.20</td>
+                                                    </tr>
+                                                    <tr class="bg-light">
+                                                        <th>Total :</th>
+                                                        <td class="text-end">
+                                                            <span class="fw-bold">
+                                                                $ 745.2
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- end table-responsive -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- end card -->
+
+                    <div class="row my-4">
+                        <div class="col-sm-6">
+                            @*<a href="/home/index" class="btn btn-link text-muted">
+                                    <i class="mdi mdi-arrow-left me-1"></i> Tiếp tục mua hàng
+                                </a>*@
+
+
+                        </div>
+                    </div> <!-- end row-->
+                </div>
+
+
+            </div>
+            <!-- end row -->
+
+        </div>
+
+    </div>
+
+}
+

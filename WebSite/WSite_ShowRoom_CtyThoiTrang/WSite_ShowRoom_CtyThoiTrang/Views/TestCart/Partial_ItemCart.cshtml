@@ -1,0 +1,103 @@
+﻿@model IEnumerable<WSite_ShowRoom_CtyThoiTrang.Models.tb_CartItem>
+
+
+<div class="container  product_section_container">
+    <div class="col-md-12 col-sm-12 content">
+       
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-info panel-shadow">
+                    @if (Model != null && Model.Any())
+                    {
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" id="SelectAll" /></th>
+                                            <th>STT</th>
+                                            <th>Hình ảnh</th>
+                                            <th>Tên sản phẩm</th>
+                                            <th>Loại sản phẩm</th>
+                                            <th>Số lượng</th>
+                                            <th>Giá</th>
+                                            <th>Tổng Tiền</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            var i = 0;
+                                            //tongTien += item.PriceTotal;
+                                            <tr  id="trow_@item.ProductId">
+
+                                                <td><input type="checkbox" class="cbkItem" data-id="@item.ProductId" /></td>
+                                                <td>
+                                                    @(i+1)
+                                                </td>
+                                                <td><img src="@item.tb_Products.Image" class="img-cart w-25"></td>
+                                                <td>
+                                                    @*<a href="/chi-tiet/@item.Alias-p@(item.ProductId)">*@
+                                                    @item.tb_Products.Title
+                                                    @*</a>*@
+                                                </td>
+                                                <td>
+                                                    @item.tb_Products.tb_ProductCategory.Title
+                                                </td>
+                                                <td>
+                                                    <form class="form-inline">
+                                                        <input type="number" class="form-control" id="Quantity_@item.ProductId" value="@item.Quantity" />
+
+                                                    </form>
+                                                </td>
+                                                <td>@WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(item.Price) vnđ</td>
+                                                @*<td>@WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(item.) vnđ</td>*@
+                                                <td>
+                                                    <a href="#" data-id="@item.ProductId" class="btn btn-sm btn-primary btnUpdate"><i class="fa fa-pencil"></i></a>
+                                                    <a href="#" data-id="@item.ProductId" class="btn btn-sm btn-danger btnDelete123"><i class="far fa-trash-alt"></i></a>
+                                                </td>
+                                            </tr>
+                                            i++;
+                                            <tr>
+                                                <td colspan="8">
+                                                    &nbsp;
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+
+                                                <td colspan="4" class="text-right">Tổng tiền sản phẩm</td>
+                                                <td colspan="4" class="text-right">
+                                                    @*<button type="button" class="btn btn-primary btn-dat-hang" data-product-id="@item.ProductId">Đặt Hàng</button>*@
+                                                    @*<button class="btnAddToCart123" data-id="@item.ProductId">Thực Hiện Hành Động</button>*@
+                                                </td>
+
+                                                @*<td>@Common.FormatNumber(tongTien, 0) vnđ</td>*@
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+
+                        <img src="//theme.hstatic.net/200000420363/1001162486/14/empty_cart.png?v=240" alt="Không có sản phẩm nào trong giỏ hàng của bạn">
+
+
+                        <span>Bạn chưa có sản phẩm nào. Vui long quay lại trang <a href="/home/index">sản phẩm</a> để mua hàng.</span>
+
+                    }
+
+                 
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
