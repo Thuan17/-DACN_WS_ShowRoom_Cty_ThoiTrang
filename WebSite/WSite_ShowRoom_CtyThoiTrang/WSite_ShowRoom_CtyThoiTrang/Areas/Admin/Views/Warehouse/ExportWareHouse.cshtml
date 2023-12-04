@@ -26,6 +26,12 @@
             {
                 if (res.Code == -2) {
                     alert("Không tìm thấy đơn hàng ");
+                    //swal.fire({
+                    //    icon: "error",
+                    //    title: "Oops...",
+                    //    text: "Something went wrong!",
+                    //    footer: '<a href="#">Why do I have this issue?</a>'
+                    //});
                     $.ajax({
                         url: '/WareHouse/ExportWareHouse',
                         type: 'GET',
@@ -36,7 +42,7 @@
                 }
                 if (res.Code == -3) {
 
-                    alert("Đơn hàng dã hủy trên hệ thống ! Vui lòng kiểm tra lại");
+                    alert("Đơn hàng dã hủy trên hệ thống ! Vui lòng kiểm tra lại ");
                     $.ajax({
                         url: '/WareHouse/ExportWareHouse',
                         type: 'GET',
@@ -120,6 +126,7 @@
     <div class="form-group">
         <label>Mã Đơn hàng </label>
         <input type="text" name="Code" id="Code" required class="form-control" autocomplete="off" placeholder="Mã Đơn hàng DH**** " />
+        @Html.ValidationMessageFor(model => model.Code, null, new { @class = "text-danger" })
         <span id="code-error" class="text-danger"></span>
     </div>
 

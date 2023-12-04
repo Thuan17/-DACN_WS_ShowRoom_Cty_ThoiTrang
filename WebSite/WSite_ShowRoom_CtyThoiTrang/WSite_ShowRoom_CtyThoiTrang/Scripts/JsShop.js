@@ -185,8 +185,30 @@
 
     });
 
+    $('body').on('input', '.Quantity', function (e) {
+        var productId = $(this).attr('id');
+        var newQuantity = $(this).val();
 
-
+        $.ajax({
+            type: 'POST',
+            url: '/TestCart/UpdateQuantity',
+            data: {
+                id: productId,
+                quantity: newQuantity
+            },
+            success: function (result) {
+                console.log(result);
+                if (result.Success) {
+                    console.log('Cập nhật số lượng thành công');
+                } else {
+                    console.log('Có lỗi xảy ra: ' + result.msg);
+                }
+            },
+            error: function (error) {
+                console.log('Lỗi Ajax: ' + error.statusText);
+            }
+        });
+    });
    
 });
 

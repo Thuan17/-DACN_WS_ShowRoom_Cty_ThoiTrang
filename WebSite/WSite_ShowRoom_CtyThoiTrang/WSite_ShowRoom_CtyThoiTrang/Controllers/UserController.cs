@@ -22,19 +22,20 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+
         }
 
 
-
-        public ActionResult Par_AllOrder()
+        public ActionResult Partail_AllOrder() 
         {
             if (Session["IdKhachHang"] != null)
             {
                 int idKhach = (int)Session["IdKhachHang"];
-                var cheCheckORder = db.tb_Order.Where(x => x.IdKhachHang == idKhach).ToList();
-                if (cheCheckORder != null)
+                var checkOrder = db.tb_Order.Where(x => x.IdKhachHang == idKhach).ToList();
+                if (checkOrder != null)
                 {
-                    return View(cheCheckORder);
+
+                    return PartialView(checkOrder);
                 }
             }
             else
@@ -42,7 +43,15 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                 return RedirectToAction("Login", "Account");
             }
             return View();
+
         }
+
+
+
+
+
+
+
 
         public ActionResult WaitPayOrder()
         {
@@ -70,7 +79,18 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             var cheCheckORderDetail = db.tb_Order.Find(id);
             if (cheCheckORderDetail != null)
             {
-                return PartialView(cheCheckORderDetail);
+                var checkOutOrder = db.tb_KhoXuat.FirstOrDefault(x => x.OrderId == cheCheckORderDetail.OrderId);
+                if (checkOutOrder != null)
+                {
+                    ViewBag.Out = "XuatKho";
+                    return PartialView(cheCheckORderDetail);
+                }
+                else
+                {
+                    return PartialView(cheCheckORderDetail);
+
+                }
+                
             }
             return PartialView();
         }
@@ -80,7 +100,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
         {
 
             int idKhach = (int)Session["IdKhachHang"];
-            var checkORder = db.tb_Order.Where(x => x.IdKhachHang == idKhach && x.typeOrder == false).ToList();
+            var checkORder = db.tb_Order.Where(x => x.IdKhachHang == idKhach && x.typeOrder == true).ToList();
             if (checkORder != null)
             {
                 return PartialView(checkORder);
@@ -284,7 +304,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                                     {
                                         itemOrder.Status = "Thay đổi sản phẩm khác";
                                     }
-                                    itemOrder.typeReturn = false;
+                                    itemOrder.typeReturn = true;
                                     //DeleteCartSucces(idKhach, item.ProductId);
                                     db.Entry(itemOrder).State = System.Data.Entity.EntityState.Modified;
                                     db.Entry(checkQuantityPro).State = System.Data.Entity.EntityState.Modified;

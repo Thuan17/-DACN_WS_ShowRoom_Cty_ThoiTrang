@@ -117,10 +117,10 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                 var checkOrder = db.tb_Order.FirstOrDefault(x => x.Code == mDH.Trim());
                 if (checkOrder != null) 
                 {
-                    var checkCancelOrder=db.tb_Order.FirstOrDefault(x=>x.OrderId== checkOrder.OrderId&& x.typeOrder==true);
+                    var checkCancelOrder=db.tb_Order.FirstOrDefault(x=>x.OrderId== checkOrder.OrderId && x.typeOrder == false );
                     if (checkCancelOrder != null) 
                     {
-                        var checkConfim = db.tb_Order.FirstOrDefault(x => x.OrderId == checkOrder.OrderId && x.Confirm==true);
+                        var checkConfim = db.tb_Order.FirstOrDefault(x => x.OrderId == checkOrder.OrderId && x.Confirm == true);
                         if (checkConfim != null)
                         {
                             var OrderReturn=db.tb_Order.FirstOrDefault(x => x.OrderId == checkOrder.OrderId && x.Confirm == true&& x.typeReturn==false);

@@ -30,9 +30,9 @@
     <link rel="stylesheet" href="~/Content/clients/dist/css/adminlte.min.css">
 
     @*<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">*@
+        <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">*@
     <!-- CSS -->
-   
+
 
 
 
@@ -44,6 +44,11 @@
 
 
     <link href="~/Content/PagedList.css" rel="stylesheet" />
+
+
+
+    <!---SweetAlter-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limontesweetalert2/7.2.0/sweetalert2.min.css/" />
 </head>
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -192,10 +197,10 @@
                         @*<a href="#" class="d-block">Alexander Pierce</a>*@
 
                         @{
-                            var user =(WSite_ShowRoom_CtyThoiTrang.Models.tb_NhanVien) HttpContext.Current.Session["user"];
-                          <apan>
-                              @user.TenNhanVien
-                          </apan>
+                            var user = (WSite_ShowRoom_CtyThoiTrang.Models.tb_NhanVien)HttpContext.Current.Session["user"];
+                            <apan>
+                                @user.TenNhanVien
+                            </apan>
                         }
 
 
@@ -231,14 +236,14 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            @if (TempData["AlterMessage"] != null) 
+            @if (TempData["AlterMessage"] != null)
             {
                 <div class="form-group">
                     <div class="alter @TempData["AlterType"] hide">
                         @TempData["AlterMessage"]
                     </div>
                 </div>
-                
+
             }
             @RenderBody()
         </div>
@@ -287,12 +292,13 @@
 
 
 
-    <script src="~/Scripts/autoNumeric-1.9.45.js"></script>
 
 
 
 
 
+    <!---SweetAlter-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
 
 
     <script src="~/Scripts/autoNumeric-1.9.45.js"></script>

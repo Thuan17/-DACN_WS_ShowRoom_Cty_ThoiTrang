@@ -8,9 +8,10 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
 {
     public class Admin_WareHouse_Export_ToKen
     {
-      
+
+        [Required(ErrorMessage = "Không để trống mã code ")]
         public string Code { get; set; }
-       
+        [Required(ErrorMessage = "Không để trống kho")]
         public int Idkho { get; set; }
        
 

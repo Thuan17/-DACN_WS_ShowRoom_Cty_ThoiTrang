@@ -70,6 +70,63 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             return PartialView();
         }
 
+
+
+
+
+        [HttpPost]
+        public ActionResult UpdateQuantity(int id, int quantity)
+        {
+            var code = new { Success = false, msg = "", code = -1 };
+
+            try
+            {
+                if (Session["IdKhachHang"] != null)
+                {
+                    int idKhach = (int)Session["IdKhachHang"];
+
+                    var checkIdCart = db.tb_Cart.FirstOrDefault(x => x.IdKhachHang == idKhach);
+
+                    if (checkIdCart != null)
+                    {
+                        int checkId = checkIdCart.CartId;
+
+                        var checkIdCartItem = db.tb_CartItem.FirstOrDefault(ci => ci.CartId == checkId && ci.ProductId == id);
+
+                        if (checkIdCartItem != null)
+                        {
+                            checkIdCartItem.Quantity = quantity;
+                            db.SaveChanges();
+
+                            code = new { Success = true, msg = "ok", code = 1 };
+                        }
+                        else
+                        {
+                            code = new { Success = false, msg = "Sản phẩm không tồn tại trong giỏ hàng", code = 0 };
+                        }
+                    }
+                    else
+                    {
+                        code = new { Success = false, msg = "Không tìm thấy giỏ hàng", code = -1 };
+                    }
+                }
+                else
+                {
+                    code = new { Success = false, msg = "Không có phiên làm việc (session) cho khách hàng", code = -1 };
+                }
+            }
+            catch (Exception ex)
+            {
+                code = new { Success = false, msg = "Lỗi cập nhật số lượng sản phẩm: " + ex.Message, code = -1 };
+            }
+
+            return Json(code);
+        }
+
+
+
+
+
         [HttpPost]
         public ActionResult DeleteAll(List<int> CartItemId)
         {
@@ -523,8 +580,10 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                             order.CreatedBy = inforKhachHang.SDT;
                             order.IdKhachHang = inforKhachHang.IdKhachHang;
                             order.Confirm = false;
-                            order.typeOrder = true;
+                            order.typeOrder = false;
                             order.Status = null;
+                            order.typeReturn = false;
+                            order.Success = false;
                             Random ran = new Random();
                             order.Code = "DH" + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9);
 

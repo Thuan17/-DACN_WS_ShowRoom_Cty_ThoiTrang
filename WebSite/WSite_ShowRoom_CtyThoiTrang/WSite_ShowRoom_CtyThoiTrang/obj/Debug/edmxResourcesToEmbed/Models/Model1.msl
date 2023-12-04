@@ -166,6 +166,7 @@
           <ScalarProperty Name="Confirm" ColumnName="Confirm" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="typeReturn" ColumnName="typeReturn" />
+          <ScalarProperty Name="Success" ColumnName="Success" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -242,26 +243,6 @@
           <ScalarProperty Name="MSNV" ColumnName="MSNV" />
           <ScalarProperty Name="IdChucNang" ColumnName="IdChucNang" />
           <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="tb_Return">
-      <EntityTypeMapping TypeName="CONGTYTHOITRANGModel.tb_Return">
-        <MappingFragment StoreEntitySet="tb_Return">
-          <ScalarProperty Name="ReturnId" ColumnName="ReturnId" />
-          <ScalarProperty Name="IdKhachHang" ColumnName="IdKhachHang" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="tb_ReturnDetail">
-      <EntityTypeMapping TypeName="CONGTYTHOITRANGModel.tb_ReturnDetail">
-        <MappingFragment StoreEntitySet="tb_ReturnDetail">
-          <ScalarProperty Name="ReturnDetailId" ColumnName="ReturnDetailId" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-          <ScalarProperty Name="ReturnId" ColumnName="ReturnId" />
-          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
