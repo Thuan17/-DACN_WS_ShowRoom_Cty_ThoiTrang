@@ -1,0 +1,80 @@
+﻿@model WSite_ShowRoom_CtyThoiTrang.Models.Admin_WareHouse_Export_ToKen
+
+@using (Ajax.BeginForm("Partial_ExportWareHouse", "WareHouse", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "load_data",
+    OnSuccess = "OnSuccessCO",
+    OnFailure = "OnFailure",
+    OnBegin = "OnBeginCO"
+}, new { @Id = "myForm" }))
+{
+    <script>
+        function OnBeginCO() {
+            $('#btnOutOrder').attr("disabled", "disabled");
+        }
+
+
+        function OnSuccessCO(res) {
+            if (res.Success) {
+                if (res.Code == 1) {
+                    alert("Xuất thành công");
+                    location.reload(true);
+                } else {
+                }
+            }
+            else {
+                if (res.Code == -2) {
+                    alert("Không tìm thấy đơn hàng ");
+
+
+                }
+                if (res.Code == -3) {
+
+                    alert("Đơn hàng dã hủy trên hệ thống ! Vui lòng kiểm tra lại ");
+
+                }
+                if (res.Code == -4) {
+
+                    alert("Đơn hàng chưa được xác nhận ");
+
+                }
+                if (res.Code == -5) {
+
+                    alert("Mã hàng được trả về");
+
+                }
+                if (res.Code == -6) {
+
+                    alert("Đơn hàng lập lại 2 lần  ");
+
+
+
+                }
+            }
+
+        }
+    </script>
+    @Html.AntiForgeryToken()
+    <h5>Thông tin xuất đơn hàng</h5>
+    <h4 class="Text-danger">@ViewBag.Error</h4>
+    <div class="form-group">
+        <label>Mã Đơn hàng </label>
+        <input type="text" name="Code" id="Code" required class="form-control" autocomplete="off" placeholder="Mã Đơn hàng DH**** " />
+        @Html.ValidationMessageFor(model => model.Code, null, new { @class = "text-danger" })
+        <span id="code-error" class="text-danger"></span>
+    </div>
+
+    @Html.DropDownListFor(model => model.Idkho, (IEnumerable<SelectListItem>)ViewBag.Kho, "Chọn Kho", new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Idkho, null, new { @class = "text-danger" })
+
+    
+    <div class="row">
+        <div class="col-1"></div>
+
+        <div class="col-10 d-grid gap-2 col-10 mx-auto"><button type="submit" class="btn btn-danger btnOutOrder ">Xuất đơn hàng</button></div>
+      
+        <div class="col-1"></div>
+    </div>
+
+}

@@ -5,16 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="CONGTYTHOITRANGModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="tb_Cart">
           <Key>
             <PropertyRef Name="CartId" />
@@ -83,8 +73,8 @@
           <Property Name="MaPhieuNhap" Type="char" MaxLength="15" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="Modifeby" Type="nvarchar(max)" />
-          <Property Name="MSNV" Type="varchar" MaxLength="10" />
-          <Property Name="IdKho" Type="int" />
+          <Property Name="MSNV" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="IdKho" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="tb_KhoReturn">
           <Key>
@@ -93,7 +83,7 @@
           <Property Name="IdKhoXuat" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ReturnDate" Type="datetime" Nullable="false" />
           <Property Name="ReturnBy" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="MSNV" Type="varchar" MaxLength="10" />
+          <Property Name="MSNV" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="ReturnId" Type="int" />
           <Property Name="OrderId" Type="int" />
           <Property Name="IdKho" Type="int" />
@@ -283,7 +273,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="KhoNhaptoKho">
-          <End Role="tb_Kho" Type="Self.tb_Kho" Multiplicity="0..1" />
+          <End Role="tb_Kho" Type="Self.tb_Kho" Multiplicity="1" />
           <End Role="tb_KhoNhap" Type="Self.tb_KhoNhap" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Kho">
@@ -295,7 +285,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="KhoNhaptoNhanVien">
-          <End Role="tb_NhanVien" Type="Self.tb_NhanVien" Multiplicity="0..1" />
+          <End Role="tb_NhanVien" Type="Self.tb_NhanVien" Multiplicity="1" />
           <End Role="tb_KhoNhap" Type="Self.tb_KhoNhap" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_NhanVien">
@@ -319,7 +309,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="KhoReturntoNhanVien">
-          <End Role="tb_NhanVien" Type="Self.tb_NhanVien" Multiplicity="0..1" />
+          <End Role="tb_NhanVien" Type="Self.tb_NhanVien" Multiplicity="1" />
           <End Role="tb_KhoReturn" Type="Self.tb_KhoReturn" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_NhanVien">
@@ -475,7 +465,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="CONGTYTHOITRANGModelStoreContainer">
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Cart" EntityType="Self.tb_Cart" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_CartItem" EntityType="Self.tb_CartItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_ChucNang" EntityType="Self.tb_ChucNang" Schema="dbo" store:Type="Tables" />
@@ -578,16 +567,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CONGTYTHOITRANGModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="tb_Cart">
           <Key>
             <PropertyRef Name="CartId" />
@@ -667,8 +646,8 @@
           <Property Name="MaPhieuNhap" Type="String" MaxLength="15" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="Modifeby" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="MSNV" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="IdKho" Type="Int32" />
+          <Property Name="MSNV" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdKho" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tb_Kho" Relationship="Self.KhoNhaptoKho" FromRole="tb_KhoNhap" ToRole="tb_Kho" />
           <NavigationProperty Name="tb_NhanVien" Relationship="Self.KhoNhaptoNhanVien" FromRole="tb_KhoNhap" ToRole="tb_NhanVien" />
         </EntityType>
@@ -679,7 +658,7 @@
           <Property Name="IdKhoXuat" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ReturnDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ReturnBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="MSNV" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="MSNV" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ReturnId" Type="Int32" />
           <Property Name="OrderId" Type="Int32" />
           <Property Name="IdKho" Type="Int32" />
@@ -920,7 +899,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="KhoNhaptoKho">
-          <End Role="tb_Kho" Type="Self.tb_Kho" Multiplicity="0..1" />
+          <End Role="tb_Kho" Type="Self.tb_Kho" Multiplicity="1" />
           <End Role="tb_KhoNhap" Type="Self.tb_KhoNhap" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Kho">
@@ -956,7 +935,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="KhoNhaptoNhanVien">
-          <End Role="tb_NhanVien" Type="Self.tb_NhanVien" Multiplicity="0..1" />
+          <End Role="tb_NhanVien" Type="Self.tb_NhanVien" Multiplicity="1" />
           <End Role="tb_KhoNhap" Type="Self.tb_KhoNhap" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_NhanVien">
@@ -968,7 +947,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="KhoReturntoNhanVien">
-          <End Role="tb_NhanVien" Type="Self.tb_NhanVien" Multiplicity="0..1" />
+          <End Role="tb_NhanVien" Type="Self.tb_NhanVien" Multiplicity="1" />
           <End Role="tb_KhoReturn" Type="Self.tb_KhoReturn" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_NhanVien">
@@ -1088,7 +1067,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="CONGTYTHOITRANGEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="tb_Cart" EntityType="Self.tb_Cart" />
           <EntitySet Name="tb_CartItem" EntityType="Self.tb_CartItem" />
           <EntitySet Name="tb_ChucNang" EntityType="Self.tb_ChucNang" />
@@ -1192,17 +1170,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="CONGTYTHOITRANGModelStoreContainer" CdmEntityContainer="CONGTYTHOITRANGEntities">
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="CONGTYTHOITRANGModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tb_Cart">
             <EntityTypeMapping TypeName="CONGTYTHOITRANGModel.tb_Cart">
               <MappingFragment StoreEntitySet="tb_Cart">

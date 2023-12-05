@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Hệ thống quản lý</title>
 
+
+    <!---SweetAlter-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limontesweetalert2/7.2.0/sweetalert2.min.css/" />
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
@@ -29,11 +32,6 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="~/Content/clients/dist/css/adminlte.min.css">
 
-    @*<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-        <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">*@
-    <!-- CSS -->
-
-
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
@@ -50,9 +48,8 @@
 
 
 
-    <!---SweetAlter-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limontesweetalert2/7.2.0/sweetalert2.min.css/" />
-   
+
+
 </head>
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -230,7 +227,7 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    Quản lý sản phẩm
+                                    Quản lý kho
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -238,13 +235,19 @@
                                 <li class="nav-item">
                                     <a href="/admin/productcategory" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Danh mục sẳn phẩm</p>
+                                        <p>Kho nhập</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/admin/WareHouse/ExportWareHouse" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Kho xuất</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="/admin/product" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Sản phẩm</p>
+                                        <p>Hàng trả</p>
                                     </a>
                                 </li>
 
@@ -292,6 +295,8 @@
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
+    <!---SweetAlter-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
     <!-- jQuery -->
     <script src="~/Content/clients/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
@@ -319,28 +324,12 @@
     <!-- AdminLTE App -->
     <script src="~/Content/clients/dist/js/adminlte.min.js"></script>
 
-
-
-
     <script src="~/Scripts/autoNumeric-1.9.45.js"></script>
 
 
 
 
-
-
-
-    <script src="~/Scripts/autoNumeric-1.9.45.js"></script>
-
-    <!---SweetAlter-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
-
-
-
-    @*<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-
-        <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>*@
-
+   
 
 
     <script src="~/Content/ckeditor/ckeditor.js"></script>

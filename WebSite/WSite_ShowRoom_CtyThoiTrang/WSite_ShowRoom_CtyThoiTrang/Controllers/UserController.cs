@@ -31,7 +31,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             if (Session["IdKhachHang"] != null)
             {
                 int idKhach = (int)Session["IdKhachHang"];
-                var checkOrder = db.tb_Order.Where(x => x.IdKhachHang == idKhach).ToList();
+                var checkOrder = db.tb_Order.Where(x => x.IdKhachHang == idKhach).OrderByDescending(x => x.OrderId).ToList();
                 if (checkOrder != null)
                 {
 

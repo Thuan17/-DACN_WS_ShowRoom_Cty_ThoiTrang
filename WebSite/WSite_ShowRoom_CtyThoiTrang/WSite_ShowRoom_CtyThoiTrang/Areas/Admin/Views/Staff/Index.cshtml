@@ -86,7 +86,9 @@
                                 <td class="text-center">
                                     @item.TenNhanVien
                                 </td>
-                                <td class="text-center">@*@item.tb_ChucNang.TenChucNan*@g</td>
+                                <td class="text-center">
+                                    @Html.Action("Partial_RoleInId", "Staff", new { id = item.MSNV })
+                                </td>
                                 <td>
                                     <a href="/admin/Staff/Details/@item.MSNV.Trim()" class="btn btn-sm btn-success">Xem</a>
                                     <a href="/admin/Staff/edit/@item.MSNV" class="btn btn-sm btn-primary">Sửa</a>

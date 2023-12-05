@@ -429,18 +429,18 @@ END;
 
 
 
-CREATE TRIGGER CreateReturnOnInsertKhachHang
-ON tb_KhachHang
-AFTER INSERT
-AS
-BEGIN
-    SET NOCOUNT ON;
+--CREATE TRIGGER CreateReturnOnInsertKhachHang
+--ON tb_KhachHang
+--AFTER INSERT
+--AS
+--BEGIN
+--    SET NOCOUNT ON;
 
-    -- Chèn dữ liệu mới vào bảng tb_Cart
-    INSERT INTO tb_Return (IdKhachHang)
-    SELECT IdKhachHang
-    FROM inserted;
-END;
+--    -- Chèn dữ liệu mới vào bảng tb_Cart
+--    INSERT INTO tb_Return (IdKhachHang)
+--    SELECT IdKhachHang
+--    FROM inserted;
+--END;
 
 
 -----------------------------------------------------------------------DATA
@@ -463,7 +463,7 @@ select * from tb_Order
 select * from tb_KhoXuat
 select * from tb_OrderDetail
 select * from tb_Products
-
+select * from tb_NhanVien
 select * from tb_PhanQuyen
 select * from tb_ChucNang
 

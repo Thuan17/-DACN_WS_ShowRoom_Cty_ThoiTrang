@@ -19,7 +19,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             }
             else
             {
-                var item = db.tb_ProductCategory.ToList();
+                var item = db.tb_ProductCategory.ToList().OrderByDescending(x => x.ProductCategoryId);
                 if (item == null)
                 {
                     ViewBag.txt = "Không Có Loại Sản Phẩm ";

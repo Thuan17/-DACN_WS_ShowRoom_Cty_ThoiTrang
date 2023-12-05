@@ -32,7 +32,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                 }
                 else
                 {
-                   var items =db.tb_NhanVien.ToList();  
+                    var items = db.tb_NhanVien.OrderByDescending(x => x.MSNV).ToList();
                     return View(items);
                 }
             }
@@ -64,7 +64,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             else
             {
                 Random ran = new Random();
-                  ViewBag.MSNV= "2" + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9);
+                ViewBag.MSNV = "2" + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9);
 
 
                 ViewBag.ChucNang = new SelectList(db.tb_ChucNang.ToList(), "IdChucNang", "TenChucNang");
@@ -73,7 +73,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(tb_NhanVien model,tb_PhanQuyen modelPhanQuyen, int? IdChucNang)
+        public ActionResult Add(tb_NhanVien model, tb_PhanQuyen modelPhanQuyen, int? IdChucNang)
         {
 
             var checkMail = db.tb_NhanVien.FirstOrDefault(row => row.Email == model.Email);
@@ -108,7 +108,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                             db.SaveChanges();
                             return RedirectToAction("index");
                         }
-                        else 
+                        else
                         {
                             ViewBag.error = "Không thấy chức năng cho nhân viên mới";
                         }
@@ -148,9 +148,9 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tb_NhanVien model, tb_PhanQuyen modelPhanQuyen, int? IdChucNang,int? MSNV) 
+        public ActionResult Edit(tb_NhanVien model, tb_PhanQuyen modelPhanQuyen, int? IdChucNang, int? MSNV)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 if (IdChucNang.HasValue)
                 {
@@ -160,20 +160,20 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                     {
                         model.ModifiedDate = DateTime.Now;
                         db.Entry(model).State = System.Data.Entity.EntityState.Modified;
-                        modelPhanQuyen.IdChucNang =(int)IdChucNang;
+                        modelPhanQuyen.IdChucNang = (int)IdChucNang;
 
                         db.SaveChanges();
                         return RedirectToAction("index");
                     }
-                    else 
+                    else
                     {
                         ViewBag.error = "lỗi thay đổi nhân viên";
                     }
 
-                    
+
                 }
                 else { ViewBag.error = "Không thấy chức năng cho nhân viên mới"; }
-                 
+
             }
             return View(model);
         }
@@ -202,10 +202,10 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult Parti_RoleTheMSNV(string id) 
+        public ActionResult Parti_RoleTheMSNV(string id)
         {
-            var checkNhanVien = db.tb_PhanQuyen.SingleOrDefault(row=>row.MSNV==id);
-            if (checkNhanVien != null) 
+            var checkNhanVien = db.tb_PhanQuyen.SingleOrDefault(row => row.MSNV == id);
+            if (checkNhanVien != null)
             {
                 var item = db.tb_ChucNang.Find(checkNhanVien.IdChucNang);
                 return PartialView(item);
@@ -231,6 +231,24 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             }
             return byte2String;
 
+        }
+
+
+
+
+        public ActionResult Partial_RoleInId(string id) 
+        {
+            var checkStaff = db.tb_PhanQuyen.FirstOrDefault(x => x.MSNV == id);
+            if (checkStaff != null) 
+            {
+                var checkChucNang=db.tb_ChucNang.FirstOrDefault(x=>x.IdChucNang==checkStaff.IdChucNang);
+                if (checkChucNang != null) 
+                {
+                    return PartialView(checkChucNang);
+                }
+
+            }
+            return PartialView();
         }
 
 

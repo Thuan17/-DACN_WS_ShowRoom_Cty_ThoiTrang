@@ -23,7 +23,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string Modifeby { get; set; }
         public string MSNV { get; set; }
-        public Nullable<int> IdKho { get; set; }
+        public int IdKho { get; set; }
     
         public virtual tb_Kho tb_Kho { get; set; }
         public virtual tb_NhanVien tb_NhanVien { get; set; }
