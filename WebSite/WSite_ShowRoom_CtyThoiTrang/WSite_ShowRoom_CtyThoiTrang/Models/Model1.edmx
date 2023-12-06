@@ -151,6 +151,7 @@
           <Property Name="Status" Type="nvarchar(max)" />
           <Property Name="typeReturn" Type="bit" />
           <Property Name="Success" Type="bit" />
+          <Property Name="SuccessDate" Type="datetime" />
         </EntityType>
         <EntityType Name="tb_OrderDetail">
           <Key>
@@ -739,6 +740,7 @@
           <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="typeReturn" Type="Boolean" />
           <Property Name="Success" Type="Boolean" />
+          <Property Name="SuccessDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="tb_KhachHang" Relationship="Self.OrdertoKhachHang" FromRole="tb_Order" ToRole="tb_KhachHang" />
           <NavigationProperty Name="tb_KhoReturn" Relationship="Self.KhoReturntoOrder" FromRole="tb_Order" ToRole="tb_KhoReturn" />
           <NavigationProperty Name="tb_KhoXuat" Relationship="Self.KhoXuattoOrder" FromRole="tb_Order" ToRole="tb_KhoXuat" />
@@ -1325,6 +1327,7 @@
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="typeReturn" ColumnName="typeReturn" />
                 <ScalarProperty Name="Success" ColumnName="Success" />
+                <ScalarProperty Name="SuccessDate" ColumnName="SuccessDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

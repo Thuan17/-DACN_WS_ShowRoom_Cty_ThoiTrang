@@ -85,7 +85,9 @@ create table tb_Order(
 	typeOrder bit,
 	Confirm bit,
 	Status nvarchar(max),
-	typeReturn bit
+	typeReturn bit,
+	Success bit
+
 )
 go
 
@@ -194,21 +196,21 @@ go
 
 
 
-create table tb_Return (
-	ReturnId int IDENTITY(1,1) not null primary key ,
-	IdKhachHang int,
-)
-go
+--drop table tb_Return (
+--	ReturnId int IDENTITY(1,1) not null primary key ,
+--	IdKhachHang int,
+--)
+--go
 
-create table tb_ReturnDetail(
-	ReturnDetailId int IDENTITY(1,1) not null primary key ,
-	ProductId int ,
-	Price decimal(18,2),
-	Quantity int ,
-	ReturnId int ,
-	OrderId int
-)
-go
+--drop table tb_ReturnDetail(
+--	ReturnDetailId int IDENTITY(1,1) not null primary key ,
+--	ProductId int ,
+--	Price decimal(18,2),
+--	Quantity int ,
+--	ReturnId int ,
+--	OrderId int
+--)
+--go
 
 create table tb_Kho (
 	Idkho int IDENTITY(1,1) not null primary key ,
@@ -294,12 +296,6 @@ foreign key (IdKho)
 references tb_Kho
 
 
-
-alter table tb_KhoReturn
-add constraint KhoReturntoReturn
-foreign key (ReturnId)
-references tb_Return
-
 alter table tb_KhoReturn
 add constraint KhoReturntoOrder
 foreign key (OrderId)
@@ -323,10 +319,6 @@ references tb_Kho
 
 
 
-alter table tb_ReturnDetail
-add constraint ReturntoReturnDetail
-foreign key (ReturnId)
-references tb_Return
 
 alter table tb_KhoXuat
 add constraint KhoXuattoOrder
@@ -335,16 +327,6 @@ references tb_Order
 
 
 
-alter table tb_Return
-add constraint ReturntoKhachHang
-foreign key (IdKhachHang)
-references tb_KhachHang
-
-
-alter table tb_ReturnDetail
-add constraint ReturntoOrder
-foreign key (OrderId)
-references tb_Order
 
 alter table tb_CartItem
 add constraint ChiTietGioHangtoSanPham
@@ -447,18 +429,18 @@ END;
 
 
 
-CREATE TRIGGER CreateReturnOnInsertKhachHang
-ON tb_KhachHang
-AFTER INSERT
-AS
-BEGIN
-    SET NOCOUNT ON;
+--CREATE TRIGGER CreateReturnOnInsertKhachHang
+--ON tb_KhachHang
+--AFTER INSERT
+--AS
+--BEGIN
+--    SET NOCOUNT ON;
 
-    -- Chèn dữ liệu mới vào bảng tb_Cart
-    INSERT INTO tb_Return (IdKhachHang)
-    SELECT IdKhachHang
-    FROM inserted;
-END;
+--    -- Chèn dữ liệu mới vào bảng tb_Cart
+--    INSERT INTO tb_Return (IdKhachHang)
+--    SELECT IdKhachHang
+--    FROM inserted;
+--END;
 
 
 -----------------------------------------------------------------------DATA
@@ -481,7 +463,7 @@ select * from tb_Order
 select * from tb_KhoXuat
 select * from tb_OrderDetail
 select * from tb_Products
-
+select * from tb_NhanVien
 select * from tb_PhanQuyen
 select * from tb_ChucNang
 

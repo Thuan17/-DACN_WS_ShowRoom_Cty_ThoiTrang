@@ -10,10 +10,15 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
     public class HomeController : Controller
     {
         // GET: Home
+        CONGTYTHOITRANGEntities db = new CONGTYTHOITRANGEntities();
         public ActionResult Index()
         {
            
-            return View(); ;
+            return View(); 
         }
+
+
+
+
     }
 }

@@ -22,7 +22,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             else
             {
                 //var item = db.tb_Order.ToList();
-                var item = db.tb_Order.ToList();
+                var item = db.tb_Order.OrderByDescending(x => x.OrderId).ToList();
                 if (page == null)
                 {
                     page = 1;
@@ -50,7 +50,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             else
             {
                 //var item = db.tb_Order.ToList();
-                var item = db.tb_Order.Where(row => row.Confirm==false).ToList();
+                var item = db.tb_Order.Where(row => row.Confirm==false).OrderByDescending(x => x.OrderId).ToList();
                 if (page == null)
                 {
                     page = 1;

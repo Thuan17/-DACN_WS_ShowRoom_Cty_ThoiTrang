@@ -78,8 +78,8 @@
     <Property Name="MaPhieuNhap" Type="char" MaxLength="15" Nullable="false" />
     <Property Name="ModifiedDate" Type="datetime" />
     <Property Name="Modifeby" Type="nvarchar(max)" />
-    <Property Name="MSNV" Type="varchar" MaxLength="10" />
-    <Property Name="IdKho" Type="int" />
+    <Property Name="MSNV" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="IdKho" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="tb_KhoReturn">
     <Key>
@@ -88,7 +88,7 @@
     <Property Name="IdKhoXuat" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ReturnDate" Type="datetime" Nullable="false" />
     <Property Name="ReturnBy" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="MSNV" Type="varchar" MaxLength="10" />
+    <Property Name="MSNV" Type="varchar" MaxLength="10" Nullable="false" />
     <Property Name="ReturnId" Type="int" />
     <Property Name="OrderId" Type="int" />
     <Property Name="IdKho" Type="int" />
@@ -155,6 +155,8 @@
     <Property Name="Confirm" Type="bit" />
     <Property Name="Status" Type="nvarchar(max)" />
     <Property Name="typeReturn" Type="bit" />
+    <Property Name="Success" Type="bit" />
+    <Property Name="SuccessDate" Type="datetime" />
   </EntityType>
   <EntityType Name="tb_OrderDetail">
     <Key>
@@ -228,24 +230,6 @@
     <Property Name="IdChucNang" Type="int" Nullable="false" />
     <Property Name="GhiChu" Type="nvarchar(max)" />
   </EntityType>
-  <EntityType Name="tb_Return">
-    <Key>
-      <PropertyRef Name="ReturnId" />
-    </Key>
-    <Property Name="ReturnId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="IdKhachHang" Type="int" />
-  </EntityType>
-  <EntityType Name="tb_ReturnDetail">
-    <Key>
-      <PropertyRef Name="ReturnDetailId" />
-    </Key>
-    <Property Name="ReturnDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ProductId" Type="int" />
-    <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
-    <Property Name="Quantity" Type="int" />
-    <Property Name="ReturnId" Type="int" />
-    <Property Name="OrderId" Type="int" />
-  </EntityType>
   <Association Name="ChiTietGioHangtoGioHang1">
     <End Role="tb_Cart" Type="Self.tb_Cart" Multiplicity="1" />
     <End Role="tb_CartItem" Type="Self.tb_CartItem" Multiplicity="*" />
@@ -295,7 +279,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="KhoNhaptoKho">
-    <End Role="tb_Kho" Type="Self.tb_Kho" Multiplicity="0..1" />
+    <End Role="tb_Kho" Type="Self.tb_Kho" Multiplicity="1" />
     <End Role="tb_KhoNhap" Type="Self.tb_KhoNhap" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tb_Kho">
@@ -307,7 +291,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="KhoNhaptoNhanVien">
-    <End Role="tb_NhanVien" Type="Self.tb_NhanVien" Multiplicity="0..1" />
+    <End Role="tb_NhanVien" Type="Self.tb_NhanVien" Multiplicity="1" />
     <End Role="tb_KhoNhap" Type="Self.tb_KhoNhap" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tb_NhanVien">
@@ -331,7 +315,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="KhoReturntoNhanVien">
-    <End Role="tb_NhanVien" Type="Self.tb_NhanVien" Multiplicity="0..1" />
+    <End Role="tb_NhanVien" Type="Self.tb_NhanVien" Multiplicity="1" />
     <End Role="tb_KhoReturn" Type="Self.tb_KhoReturn" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tb_NhanVien">
@@ -351,18 +335,6 @@
       </Principal>
       <Dependent Role="tb_KhoReturn">
         <PropertyRef Name="OrderId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="KhoReturntoReturn">
-    <End Role="tb_Return" Type="Self.tb_Return" Multiplicity="0..1" />
-    <End Role="tb_KhoReturn" Type="Self.tb_KhoReturn" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Return">
-        <PropertyRef Name="ReturnId" />
-      </Principal>
-      <Dependent Role="tb_KhoReturn">
-        <PropertyRef Name="ReturnId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -486,42 +458,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="ReturntoKhachHang">
-    <End Role="tb_KhachHang" Type="Self.tb_KhachHang" Multiplicity="0..1" />
-    <End Role="tb_Return" Type="Self.tb_Return" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_KhachHang">
-        <PropertyRef Name="IdKhachHang" />
-      </Principal>
-      <Dependent Role="tb_Return">
-        <PropertyRef Name="IdKhachHang" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ReturntoOrder">
-    <End Role="tb_Order" Type="Self.tb_Order" Multiplicity="0..1" />
-    <End Role="tb_ReturnDetail" Type="Self.tb_ReturnDetail" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Order">
-        <PropertyRef Name="OrderId" />
-      </Principal>
-      <Dependent Role="tb_ReturnDetail">
-        <PropertyRef Name="OrderId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ReturntoReturnDetail">
-    <End Role="tb_Return" Type="Self.tb_Return" Multiplicity="0..1" />
-    <End Role="tb_ReturnDetail" Type="Self.tb_ReturnDetail" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Return">
-        <PropertyRef Name="ReturnId" />
-      </Principal>
-      <Dependent Role="tb_ReturnDetail">
-        <PropertyRef Name="ReturnId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="tb_OrderDetail_toi_tb_Order">
     <End Role="tb_Order" Type="Self.tb_Order" Multiplicity="1" />
     <End Role="tb_OrderDetail" Type="Self.tb_OrderDetail" Multiplicity="*" />
@@ -552,8 +488,6 @@
     <EntitySet Name="tb_ProductImage" EntityType="Self.tb_ProductImage" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Products" EntityType="Self.tb_Products" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_PhanQuyen" EntityType="Self.tb_PhanQuyen" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="tb_Return" EntityType="Self.tb_Return" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="tb_ReturnDetail" EntityType="Self.tb_ReturnDetail" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="ChiTietGioHangtoGioHang1" Association="Self.ChiTietGioHangtoGioHang1">
       <End Role="tb_Cart" EntitySet="tb_Cart" />
       <End Role="tb_CartItem" EntitySet="tb_CartItem" />
@@ -588,10 +522,6 @@
     </AssociationSet>
     <AssociationSet Name="KhoReturntoOrder" Association="Self.KhoReturntoOrder">
       <End Role="tb_Order" EntitySet="tb_Order" />
-      <End Role="tb_KhoReturn" EntitySet="tb_KhoReturn" />
-    </AssociationSet>
-    <AssociationSet Name="KhoReturntoReturn" Association="Self.KhoReturntoReturn">
-      <End Role="tb_Return" EntitySet="tb_Return" />
       <End Role="tb_KhoReturn" EntitySet="tb_KhoReturn" />
     </AssociationSet>
     <AssociationSet Name="KhoXuattoKho" Association="Self.KhoXuattoKho">
@@ -633,18 +563,6 @@
     <AssociationSet Name="ProImgtoProduc" Association="Self.ProImgtoProduc">
       <End Role="tb_Products" EntitySet="tb_Products" />
       <End Role="tb_ProductImage" EntitySet="tb_ProductImage" />
-    </AssociationSet>
-    <AssociationSet Name="ReturntoKhachHang" Association="Self.ReturntoKhachHang">
-      <End Role="tb_KhachHang" EntitySet="tb_KhachHang" />
-      <End Role="tb_Return" EntitySet="tb_Return" />
-    </AssociationSet>
-    <AssociationSet Name="ReturntoOrder" Association="Self.ReturntoOrder">
-      <End Role="tb_Order" EntitySet="tb_Order" />
-      <End Role="tb_ReturnDetail" EntitySet="tb_ReturnDetail" />
-    </AssociationSet>
-    <AssociationSet Name="ReturntoReturnDetail" Association="Self.ReturntoReturnDetail">
-      <End Role="tb_Return" EntitySet="tb_Return" />
-      <End Role="tb_ReturnDetail" EntitySet="tb_ReturnDetail" />
     </AssociationSet>
     <AssociationSet Name="tb_OrderDetail_toi_tb_Order" Association="Self.tb_OrderDetail_toi_tb_Order">
       <End Role="tb_Order" EntitySet="tb_Order" />

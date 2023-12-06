@@ -156,6 +156,7 @@
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="typeReturn" ColumnName="typeReturn" />
           <ScalarProperty Name="Success" ColumnName="Success" />
+          <ScalarProperty Name="SuccessDate" ColumnName="SuccessDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

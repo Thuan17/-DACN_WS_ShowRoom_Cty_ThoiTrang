@@ -185,6 +185,53 @@
 
     });
 
+    $('body').on('input', '.Quantity', function (e) {
+        var productId = $(this).attr('id');
+        var newQuantity = $(this).val();
+
+        $.ajax({
+            type: 'POST',
+            url: '/TestCart/UpdateQuantity',
+            data: {
+                id: productId,
+                quantity: newQuantity
+            },
+            success: function (result) {
+                console.log(result);
+                if (result.Success) {
+                    console.log('Cập nhật số lượng thành công');
+                } else {
+                    console.log('Có lỗi xảy ra: ' + result.msg);
+                }
+            },
+            error: function (error) {
+                console.log('Lỗi Ajax: ' + error.statusText);
+            }
+        });
+    });
+     //////////////////////////////Xac nhan da nhan duoc hang
+
+    $('body').on('click', '.btnNhanDuocHang', function (e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        alert = (id);
+            //$.ajax({
+            //    url: '/User/ConFirmOrder',
+            //    type: 'POST',
+            //    data: { id: id },
+            //    success: function (rs) {
+            //        if (rs.Success) {
+            //            location.reload(true);
+            //            //$('#checkout_items').html(rs.Count);
+            //            //$('#trow_' + id).remove();
+            //            //LoadCart123();
+            //        }
+            //    }
+            //});
+        
+
+    });
+
 
 
    

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -21,16 +22,77 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             }
             else
             {
-                var item =db.tb_Kho.ToList();   
-                return View(item);
+
+                return View();
             }
 
-            
+
+        }
+
+
+        public ActionResult Partail_AllWareHouse()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("DangNhap", "Account");
+            }
+            else
+            {
+                return PartialView();
+            }
+
+        }
+
+        public ActionResult Partail_ExportToday()
+        {
+
+            DateTime today = DateTime.Today;
+            DateTime startOfDay = today.Date;
+            DateTime endOfDay = today.Date.AddDays(1).AddTicks(-1);
+
+            var exportToDay = db.tb_KhoXuat.Where(row => row.OutDate >= startOfDay && row.OutDate <= endOfDay).OrderByDescending(x => x.IdKhoXuat).ToList();
+            if (exportToDay != null)
+            {
+                return PartialView(exportToDay);
+            }
+            return PartialView();
+        }
+
+
+        public ActionResult Partail_CheckCode(int id)
+        {
+            var checkcode = db.tb_Order.FirstOrDefault(row => row.OrderId == id);
+            if (checkcode != null)
+            {
+                return PartialView(checkcode);
+            }
+            return PartialView();
+        }
+
+        public ActionResult Partail_WareHouseById(int id)
+        {
+            var checkWareHouse = db.tb_Kho.Find(id);
+            if (checkWareHouse != null)
+            {
+                return PartialView(checkWareHouse);
+            }
+            return PartialView();
+        }
+
+        public ActionResult Partail_StaffById(string MSNV)
+        {
+            var Staff = db.tb_NhanVien.Find(MSNV);
+            if (Staff != null)
+            {
+                return PartialView(Staff);
+            }
+            return PartialView();
         }
 
 
 
-        public ActionResult Add() 
+
+        public ActionResult Add()
         {
             if (Session["user"] == null)
             {
@@ -40,7 +102,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             {
                 return View();
             }
-                
+
         }
 
         [HttpPost]
@@ -48,7 +110,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
 
         public ActionResult Add(tb_Kho model)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 model.CreatedDate = DateTime.Now;
                 db.tb_Kho.Add(model);
@@ -76,23 +138,47 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
 
         public ActionResult ImportWareHouse(tb_KhoNhap model)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
                 var item = db.tb_NhanVien.SingleOrDefault(row => row.MSNV == nvSession.MSNV);
                 model.ImportBy = item.TenNhanVien;
-                model.MSNV = nvSession.MSNV;    
-                model.ImportDate=DateTime.Now;
+                model.MSNV = nvSession.MSNV;
+                model.ImportDate = DateTime.Now;
                 db.tb_KhoNhap.Add(model);
                 db.SaveChanges();
                 return RedirectToAction("index");
             }
-            
+
             ViewBag.Kho = new SelectList(db.tb_Kho.ToList(), "IdKho", "DiaChi");
-            return PartialView();   
+            return PartialView();
         }
 
-        public ActionResult ExportWareHouse() 
+
+        public ActionResult Test() 
+        {
+            return PartialView();
+        }
+
+
+
+
+
+        ////////Xuat Kho
+        public ActionResult ExportWareHouse()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("DangNhap", "Account");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+
+        public ActionResult Partial_ThongTinXuat() 
         {
             if (Session["user"] == null)
             {
@@ -105,61 +191,73 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                 return PartialView();
             }
         }
+
+
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ExportWareHouse(Admin_WareHouse_Export_ToKen rep  )
+        public ActionResult Partial_ExportWareHouse(Admin_WareHouse_Export_ToKen rep  )
         {
             var code = new { Success = false, Code = -1, Url = "" };
             if (ModelState.IsValid) 
             {
 
                 string mDH = "DH" + rep.Code;
-                var checkOrder = db.tb_Order.FirstOrDefault(r => r.Code == mDH.Trim() && r.Confirm==true);
+                var checkOrder = db.tb_Order.FirstOrDefault(x => x.Code == mDH.Trim());
                 if (checkOrder != null) 
                 {
-
-
-                    var kiemtradaxuatkhoikho = db.tb_KhoXuat.FirstOrDefault(x => x.OrderId == checkOrder.OrderId);
-                    if (kiemtradaxuatkhoikho != null)
+                    var checkCancelOrder=db.tb_Order.FirstOrDefault(x=>x.OrderId== checkOrder.OrderId && x.typeOrder == false );
+                    if (checkCancelOrder != null) 
                     {
-                        var typeOrder = db.tb_Order.FirstOrDefault(r => r.Code == mDH.Trim() && r.typeOrder == true);
-                        if (typeOrder != null)
+                        var checkConfim = db.tb_Order.FirstOrDefault(x => x.OrderId == checkCancelOrder.OrderId && x.Confirm == true);
+                        if (checkConfim != null)
                         {
-                            tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
-                            var item = db.tb_NhanVien.SingleOrDefault(row => row.MSNV == nvSession.MSNV);
+                            var OrderReturn=db.tb_Order.FirstOrDefault(x => x.OrderId == checkConfim.OrderId && x.typeReturn==false);
+                            if (OrderReturn != null)
+                            {
+                                var checkTBOut = db.tb_KhoXuat.FirstOrDefault(x => x.OrderId == OrderReturn.OrderId);
+                                if (checkTBOut == null)
+                                {
+                                    tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
+                                    var item = db.tb_NhanVien.SingleOrDefault(row => row.MSNV == nvSession.MSNV);
+                                    tb_KhoXuat model = new tb_KhoXuat();
+                                    model.OutDate = DateTime.Now;
+                                    model.OutBy = item.TenNhanVien;
+                                    model.OrderId = checkOrder.OrderId;
+                                    model.Idkho = rep.Idkho;
+                                    model.MSNV = nvSession.MSNV;
+                                    db.tb_KhoXuat.Add(model);
+                                    db.SaveChanges();
+                                    code = new { Success = true, Code = 1, Url = "" };
+                                }
+                                else
+                                {
+                                    code = new { Success = false, Code = -6, Url = "" };
+                                }
+                            }
+                            else 
+                            {
+                                code = new { Success = false, Code = -5, Url = "" };
+                            }
 
-
-
-                            tb_KhoXuat model = new tb_KhoXuat();
-                            model.OutDate = DateTime.Now;
-                            model.OutBy = item.TenNhanVien;
-                            model.OrderId = checkOrder.OrderId;
-                            model.Idkho = rep.Idkho;
-                            model.MSNV = nvSession.MSNV;
-                            db.tb_KhoXuat.Add(model);
-                            db.SaveChanges();
-                            code = new { Success = true, Code = 1, Url = "" };
+                            
                         }
-                        else
+                        else 
                         {
-                            code = new { Success = false, Code = -1, Url = "" };
-                            ViewBag.Error = "Đơn hàng này đã hủy trên hệ thống";
-
+                            code = new { Success = false, Code = -4, Url = "" };
                         }
+                        
                     }
-                    else 
+                    else
                     {
-                        code = new { Success = false, Code = -2, Url = "" };
-                        ViewBag.Error = "Đơn hàng này đã trungf";
+                        //Don Hang da bi huy
+                        code = new { Success = false, Code = -3, Url = "" };
                     }
-                   
                 }
                 else 
                 {
-                    code = new { Success = false, Code = -3, Url = "" };
-
-                    ViewBag.Error = "Đơn hàng này đã hủy trên hệ thống";
-                    
+                    //Khong thay ma Order
+                   code = new { Success = false, Code = -2, Url = "" };
                 }
             }
             return Json(code);

@@ -64,7 +64,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                             Session["user"] = data;
                             return RedirectToAction("Index", "HomePage");
                         }
-                        else if (checkRole.IdChucNang == 4) 
+                        else if (checkRole.IdChucNang == 3) 
                         {
                             Session["user"] = data;
                             return RedirectToAction("Index", "Warehouse");

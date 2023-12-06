@@ -19,7 +19,6 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         {
             this.tb_KhoReturn = new HashSet<tb_KhoReturn>();
             this.tb_KhoXuat = new HashSet<tb_KhoXuat>();
-            this.tb_ReturnDetail = new HashSet<tb_ReturnDetail>();
             this.tb_OrderDetail = new HashSet<tb_OrderDetail>();
         }
     
@@ -41,14 +40,14 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public Nullable<bool> Confirm { get; set; }
         public string Status { get; set; }
         public Nullable<bool> typeReturn { get; set; }
+        public Nullable<bool> Success { get; set; }
+        public Nullable<System.DateTime> SuccessDate { get; set; }
     
         public virtual tb_KhachHang tb_KhachHang { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_KhoReturn> tb_KhoReturn { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_KhoXuat> tb_KhoXuat { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_ReturnDetail> tb_ReturnDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_OrderDetail> tb_OrderDetail { get; set; }
     }

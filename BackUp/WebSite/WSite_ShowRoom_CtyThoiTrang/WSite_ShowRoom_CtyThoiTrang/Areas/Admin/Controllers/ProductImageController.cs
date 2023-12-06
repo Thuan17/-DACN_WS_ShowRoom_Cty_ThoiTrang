@@ -20,7 +20,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             else
             {
                 View().ViewBag.ProductId = id;
-                var item = db.tb_ProductImage.Where(x => x.ProductId == id).ToList();
+                var item = db.tb_ProductImage.Where(x => x.ProductId == id).OrderByDescending(x => x.ProductId).ToList();
                 return View(item);
             }
            

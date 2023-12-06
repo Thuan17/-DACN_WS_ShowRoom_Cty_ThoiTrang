@@ -70,6 +70,63 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             return PartialView();
         }
 
+
+
+
+
+        [HttpPost]
+        public ActionResult UpdateQuantity(int id, int quantity)
+        {
+            var code = new { Success = false, msg = "", code = -1 };
+
+            try
+            {
+                if (Session["IdKhachHang"] != null)
+                {
+                    int idKhach = (int)Session["IdKhachHang"];
+
+                    var checkIdCart = db.tb_Cart.FirstOrDefault(x => x.IdKhachHang == idKhach);
+
+                    if (checkIdCart != null)
+                    {
+                        int checkId = checkIdCart.CartId;
+
+                        var checkIdCartItem = db.tb_CartItem.FirstOrDefault(ci => ci.CartId == checkId && ci.ProductId == id);
+
+                        if (checkIdCartItem != null)
+                        {
+                            checkIdCartItem.Quantity = quantity;
+                            db.SaveChanges();
+
+                            code = new { Success = true, msg = "ok", code = 1 };
+                        }
+                        else
+                        {
+                            code = new { Success = false, msg = "Sản phẩm không tồn tại trong giỏ hàng", code = 0 };
+                        }
+                    }
+                    else
+                    {
+                        code = new { Success = false, msg = "Không tìm thấy giỏ hàng", code = -1 };
+                    }
+                }
+                else
+                {
+                    code = new { Success = false, msg = "Không có phiên làm việc (session) cho khách hàng", code = -1 };
+                }
+            }
+            catch (Exception ex)
+            {
+                code = new { Success = false, msg = "Lỗi cập nhật số lượng sản phẩm: " + ex.Message, code = -1 };
+            }
+
+            return Json(code);
+        }
+
+
+
+
+
         [HttpPost]
         public ActionResult DeleteAll(List<int> CartItemId)
         {
@@ -523,8 +580,10 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                             order.CreatedBy = inforKhachHang.SDT;
                             order.IdKhachHang = inforKhachHang.IdKhachHang;
                             order.Confirm = false;
-                            order.typeOrder = true;
+                            order.typeOrder = false;
                             order.Status = null;
+                            order.typeReturn = false;
+                            order.Success = false;
                             Random ran = new Random();
                             order.Code = "DH" + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9);
 
@@ -578,29 +637,29 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                                 thanhTien += item.Price * item.SoLuong;
                             }
                             tongTien = thanhTien;
-                            string contentCustomer = System.IO.File.ReadAllText(Server.MapPath("~/Content/templates/send2.html"));
-                            contentCustomer = contentCustomer.Replace("{{MaDon}}", order.Code);
-                            contentCustomer = contentCustomer.Replace("{{SanPham}}", SanPham);
-                            contentCustomer = contentCustomer.Replace("{{NgayDat}}", DateTime.Now.ToString("dd/MM/yyyy"));
-                            contentCustomer = contentCustomer.Replace("{{TenKhachHang}}", order.CustomerName);
-                            contentCustomer = contentCustomer.Replace("{{Phone}}", order.Phone);
-                            contentCustomer = contentCustomer.Replace("{{Email}}", inforKhachHang.Email);
-                            contentCustomer = contentCustomer.Replace("{{DiaChiNhanHang}}", order.Address);
-                            contentCustomer = contentCustomer.Replace("{{ThanhTien}}", WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(thanhTien, 0));
-                            contentCustomer = contentCustomer.Replace("{{TongTien}}", WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(tongTien, 0));
-                            WSite_ShowRoom_CtyThoiTrang.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, contentCustomer.ToString(), inforKhachHang.Email);
+                            //string contentCustomer = System.IO.File.ReadAllText(Server.MapPath("~/Content/templates/send2.html"));
+                            //contentCustomer = contentCustomer.Replace("{{MaDon}}", order.Code);
+                            //contentCustomer = contentCustomer.Replace("{{SanPham}}", SanPham);
+                            //contentCustomer = contentCustomer.Replace("{{NgayDat}}", DateTime.Now.ToString("dd/MM/yyyy"));
+                            //contentCustomer = contentCustomer.Replace("{{TenKhachHang}}", order.CustomerName);
+                            //contentCustomer = contentCustomer.Replace("{{Phone}}", order.Phone);
+                            //contentCustomer = contentCustomer.Replace("{{Email}}", inforKhachHang.Email);
+                            //contentCustomer = contentCustomer.Replace("{{DiaChiNhanHang}}", order.Address);
+                            //contentCustomer = contentCustomer.Replace("{{ThanhTien}}", WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(thanhTien, 0));
+                            //contentCustomer = contentCustomer.Replace("{{TongTien}}", WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(tongTien, 0));
+                            //WSite_ShowRoom_CtyThoiTrang.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, contentCustomer.ToString(), inforKhachHang.Email);
 
-                            string contentAdmin = System.IO.File.ReadAllText(Server.MapPath("~/Content/templates/send1.html"));
-                            contentAdmin = contentAdmin.Replace("{{MaDon}}", order.Code);
-                            contentAdmin = contentAdmin.Replace("{{SanPham}}", SanPham);
-                            contentAdmin = contentAdmin.Replace("{{NgayDat}}", DateTime.Now.ToString("dd/MM/yyyy"));
-                            contentAdmin = contentAdmin.Replace("{{TenKhachHang}}", order.CustomerName);
-                            contentAdmin = contentAdmin.Replace("{{Phone}}", order.Phone);
-                            contentAdmin = contentAdmin.Replace("{{Email}}", inforKhachHang.Email);
-                            contentAdmin = contentAdmin.Replace("{{DiaChiNhanHang}}", order.Address);
-                            contentAdmin = contentAdmin.Replace("{{ThanhTien}}", WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(thanhTien, 0));
-                            contentAdmin = contentAdmin.Replace("{{TongTien}}", WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(tongTien, 0));
-                            WSite_ShowRoom_CtyThoiTrang.Common.Common.SendMail("ShopOnline", "Đơn hàng mới #" + order.Code, contentAdmin.ToString(), ConfigurationManager.AppSettings["EmailAdmin"]);
+                            //string contentAdmin = System.IO.File.ReadAllText(Server.MapPath("~/Content/templates/send1.html"));
+                            //contentAdmin = contentAdmin.Replace("{{MaDon}}", order.Code);
+                            //contentAdmin = contentAdmin.Replace("{{SanPham}}", SanPham);
+                            //contentAdmin = contentAdmin.Replace("{{NgayDat}}", DateTime.Now.ToString("dd/MM/yyyy"));
+                            //contentAdmin = contentAdmin.Replace("{{TenKhachHang}}", order.CustomerName);
+                            //contentAdmin = contentAdmin.Replace("{{Phone}}", order.Phone);
+                            //contentAdmin = contentAdmin.Replace("{{Email}}", inforKhachHang.Email);
+                            //contentAdmin = contentAdmin.Replace("{{DiaChiNhanHang}}", order.Address);
+                            //contentAdmin = contentAdmin.Replace("{{ThanhTien}}", WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(thanhTien, 0));
+                            //contentAdmin = contentAdmin.Replace("{{TongTien}}", WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(tongTien, 0));
+                            //WSite_ShowRoom_CtyThoiTrang.Common.Common.SendMail("ShopOnline", "Đơn hàng mới #" + order.Code, contentAdmin.ToString(), ConfigurationManager.AppSettings["EmailAdmin"]);
                             cart.ClearCart();
                             code = new { Success = true, Code = req.TypePayment, Url = "" };
                             if (req.TypePayment == 2)

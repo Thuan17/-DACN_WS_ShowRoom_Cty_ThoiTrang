@@ -42,7 +42,5 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public virtual DbSet<tb_ProductImage> tb_ProductImage { get; set; }
         public virtual DbSet<tb_Products> tb_Products { get; set; }
         public virtual DbSet<tb_PhanQuyen> tb_PhanQuyen { get; set; }
-        public virtual DbSet<tb_Return> tb_Return { get; set; }
-        public virtual DbSet<tb_ReturnDetail> tb_ReturnDetail { get; set; }
     }
 }

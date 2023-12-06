@@ -146,6 +146,7 @@
     <Property Name="Status" Type="nvarchar(max)" />
     <Property Name="typeReturn" Type="bit" />
     <Property Name="Success" Type="bit" />
+    <Property Name="SuccessDate" Type="datetime" />
   </EntityType>
   <EntityType Name="tb_OrderDetail">
     <Key>

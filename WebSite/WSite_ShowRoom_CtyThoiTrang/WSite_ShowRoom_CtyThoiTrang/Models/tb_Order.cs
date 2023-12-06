@@ -41,6 +41,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public string Status { get; set; }
         public Nullable<bool> typeReturn { get; set; }
         public Nullable<bool> Success { get; set; }
+        public Nullable<System.DateTime> SuccessDate { get; set; }
     
         public virtual tb_KhachHang tb_KhachHang { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

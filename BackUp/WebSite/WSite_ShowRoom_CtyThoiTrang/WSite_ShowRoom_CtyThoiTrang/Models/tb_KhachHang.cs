@@ -19,7 +19,6 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         {
             this.tb_Cart = new HashSet<tb_Cart>();
             this.tb_Order = new HashSet<tb_Order>();
-            this.tb_Return = new HashSet<tb_Return>();
         }
     
         public int IdKhachHang { get; set; }
@@ -36,7 +35,5 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public virtual ICollection<tb_Cart> tb_Cart { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Order> tb_Order { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Return> tb_Return { get; set; }
     }
 }

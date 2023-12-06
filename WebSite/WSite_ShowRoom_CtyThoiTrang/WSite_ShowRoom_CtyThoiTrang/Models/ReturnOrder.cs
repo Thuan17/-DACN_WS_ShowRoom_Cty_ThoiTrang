@@ -43,6 +43,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public int OrderId { get; set; }
         public int ProductId { get; set; }
         public string ProductName { get; set; }
+        public string ProductImg { get; set; }
         public int SoLuong { get; set; }
         public decimal Price { get; set; }
         public decimal PriceTotal { get; set; }

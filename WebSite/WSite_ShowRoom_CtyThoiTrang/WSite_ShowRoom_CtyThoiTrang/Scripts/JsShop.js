@@ -160,7 +160,7 @@
         var IdOrder = $(this).closest('.IdOrder').attr('id');
         var divId = getIdOrderDetail();
         var id = $(this).data("id");
-        alert(IdOrder,divId);
+     
 
         /* Hiển thị ID trong console để kiểm tra*/
         console.log('ID của div:', divId);
@@ -176,14 +176,36 @@
         var IdOrder = $(this).closest('.IdOrder').attr('id');
         var divId = getIdOrderDetailForReturn();
         var id = $(this).data("id");
-        alert(IdOrder, divId);
-
+       
         
         console.log('ID của div:', divId);
 
         sendIdOrderDetailForReturn(IdOrder, divId);
 
     });
+         //////////////////////////////Xac nhan da nhan duoc hang
+    $('body').on('click', '.btnSuccessOrder', function (e) {
+        //var IdOrder = $(this).closest('.IdOrder').attr('id');
+        //var divId = getIdOrderDetailForReturn();
+        var id = $(this).data("id");
+       
+        $.ajax({
+            url: '/User/ConFirmOrder',
+            type: 'POST',
+            data: { id: id },
+            success: function (rs) {
+                if (rs.Success) {
+                    location.reload(true);
+                }
+            }
+        });
+
+
+
+
+
+    });
+
 
     $('body').on('input', '.Quantity', function (e) {
         var productId = $(this).attr('id');
@@ -209,6 +231,9 @@
             }
         });
     });
+
+
+
    
 });
 
