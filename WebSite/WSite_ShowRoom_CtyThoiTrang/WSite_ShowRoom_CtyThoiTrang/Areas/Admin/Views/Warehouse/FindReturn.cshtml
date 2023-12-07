@@ -1,0 +1,13 @@
+﻿@model IEnumerable<WSite_ShowRoom_CtyThoiTrang.Models.tb_Return>
+@{
+    ViewBag.Title = "FindReturn";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutWareHouse.cshtml";
+}
+@if (Model.Any() && Model != null)
+{
+    foreach (var item in Model)
+    {
+        <p>@item.Code </p>
+        <p>@item.IdKhachHang</p>
+    }
+}

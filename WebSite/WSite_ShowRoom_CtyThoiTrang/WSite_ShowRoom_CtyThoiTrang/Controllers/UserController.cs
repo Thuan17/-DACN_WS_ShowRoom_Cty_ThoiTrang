@@ -363,106 +363,29 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
 
 
 
-        ///Trả Hàng/
+        ///Trả Hàng
 
-        [HttpPost]
-        public ActionResult AddListReturnOrder(int id, List<int> productIds)
+        public ActionResult Partial_ListReturnOrder(int id)
         {
-            var code = new { Success = false, msg = "", code = -1 };
-            if (Session["IdKhachHang"] != null)
-            {
-                int idKhach = (int)Session["IdKhachHang"];
-                var checkIdOrder = db.tb_Order.FirstOrDefault(row => row.IdKhachHang == idKhach);
-                if (checkIdOrder != null)
-                {
-
-                    int checkId = checkIdOrder.OrderId;
-
-                    ReturnOrder can = (ReturnOrder)Session[""];
-                    if (can == null)
-                    {
-                        can = new ReturnOrder();
-                    }
-                    foreach (var proId in productIds)
-                    {
-
-                        var checkProduc=db.tb_Products.FirstOrDefault(row => row.ProductId == proId);
-                        if (checkProduc != null) 
-                        {
-                            var OrderDetail = db.tb_OrderDetail.FirstOrDefault(row => row.OrderId == id && row.Id == proId);
-                            if (OrderDetail != null)
-                            {
-                                //var check = db.tb_Order.FirstOrDefault(x => x.OrderId == checkId);
-                                //int idOrderDetail = check.Id;
-                                ReturnOrderltItem item = new ReturnOrderltItem
-                                {
-                                    OrderId = id,
-                                    ProductId = OrderDetail.ProductId,
-                                    ProductName = OrderDetail.tb_Products.Title,
-                                    SoLuong = OrderDetail.Quantity,
-                                    Price = OrderDetail.Price,
-                                    PriceTotal = checkIdOrder.TotalAmount,
-                                    CreateDate = checkIdOrder.CreatedDate,
-
-                                };
-                                if (checkProduc.tb_ProductImage.FirstOrDefault(x => x.IsDefault) != null)
-                                {
-                                    item.ProductImg = checkProduc.tb_ProductImage.FirstOrDefault(x => x.IsDefault).Image;
-                                }
-
-                                can.AddToCart(item, OrderDetail.Quantity);
-
-                            }
-                        }
-                        
-                    }
-
-                    Session["ReturnOrder"] = can;
-                    code = new
-                    {
-                        Success = true,
-                        msg = "",
-                        code = 1
-                    };
-                }
-            }
-            return Json(code);
+            var item = db.tb_OrderDetail.Where(x => x.OrderId == id).ToList();
+            return View(item);
         }
 
-
-
-
-        public ActionResult Partial_ListReturnOrder()
-        {
-            ReturnOrder cart = (ReturnOrder)Session["ReturnOrder"];
-            if (cart != null && cart.Items.Any())
-            {
-                return View(cart.Items);
-            }
-            return View();
-        }
-
-     
-
-
-
-       
         public ActionResult Partial_ReturnOrder()
         {
             return PartialView();
         }
-
-
        
-        public ActionResult ReturnOrder()
+        public ActionResult ReturnOrder(int id)
         {
-            return View();
+            var item = db.tb_Order.Find(id);
+            return View(item);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ReturnOrder(ReturnOrderToken req,tb_Order model) 
+        public ActionResult ReturnOrder(ReturnOrderToken req , int id) 
         {
             var code = new { Success = false, Code = -1, Url = "" };
             if (ModelState.IsValid)
@@ -470,44 +393,48 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                 if (Session["IdKhachHang"] != null)
                 {
                     int idKhach = (int)Session["IdKhachHang"];
-                    ReturnOrder cart = (ReturnOrder)Session["ReturnOrder"];
-                    if (cart != null)
-                    {
-                        foreach (var item in cart.Items)
-                        {
-                            var itemOrder = db.tb_Order.FirstOrDefault(x => x.IdKhachHang == idKhach && x.OrderId == item.OrderId);
+                   
+                   
+                       
+                            var itemOrder = db.tb_Order.FirstOrDefault(x => x.IdKhachHang == idKhach && x.OrderId == id);
                             if (itemOrder != null)
                             {
-                                var checkQuantityPro = db.tb_Products.Find(item.ProductId);
-                                if (checkQuantityPro != null)
-                                {
-                                    //checkQuantityPro.Quantity += item.SoLuong;//capp nhap lai so luong cho ban porducts
+                               
+                                    
+                                    tb_Return trahang = new tb_Return();
+                                       trahang.OrderId = itemOrder.OrderId;
+                                    trahang.CreateDate = DateTime.Now;
+                                    trahang.IdKhachHang = idKhach;
+                                    trahang.Code = itemOrder.Code;
+                                     trahang.Confirm = false;
 
-                                    itemOrder.typeOrder = null;//capp nhap trang thai cho bang order
                                     if (req.Status == 1)
                                     {
-                                        itemOrder.Status = "Mặt hàng bị lỗi";
+                                        trahang.Satus = "Mặt hàng bị lỗi";
                                     }
                                     else if (req.Status == 2)
                                     {
-                                        itemOrder.Status = "Không đúng sản phẩm trên We";
+                                        trahang.Satus = "Không đúng sản phẩm trên We";
                                     }
                                     else if (req.Status == 3)
                                     {
-                                        itemOrder.Status = "Số lượng bị thiếu ";
+                                        trahang.Satus = "Số lượng bị thiếu ";
                                     }
-
                                     itemOrder.typeReturn = true;
-                                    //DeleteCartSucces(idKhach, item.ProductId);
-                                    db.Entry(itemOrder).State = System.Data.Entity.EntityState.Modified;
-                                    db.Entry(checkQuantityPro).State = System.Data.Entity.EntityState.Modified;
+
+                                    db.tb_Return.Add(trahang);
                                     db.SaveChanges();
-                                }
+
+
+                                    db.Entry(itemOrder).State = System.Data.Entity.EntityState.Modified;
+                                   
+                                    db.SaveChanges();
+                                    //code = new { Success = true, Code = 1, Url = "" };
+                                    return RedirectToAction("SuccessReturnOrder");
                             }
-                        }
-                        cart.ClearCart();
-                        code = new { Success = true, Code = 1, Url = "" };
-                    }
+                     
+                       
+                    
                 }
                 else
                 {

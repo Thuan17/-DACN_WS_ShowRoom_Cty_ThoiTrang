@@ -3190,6 +3190,24 @@
     <Content Include="Content\templates\send1.html" />
     <Content Include="Content\templates\send2.html" />
     <Content Include="Global.asax" />
+    <Content Include="hinh\3.jpg" />
+    <Content Include="hinh\bia1.jpg" />
+    <Content Include="hinh\bia2.jpg" />
+    <Content Include="hinh\bia3.jpg" />
+    <Content Include="hinh\bia4.jpg" />
+    <Content Include="hinh\bia5.jpg" />
+    <Content Include="hinh\black1.jpg" />
+    <Content Include="hinh\bocongthuong.png" />
+    <Content Include="hinh\fashon.jpg" />
+    <Content Include="hinh\img.jpg" />
+    <Content Include="hinh\noel1.jpg" />
+    <Content Include="hinh\sale.jpg" />
+    <Content Include="hinh\sale1.jpg" />
+    <Content Include="hinh\sale2.jpg" />
+    <Content Include="hinh\style.jpg" />
+    <Content Include="hinh\thoitrangnam.jpg" />
+    <Content Include="hinh\trangsuc.jpg" />
+    <Content Include="hinh\vong.jpg" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -3409,6 +3427,7 @@
     <Content Include="Areas\Admin\Views\Warehouse\ExportWareHouse.cshtml" />
     <Content Include="Areas\Admin\Views\Warehouse\Test.cshtml" />
     <Content Include="Areas\Admin\Views\Warehouse\Partial_ThongTinXuat.cshtml" />
+    <Content Include="hinh\noel.webp" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -3551,10 +3570,6 @@
     <Compile Include="Models\ReturnOrder.cs" />
     <Compile Include="Models\ReturnOrderToken.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
-    <Compile Include="Models\ShoppingCartTest.cs" />
-    <Compile Include="Models\sysdiagrams.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\tb_Cart.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -3690,6 +3705,8 @@
     <Content Include="Views\User\Partail_TrangThaiDonHang.cshtml" />
     <Content Include="Views\User\Par_AllOrder.cshtml" />
     <Content Include="Views\User\Partail_AllOrder.cshtml" />
+    <Content Include="Views\Product\Partail_ProCategory.cshtml" />
+    <Content Include="Views\Product\Find.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

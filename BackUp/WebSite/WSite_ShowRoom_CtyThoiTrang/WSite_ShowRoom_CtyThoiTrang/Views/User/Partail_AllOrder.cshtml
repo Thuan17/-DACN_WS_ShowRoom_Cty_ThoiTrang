@@ -59,14 +59,14 @@
                                                     if (item.Success == true)
                                                     {
                                                         <div class="col-md-2">
-                                                            <button class="btn btn-danger  btnReturnOrder"><small>Yêu Cầu Hoàn Trả Hàng/Hoàn Tiền</small></button>
+                                                            <button class="btn btn-danger  btnReturnOrder"><small>Yêu Cầu Hoàn Trả </small></button>
                                                         </div>
                                                     }
                                                     else
                                                     {
-                                                        <div class="col-md-2">
-                                                            <button class="btn btn-success  btnNhanDuocHang" id="@item.OrderId"><small>Đã nhận được hàng</small></button>
-                                                        </div>
+                                                    <div class="col-md-2">
+                                                        <button type="button" class="btn btn-primary btnSuccessOrder " data-id="@item.OrderId">Đã nhận đơn hàng</button>
+                                                    </div>
                                                     }
                                                 }
                                                 else

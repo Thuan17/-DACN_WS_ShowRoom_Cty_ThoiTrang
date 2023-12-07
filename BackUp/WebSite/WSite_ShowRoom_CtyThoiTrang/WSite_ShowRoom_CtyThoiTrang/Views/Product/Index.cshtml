@@ -5,7 +5,7 @@
 }
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
-<div class="container product_section_container">
+<div class="container p-5">
     <div class="row">
         <div class="col product_section clearfix">
 
@@ -40,7 +40,7 @@
 
                             <!-- Product Sorting -->
 
-                            <div class="product_sorting_container product_sorting_container_top">
+                            <div class=" product_sorting_container_top">
                                 <ul class="product_sorting">
                                     <li>
                                         <span class="type_sorting_text">Default Sorting</span>
@@ -92,7 +92,7 @@
                                         {
                                             strImge = img.Image;
                                         }
-                                        <div class="product-item @*@item.tb_ProductCategory.Alias*@">
+                                        <div class="product-item @item.tb_ProductCategory.Alias">
                                             <div class="product discount product_filter">
                                                 <div class="product_image">
                                                     <img src="@strImge" alt="@item.Title">
@@ -104,11 +104,11 @@
                                                 }
                                                 @* <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>*@
                                                 <div class="product_info">
-                                                    <a href="@Url.Action("Detail", "Product", new { id =item.ProductId, alias = item.Alias })">@item.Title</a>
+                                                    @*<h6 class="product_name"><a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a></h6>*@
+                                                    <h6>    <a href="@Url.Action("Detail", "Product", new { id =item.ProductId, alias = item.Alias })">@item.Title</a></h6>
                                                     @if (item.PriceSale > 0)
                                                     {
                                                         <div class="product_price">@WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(item.PriceSale, 0)<span>@WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(item.Price, 0)</span></div>
-
                                                         <div style="display:none;" class="in_product_price"> @item.PriceSale</div>
                                                     }
                                                     else
@@ -128,7 +128,7 @@
 
                             <!-- Product Sorting -->
 
-                            <div class="product_sorting_container product_sorting_container_bottom clearfix">
+                            <div class=" product_sorting_container_bottom clearfix">
                                 <ul class="product_sorting">
                                     <li>
                                         <span>Show:</span>
@@ -142,7 +142,19 @@
                                         </ul>
                                     </li>
                                 </ul>
-                               
+                                @*<span class="showing_results">Showing 1–3 of 12 results</span>*@
+                                @*<div class="pages d-flex flex-row align-items-center">
+                                        <div class="page_current">
+                                            <span>1</span>
+                                            <ul class="page_selection">
+                                                <li><a href="#">1</a></li>
+                                                <li><a href="#">2</a></li>
+                                                <li><a href="#">3</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="page_total"><span>of</span> 3</div>
+                                        <div id="next_page_1" class="page_next"><a href="#"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></div>
+                                    </div>*@
 
                             </div>
 
@@ -156,5 +168,5 @@
 </div>
 
 @section scripts{
-<script src="~/Content/assets/js/categories_custom.js"></script>
+    <script src="~/Content/assets/js/categories_custom.js"></script>
 }

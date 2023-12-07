@@ -4,10 +4,27 @@
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
 
-@*<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">*@
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
+<div class="row">
+    <div style="display:inline-block" class="col-9">
+        <img id="img" onclick=" changeImage() " src="~/hinh/bia1.jpg" width="1500px%" height="auto" style="padding-top:9px;" />
+    </div>
+    <script class="" style="width:100%">
+        var index = 1;
+        changeImage = function () {
+            var imgs = ["/hinh/bia1.jpg", "/hinh/bia2.jpg", "/hinh/bia3.jpg", "/hinh/bia4.jpg", "/hinh/bia5.jpg",]
 
+            document.getElementById('img').src = imgs[index];
+            index++;
+            if (index == 5) {
+                index = 0;
+            }
 
+        }
+        setInterval(changeImage, 1500);/// một giay goi toi 1 lan
+    </script>
+</div>
 <div>
 
     <div class="row justify-content-md-center">
@@ -15,6 +32,7 @@
         <button class="btn btn-outline-primary my-1 my-sm-0 " style="width:200px" type="submit"> <a href="/Product/Index">Xem Thêm</a></button>
     </div>
     <br />
+    <hr />
     <div class="row  text-center">
         <div class="col">
             <img src="~/hinh/thoitrangnam.jpg" width="600px" />
@@ -33,37 +51,6 @@
                 </p>
                 <button class="btn btn-outline-primary my-1 my-sm-0 " style="width:200px" type="submit">Xem Thêm</button>
             </div>
-
-        </div>
-    </div>
-    <div class="row ">
-        @Html.Action("Partial_ProSale", "Product")
-    </div>
-    <div class="row">
-        <div class="col">
-            <img src="~/hinh/trangsuc.jpg" class="w-100" />
-        </div>
-        <div class="col text-center p-5">
-            <h2> Đồ Trang Sức Độc Quyền</h2>
-            <h5>
-                Ngày nay, thế giới trang sức nam, nữ chính hãng rất đẹp, đa dạng với nhiều kiểu dáng, chất liệu khác nhau (vàng, bạc, đính đá), từ vòng tay, hoa tai, dây chuyền cho đến cả nhẫn.
-            </h5>
-            <button class="btn btn-outline-primary my-1 my-sm-0 " style="width:200px" type="submit">Xem Thêm</button>
-        </div>
-    </div>
-    <hr />
-    <div class="row">
-        <div class="col text-center p-5">
-            <h2> Vòng Lắc Tay</h2>
-            <h5>
-
-                Với chất liệu làm từ thép không gỉ 316L, đi kèm với đó là lớp mạ vàng hồng thời thượng bên ngoài (tùy phiên bản), những chiếc vòng tay, lắc tay đến từ thương hiệu Daniel Wellington đã tạo nên cơn sốt không hề nhỏ trên thị trường kể từ thời điểm ra mắt.
-
-            </h5>
-            <button class="btn btn-outline-primary my-1 my-sm-0 " style="width:200px" type="submit">Xem Thêm</button>
-        </div>
-        <div class="col">
-            <img src="~/hinh/vong.jpg" class="w-100" />
         </div>
     </div>
     <div class="row">
@@ -103,6 +90,77 @@
                 Để cảm ơn tình cảm yêu mến của các cô gái trong thời gian qua, một lời cảm ơn chưa...
             </p>
             <b> <a href="#" style="text-decoration:none"> Xem thêm ></a></b>
+
+        </div>
+    </div>
+    <div class="row ">
+        @Html.Action("Partial_ProSale", "Product")
+    </div>
+    @*<div class="row">
+            <div class="col">
+                <img src="~/hinh/trangsuc.jpg" class="w-100" />
+            </div>
+            <div class="col text-center p-5">
+                <h2> Đồ Trang Sức Độc Quyền</h2>
+                <h5>
+                    Ngày nay, thế giới trang sức nam, nữ chính hãng rất đẹp, đa dạng với nhiều kiểu dáng, chất liệu khác nhau (vàng, bạc, đính đá), từ vòng tay, hoa tai, dây chuyền cho đến cả nhẫn.
+                </h5>
+                <button class="btn btn-outline-primary my-1 my-sm-0 " style="width:200px" type="submit">Xem Thêm</button>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col text-center p-5">
+                <h2> Vòng Lắc Tay</h2>
+                <h5>
+
+                    Với chất liệu làm từ thép không gỉ 316L, đi kèm với đó là lớp mạ vàng hồng thời thượng bên ngoài (tùy phiên bản), những chiếc vòng tay, lắc tay đến từ thương hiệu Daniel Wellington đã tạo nên cơn sốt không hề nhỏ trên thị trường kể từ thời điểm ra mắt.
+
+                </h5>
+                <button class="btn btn-outline-primary my-1 my-sm-0 " style="width:200px" type="submit">Xem Thêm</button>
+            </div>
+            <div class="col">
+                <img src="~/hinh/vong.jpg" class="w-100" />
+            </div>
+        </div>*@
+    <div class="@*card-body*@ p-2">
+        <div class="card-deck md-3 text-center ">
+            <div class="card md-4 box-shadow">
+                <div class="card-header">
+                    <i class="fas fa-envelope-open-text "></i>
+                </div>
+                <div class="card-body">
+                    <h3> <b>Giao hàng miễn phí</b></h3>
+                    <p>Thời gian giao hàng nhanh chóng, từ 3 - 5 ngày làm việc</p>
+                </div>
+            </div>
+            <div class="card md-4 box-shadow">
+                <div class="card-header">
+                    <i class="fas fa-envelope-open-text "></i>
+                </div>
+                <div class="card-body">
+                    <h3> <b>Hổ trợ 24/7</b></h3>
+                    <p>Hotline hỗ trợ 1900.000.XXX</p>
+                </div>
+            </div>
+            <div class="card md-4 box-shadow">
+                <div class="card-header">
+                    <i class="fas fa-undo-alt"></i>
+                </div>
+                <div class="card-body">
+                    <h3> <b>Đổi trả dễ dàng</b></h3>
+                    <p>Thời gian trả hàng lên tới 30 ngày</p>
+                </div>
+            </div>
+            <div class="card md-4 box-shadow">
+                <div class="card-header">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <div class="card-body">
+                    <h3> <b>Thanh toán đa dang</b></h3>
+                    <p>Chấp nhận thanh toán COD, Momo, Banking</p>
+                </div>
+            </div>
 
         </div>
     </div>

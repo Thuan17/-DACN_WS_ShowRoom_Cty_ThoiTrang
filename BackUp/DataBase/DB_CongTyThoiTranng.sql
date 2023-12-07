@@ -86,12 +86,11 @@ create table tb_Order(
 	Confirm bit,
 	Status nvarchar(max),
 	typeReturn bit,
-	Success bit
+	Success bit,
+	SuccessDate datetime
 
 )
 go
-
-
 
 
 
@@ -457,7 +456,7 @@ select * from tb_KhachHang
 
 select * from tb_KhoNhap
 
-
+select * from tb_Products
 select * from tb_Order
 
 select * from tb_KhoXuat

@@ -30,33 +30,9 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         }
 
 
-        public ActionResult Partail_AllWareHouse()
-        {
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("DangNhap", "Account");
-            }
-            else
-            {
-                return PartialView();
-            }
+      
 
-        }
-
-        public ActionResult Partail_ExportToday()
-        {
-
-            DateTime today = DateTime.Today;
-            DateTime startOfDay = today.Date;
-            DateTime endOfDay = today.Date.AddDays(1).AddTicks(-1);
-
-            var exportToDay = db.tb_KhoXuat.Where(row => row.OutDate >= startOfDay && row.OutDate <= endOfDay).OrderByDescending(x => x.IdKhoXuat).ToList();
-            if (exportToDay != null)
-            {
-                return PartialView(exportToDay);
-            }
-            return PartialView();
-        }
+      
 
 
         public ActionResult Partail_CheckCode(int id)
@@ -120,7 +96,20 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             }
             return View();
         }
-        public ActionResult ImportWareHouse()
+
+
+
+
+        //Nhap kho
+        public ActionResult ImportWareHouse() 
+        {
+            return View();
+        }
+
+
+
+
+        public ActionResult Partia_ImportWareHouse()
         {
             if (Session["user"] == null)
             {
@@ -136,7 +125,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult ImportWareHouse(tb_KhoNhap model)
+        public ActionResult Partia_ImportWareHouse(tb_KhoNhap model)
         {
             if (ModelState.IsValid)
             {
@@ -165,6 +154,22 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
 
 
         ////////Xuat Kho
+
+
+        public ActionResult Partail_ExportToday()
+        {
+
+            DateTime today = DateTime.Today;
+            DateTime startOfDay = today.Date;
+            DateTime endOfDay = today.Date.AddDays(1).AddTicks(-1);
+
+            var exportToDay = db.tb_KhoXuat.Where(row => row.OutDate >= startOfDay && row.OutDate <= endOfDay).OrderByDescending(x => x.IdKhoXuat).ToList();
+            if (exportToDay != null)
+            {
+                return PartialView(exportToDay);
+            }
+            return PartialView();
+        }
         public ActionResult ExportWareHouse()
         {
             if (Session["user"] == null)
@@ -264,7 +269,56 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             
         }
 
-       
+
+
+        //Hàng Return 
+        public ActionResult Return()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("DangNhap", "Account");
+            }
+            else
+            {
+                var OrderReturn = db.tb_Order.Where(x => x.typeReturn == true);
+                return View(OrderReturn);
+            }
+        }
+
+
+
+        
+
+
+        [HttpPost]
+        public ActionResult FindReturn(string Search = "") 
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("DangNhap", "Account");
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(Search))
+                {
+                    var FindProduc = db.tb_Return.Where(x => x.Code.ToUpper().Contains(Search.ToUpper()));
+                    ViewBag.Find = Search;
+                    return View(FindProduc.ToList());
+                }
+                return View();
+                
+            }
+               
+        }
+
+
+
+        //public ActionResult AddListReturn() 
+        //{
+            
+        //}
+
+
 
     }
 }

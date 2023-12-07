@@ -18,6 +18,19 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             return View(item);
         }
 
+        [HttpPost]
+        public ActionResult Find(string Search="") 
+        {
+            if (!string.IsNullOrEmpty(Search))
+            {
+                var FindProduc = db.tb_Products.Where(x => x.Title.ToUpper().Contains(Search.ToUpper()));
+                ViewBag.Find = Search;
+                return View(FindProduc.ToList());
+            }
+            return View();
+        }
+
+
         public ActionResult Partial_ProByIdCate()
         {
             var items = db.tb_Products.Where(row => row.IsHome.Value && row.IsActive.Value).Take(12).ToList();
@@ -25,11 +38,20 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
         }
 
 
-        public ActionResult Partial_ProSale() 
+        public ActionResult Partial_ProSale()
         {
-            var item = db.tb_Products.Where(x=>x.IsSale.Value && x.IsActive.Value).Take(12).ToList();  
-            return PartialView(item);   
+            var item = db.tb_Products.Where(x => x.IsSale.Value && x.IsActive.Value).Take(12).ToList();
+            return PartialView(item);
         }
+
+
+        public ActionResult Partail_ProCategory()
+        {
+            var item=db.tb_ProductCategory.ToList();
+            return PartialView(item);
+        }
+
+
 
 
 

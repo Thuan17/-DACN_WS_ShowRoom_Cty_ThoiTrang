@@ -90,7 +90,7 @@
         <div style="position: sticky; top: 0; z-index: 99; background-color: #fff !important;">
             <div style=" width: 0 auto; margin: 0 auto" class="dong1">
                 <div class="logo d-flex">
-                    <a style="color:black" href="/Home/Index"><h4> KTA <span style="color:red">MODE</span></h4></a>
+                    <a style="color:black;text-decoration:none" href="/Home/Index"><h4> KTA <span style="color:red">MODE</span></h4></a>
                 </div>
                 <div id="khung">
                     <ul class="nav-main d-flex justify-content-center">
@@ -98,23 +98,9 @@
                             <a style="color:black" href="/Home/Index"><h4> Shop</h4></a>
                         </li>
                         <li class="nav-1">
-                            <a style="color:black" href=" #"><h4>Sản Phẩm</h4></a>
+                            <a style="color:black" href="/Product/index"><h4>Sản Phẩm</h4></a>
                             <ul class="nav-2">
-                                <li>
-                                    <a href="~/Product/Index">Tất Cả</a>
-                                </li>
-                                <li>
-                                    <a href="/Product/ProductCategory/1">Hoddie</a>
-                                </li>
-                                <li>
-                                    <a href="/Product/ProductCategory/2">Jacket </a>
-                                </li>
-                                <li>
-                                    <a href="/Product/ProductCategory/3">Áo</a>
-                                </li>
-                                <li>
-                                    <a href="/Product/ProductCategory/4">Quần</a>
-                                </li>
+                               @Html.Action("Partail_ProCategory", "Product");
                             </ul>
                         </li>
                         <li class="nav-1">
@@ -138,13 +124,19 @@
                             </ul>
                         </li>
                         <li class="nav-1">
-                            <div class="input-group">
-                                <form action="" method="get">
-                                    <div class="d-flex">
-                                        <input type="text" id="search-text" placeholder="Bạn muốn tìm kiếm cái gì?" class="form-control rounded-start-pill" />
-                                        <button type="submit" class="btn btn-success rounded-end-pill" style="width: 70px">  <i style="color:white" class="fa-solid fa-magnifying-glass"></i></button>
-                                    </div>
-                                </form>
+                            <div class="input-group form-group form-inline">
+                               
+
+                                    @using (Html.BeginForm("Find", "Product", FormMethod.Post))
+                                    {
+                                        @Html.TextBox("Search", "", new { @class = "form-control form-control rounded-start-pill" })
+                                        <button type="submit" class="btn btn-success rounded-end-pill" style="width: 70px" value="Search">  <i style="color:white" class="fa-solid fa-magnifying-glass"></i></button>
+                                        <input type="submit" class="btn btn-success rounded-end-pill" value="Search" />
+                                    }
+
+
+
+
                             </div>
                         </li>
                     </ul>
@@ -155,18 +147,18 @@
                         {
                            
 
-                            <ul>
-                                <li class="nav-1">
-                                    <a style="color:black" href=" #"><span> @Session["TenKhachHang"]</span></a>
+                            <ul >
+                                <li class="nav-1 ">
+                                    <a style="color: black; text-decoration: none" href=" #"><span> @Session["TenKhachHang"]</span></a>
                                     <ul class="nav-2">
                                         <li>
-                                            <a href="/User/index">Đơn mua</a>
+                                            <a href="/User/index" style=" text-decoration: none">Đơn mua</a>
                                         </li>
                                         <li>
-                                            <a href="/account/logout">Đăng xuất</a>
+                                            <a href="/account/logout" style=" text-decoration: none">Đăng xuất</a>
                                         </li>
                                         <li>
-                                            <a href="#">Hồ sơ</a>
+                                            <a href="# " style=" text-decoration: none">Hồ sơ</a>
                                         </li>
 
                                     </ul>
@@ -192,20 +184,17 @@
                 </div>
             </div>
         </div>
-        <div class="">
-            <div class="col">
-
-                @RenderBody()
-            </div>
-            @*<div class="col-1">
+        <div class="row">
+            
+                <div class="col-1">
 
                 </div>
-                <div class="col-10">
+                <div class="col-10 pt-5">
                     @RenderBody()
                 </div>
                 <div class="col-1">
 
-                </div>*@
+                </div>
         </div>
         <footer>
             <div class="bg-light">

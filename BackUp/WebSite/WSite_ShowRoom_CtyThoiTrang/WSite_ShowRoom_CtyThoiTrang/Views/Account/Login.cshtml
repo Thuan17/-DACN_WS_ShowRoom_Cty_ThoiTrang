@@ -1,4 +1,19 @@
-﻿@model WSite_ShowRoom_CtyThoiTrang.Models.tb_KhachHang
+﻿<script>
+    function validateForm() {
+        var sdt = document.getElementById('SDT').value.trim();
+        var password = document.getElementById('Password').value.trim();
+
+        if (!sdt  || !password ) {
+            alert('Vui lòng điền đầy đủ thông tin.');
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+
+@model WSite_ShowRoom_CtyThoiTrang.Models.tb_KhachHang
 @{
     ViewBag.Title = "Đăng Nhập";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
@@ -20,7 +35,7 @@
                         <div class="col-md-6">
                             <div class="form-wrap bg-white">
                                 <h4 class="btm-sep pb-3 mb-5">Đăng Nhập</h4>
-                                @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+                                @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { onsubmit = " validateForm();" }))
                                 {
                                     @Html.AntiForgeryToken()
                                     <form class="form" method="post" action="#">

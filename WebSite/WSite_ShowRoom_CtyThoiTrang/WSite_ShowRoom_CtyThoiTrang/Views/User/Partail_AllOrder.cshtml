@@ -59,7 +59,9 @@
                                                     if (item.Success == true)
                                                     {
                                                         <div class="col-md-2">
-                                                            <button class="btn btn-danger  btnReturnOrder"><small>Yêu Cầu Hoàn Trả </small></button>
+                                                            @*<button class="btn btn-danger  btnReturnOrder"><small>Yêu Cầu Hoàn Trả </small></button>*@
+
+                                                            <a href="/User/ReturnOrder/@item.OrderId" clas="btn btn-danger">Yêu Cầu Hoàn Trả </a>
                                                         </div>
                                                     }
                                                     else

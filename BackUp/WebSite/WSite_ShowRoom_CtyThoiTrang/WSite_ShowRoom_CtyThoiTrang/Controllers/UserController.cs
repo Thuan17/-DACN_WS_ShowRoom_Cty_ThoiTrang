@@ -26,7 +26,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
         }
 
 
-        public ActionResult Partail_AllOrder() 
+        public ActionResult Partail_AllOrder()
         {
             if (Session["IdKhachHang"] != null)
             {
@@ -73,7 +73,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
 
         }
 
-        public ActionResult Partail_TrangThaiDonHang(int id) 
+        public ActionResult Partail_TrangThaiDonHang(int id)
         {
             int idKhach = (int)Session["IdKhachHang"];
             var cheCheckORderDetail = db.tb_Order.Find(id);
@@ -90,7 +90,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                     return PartialView(cheCheckORderDetail);
 
                 }
-                
+
             }
             return PartialView();
         }
@@ -110,7 +110,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
 
 
 
-        public ActionResult Partial_OrderReturn() 
+        public ActionResult Partial_OrderReturn()
         {
             int idKhach = (int)Session["IdKhachHang"];
             var checkORder = db.tb_Order.Where(x => x.IdKhachHang == idKhach && x.typeReturn == true).ToList();
@@ -166,9 +166,9 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
 
 
 
-       
 
-     
+
+
 
 
 
@@ -185,7 +185,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
         }
 
 
-     
+
 
 
         public ActionResult Partial_ListCancelOrder()
@@ -327,34 +327,34 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
 
         ///Xác Nhận đã nhận được đơn hàng
         [HttpPost]
-        public ActionResult ConFirmOrder(int id) 
+        public ActionResult ConFirmOrder(int id)
         {
             var code = new { Success = false, Code = -1, Url = "" };
-            
-                if (Session["IdKhachHang"] != null)
+
+            if (Session["IdKhachHang"] != null)
+            {
+                int idKhach = (int)Session["IdKhachHang"];
+
+                var checkOrder = db.tb_Order.FirstOrDefault(x => x.IdKhachHang == idKhach && x.OrderId == id);
+                if (checkOrder != null)
                 {
-                    int idKhach = (int)Session["IdKhachHang"];
 
-                    var checkOrder = db.tb_Order.FirstOrDefault(x => x.IdKhachHang == idKhach && x.OrderId == id);
-                    if (checkOrder != null) 
-                    {
+                    checkOrder.SuccessDate = DateTime.Now;
+                    checkOrder.Success = true;
+                    db.Entry(checkOrder).State = System.Data.Entity.EntityState.Modified;
 
-                        checkOrder.SuccessDate = DateTime.Now;  
-                          checkOrder.Success = true;
-                        db.Entry(checkOrder).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
 
-                        db.SaveChanges();
-
-                        code = new { Success = true, Code = 1, Url = "" };
-                    }
+                    code = new { Success = true, Code = 1, Url = "" };
                 }
-                else
-                {
-                    ViewBag.error = "Không tìm thấy Sesstion khách";
-                }
-           
+            }
+            else
+            {
+                ViewBag.error = "Không tìm thấy Sesstion khách";
+            }
+
             return Json(code);
-        } 
+        }
 
 
 
@@ -385,26 +385,36 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                     }
                     foreach (var proId in productIds)
                     {
-                        var OrderDetail = db.tb_OrderDetail.FirstOrDefault(row => row.OrderId == id && row.Id == proId);
-                        if (OrderDetail != null)
+
+                        var checkProduc=db.tb_Products.FirstOrDefault(row => row.ProductId == proId);
+                        if (checkProduc != null) 
                         {
-                            //var check = db.tb_Order.FirstOrDefault(x => x.OrderId == checkId);
-                            //int idOrderDetail = check.Id;
-                            ReturnOrderltItem item = new ReturnOrderltItem
+                            var OrderDetail = db.tb_OrderDetail.FirstOrDefault(row => row.OrderId == id && row.Id == proId);
+                            if (OrderDetail != null)
                             {
-                                OrderId = id,
-                                ProductId = OrderDetail.ProductId,
-                                ProductName = OrderDetail.tb_Products.Title,
-                                SoLuong = OrderDetail.Quantity,
-                                Price = OrderDetail.Price,
-                                PriceTotal = checkIdOrder.TotalAmount,
-                                CreateDate = checkIdOrder.CreatedDate,
+                                //var check = db.tb_Order.FirstOrDefault(x => x.OrderId == checkId);
+                                //int idOrderDetail = check.Id;
+                                ReturnOrderltItem item = new ReturnOrderltItem
+                                {
+                                    OrderId = id,
+                                    ProductId = OrderDetail.ProductId,
+                                    ProductName = OrderDetail.tb_Products.Title,
+                                    SoLuong = OrderDetail.Quantity,
+                                    Price = OrderDetail.Price,
+                                    PriceTotal = checkIdOrder.TotalAmount,
+                                    CreateDate = checkIdOrder.CreatedDate,
 
-                            };
-                            ViewBag.TotalPrice = checkIdOrder.TotalAmount;
-                            can.AddToCart(item, OrderDetail.Quantity);
+                                };
+                                if (checkProduc.tb_ProductImage.FirstOrDefault(x => x.IsDefault) != null)
+                                {
+                                    item.ProductImg = checkProduc.tb_ProductImage.FirstOrDefault(x => x.IsDefault).Image;
+                                }
 
+                                can.AddToCart(item, OrderDetail.Quantity);
+
+                            }
                         }
+                        
                     }
 
                     Session["ReturnOrder"] = can;
@@ -432,6 +442,11 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             return View();
         }
 
+     
+
+
+
+       
         public ActionResult Partial_ReturnOrder()
         {
             return PartialView();

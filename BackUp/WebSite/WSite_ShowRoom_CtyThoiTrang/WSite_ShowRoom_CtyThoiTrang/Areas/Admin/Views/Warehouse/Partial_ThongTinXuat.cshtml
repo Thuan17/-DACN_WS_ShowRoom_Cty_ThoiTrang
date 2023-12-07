@@ -13,7 +13,17 @@
         function OnBeginCO() {
             $('#btnOutOrder').attr("disabled", "disabled");
         }
+        function validateForm() {
+            var codeValue = document.getElementById('Code').value.trim();
+            var khoValue = document.getElementById('Idkho').value;
 
+            var codeError = document.getElementById('code-error');
+            var khoError = document.getElementById('Idkho-error');
+
+            // Đặt lại thông báo lỗi
+            codeError.textContent = 'Không bỏ trống';
+            khoError.textContent = 'Không thấy kho';
+        }
 
         function OnSuccessCO(res) {
             if (res.Success) {
@@ -54,6 +64,13 @@
             }
 
         }
+
+
+       
+
+
+
+
     </script>
     @Html.AntiForgeryToken()
     <h5>Thông tin xuất đơn hàng</h5>

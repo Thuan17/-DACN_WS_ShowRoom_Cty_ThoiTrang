@@ -7,7 +7,7 @@
 
 @if (Model != null)
 {
-    <div class="container">
+    <div class="container p-5">
         <div class="product-content product-wrap clearfix product-deatil">
             <div class="row">
                 <div class="col-md-5 col-sm-12 col-xs-12">
@@ -21,39 +21,39 @@
                                             @foreach (var item in Model.tb_ProductImage)
                                             {
                                                 <div id="myCarousel-2" class="carousel slide">
-                                                    <ol class="carousel-indicators">
-                                                        <li data-target="#myCarousel-2" data-slide-to="0" class="active"></li>
-                                                        <li data-target="#myCarousel-2" data-slide-to="1" class="active"></li>
-                                                        <li data-target="#myCarousel-2" data-slide-to="2" class="active"></li>
-                                                    </ol>
-                                                    <div class="carousel-inner">
+                                                    @*<ul class="carousel-indicators">
+                                                            <li data-target="#myCarousel-2" data-slide-to="0" class="active"></li>
+                                                            <li data-target="#myCarousel-2" data-slide-to="1" class="active"></li>
+                                                            <li data-target="#myCarousel-2" data-slide-to="2" class="active"></li>
+                                                        </ul>*@
+                                                    <div class="@*carousel-inner*@">
                                                         @if (item.IsDefault)
                                                         {
                                                             <div class="item active">
-                                                                <img src="@item.Image" class="img-responsive" />
+                                                                <img src="@item.Image" class="img-responsive" width="300px" />
                                                             </div>
 
                                                         }
                                                         else
                                                         {
                                                             <div class="item">
-                                                                <img src="@item.Image" class="img-responsive" />
+                                                                <img src="@item.Image" class="img-responsive" width="300px" />
                                                             </div>
                                                         }
 
                                                     </div>
-                                                    <a class="left carousel-control" href="#myCarousel-2" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
-                                                    <a class="right carousel-control" href="#myCarousel-2" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
+                                                    @*<a class="left carousel-control" href="#myCarousel-2" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
+                                                        <a class="right carousel-control" href="#myCarousel-2" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>*@
                                                 </div>
                                             }
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="col-lg-9 image_col order-lg-2 order-1">
-                                    <div class="single_product_image">
-                                        <div class="single_product_image_background" style="background-image:url(@Model.tb_ProductImage.FirstOrDefault(x=>x.IsDefault).Image)"></div>
-                                    </div>
-                                </div>
+                                @*<div class="col-lg-9 image_col order-lg-2 order-1">
+                                        <div class="single_product_image">
+                                            <div class="single_product_image_background" style="background-image:url(@Model.tb_ProductImage.FirstOrDefault(x=>x.IsDefault).Image)"></div>
+                                        </div>
+                                    </div>*@
                             </div>
                         </div>
                     }
@@ -76,13 +76,15 @@
                         @if (Model.PriceSale > 0)
                         {
                             <div class="certified">
-                                <ul>
+                                <ul class="d-flex p-sm-2">
                                     <li>
-                                        <b> @WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(Model.Price)đ</b>
+                                        <b class="text-decoration-line-through"> @WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(Model.Price)đ</b>
                                     </li>
-                                    <li>
-                                        <small class="text-danger">Sale</small>
-                                        <b class="text-danger">@WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(Model.PriceSale) đ</b>
+                                    <li class="p-2">
+                                        <h4>
+                                            <small class="text-danger">Sale</small>
+                                            <b class="text-danger">@WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(Model.PriceSale) đ</b>
+                                        </h4>
 
                                     </li>
                                 </ul>
@@ -155,7 +157,6 @@
 
 
                         <div class="row">
-
                             <div class="col-sm-12 col-md-6 col-lg-6">
                                 <div class="btn-group pull-right">
                                     <button class="btn btn-white btn-default"><i class="fa fa-star"></i> Add to wishlist</button>

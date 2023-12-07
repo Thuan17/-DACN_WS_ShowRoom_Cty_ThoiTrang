@@ -19,11 +19,10 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public string ReturnBy { get; set; }
         public string MSNV { get; set; }
         public Nullable<int> ReturnId { get; set; }
-        public Nullable<int> OrderId { get; set; }
         public Nullable<int> IdKho { get; set; }
     
         public virtual tb_Kho tb_Kho { get; set; }
         public virtual tb_NhanVien tb_NhanVien { get; set; }
-        public virtual tb_Order tb_Order { get; set; }
+        public virtual tb_Return tb_Return { get; set; }
     }
 }
