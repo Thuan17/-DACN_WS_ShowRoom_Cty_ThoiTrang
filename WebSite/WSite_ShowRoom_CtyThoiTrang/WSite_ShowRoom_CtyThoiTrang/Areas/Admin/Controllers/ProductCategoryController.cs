@@ -19,14 +19,24 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             }
             else
             {
-                var item = db.tb_ProductCategory.ToList().OrderByDescending(x => x.ProductCategoryId);
+
+                tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
+                var item = db.tb_PhanQuyen.SingleOrDefault(row => row.MSNV == nvSession.MSNV && (row.IdChucNang == 1 || row.IdChucNang == 2));
                 if (item == null)
                 {
-                    ViewBag.txt = "Không Có Loại Sản Phẩm ";
-
+                    return RedirectToAction("NonRole", "HomePage");
                 }
+                else
+                {
+                    var ProductCategory = db.tb_ProductCategory.ToList().OrderByDescending(x => x.ProductCategoryId);
+                    if (ProductCategory == null)
+                    {
+                        ViewBag.txt = "Không Có Loại Sản Phẩm ";
 
-                return View(item);
+                    }
+
+                    return View(ProductCategory);
+                }
             }
         }
         public ActionResult Add()
@@ -37,7 +47,16 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             }
             else
             {
-                return View();
+                tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
+                var item = db.tb_PhanQuyen.SingleOrDefault(row => row.MSNV == nvSession.MSNV && (row.IdChucNang == 1 || row.IdChucNang == 2));
+                if (item == null)
+                {
+                    return RedirectToAction("NonRole", "HomePage");
+                }
+                else
+                {
+                    return View();
+                }
             }
             
         }
@@ -67,8 +86,18 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             }
             else
             {
-                var item = db.tb_ProductCategory.Find(id);
-                return View(item);
+                tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
+                var item = db.tb_PhanQuyen.SingleOrDefault(row => row.MSNV == nvSession.MSNV && (row.IdChucNang == 1 || row.IdChucNang == 2));
+                if (item == null)
+                {
+                    return RedirectToAction("NonRole", "HomePage");
+                }
+                else
+                {
+                    var ProductCategory = db.tb_ProductCategory.Find(id);
+                    return View(ProductCategory);
+                }
+              
             }
            
         }

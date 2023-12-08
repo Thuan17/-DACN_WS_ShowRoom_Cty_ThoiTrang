@@ -1,10 +1,12 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using WSite_ShowRoom_CtyThoiTrang.Models;
 
 namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
@@ -17,15 +19,27 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         public ActionResult Index() 
         {
 
+
             if (Session["user"] == null)
             {
-                return RedirectToAction("DangNhap");
+                return RedirectToAction("DangNhap", "Account");
             }
             else
             {
-                var item = db.tb_NhanVien.ToList(); 
-                return View(item);
+
+                tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
+                var item = db.tb_PhanQuyen.SingleOrDefault(row => row.MSNV == nvSession.MSNV && (row.IdChucNang == 1 || row.IdChucNang == 2));
+                if (item == null)
+                {
+                    return RedirectToAction("NonRole", "HomePage");
+                }
+                else
+                {
+                    var nhanVien = db.tb_NhanVien.ToList();
+                    return View(nhanVien);
+                }
             }
+
            
         }
 
@@ -98,8 +112,19 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             }
             else
             {
-                var item = db.tb_NhanVien.ToList();
-                return View(item);
+                tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
+                var item = db.tb_PhanQuyen.SingleOrDefault(row => row.MSNV == nvSession.MSNV && (row.IdChucNang == 1 || row.IdChucNang == 2));
+                if (item == null)
+                {
+                    return RedirectToAction("NonRole", "HomePage");
+                }
+                else
+                {
+                    var NhanVien = db.tb_NhanVien.ToList();
+                    return View(NhanVien);
+                }
+
+              
             }
         }
         [HttpPost]
