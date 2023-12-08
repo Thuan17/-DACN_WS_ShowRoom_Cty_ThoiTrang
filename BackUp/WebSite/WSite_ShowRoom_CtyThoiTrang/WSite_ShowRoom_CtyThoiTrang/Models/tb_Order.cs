@@ -17,8 +17,8 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tb_Order()
         {
-            this.tb_KhoReturn = new HashSet<tb_KhoReturn>();
             this.tb_KhoXuat = new HashSet<tb_KhoXuat>();
+            this.tb_Return = new HashSet<tb_Return>();
             this.tb_OrderDetail = new HashSet<tb_OrderDetail>();
         }
     
@@ -45,9 +45,9 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
     
         public virtual tb_KhachHang tb_KhachHang { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_KhoReturn> tb_KhoReturn { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_KhoXuat> tb_KhoXuat { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Return> tb_Return { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_OrderDetail> tb_OrderDetail { get; set; }
     }

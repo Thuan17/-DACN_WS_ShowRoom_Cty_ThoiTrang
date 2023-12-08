@@ -399,42 +399,40 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                             var itemOrder = db.tb_Order.FirstOrDefault(x => x.IdKhachHang == idKhach && x.OrderId == id);
                             if (itemOrder != null)
                             {
-                               
-                                    
-                                    tb_Return trahang = new tb_Return();
-                                       trahang.OrderId = itemOrder.OrderId;
-                                    trahang.CreateDate = DateTime.Now;
-                                    trahang.IdKhachHang = idKhach;
-                                    trahang.Code = itemOrder.Code;
-                                     trahang.Confirm = false;
 
-                                    if (req.Status == 1)
-                                    {
-                                        trahang.Satus = "Mặt hàng bị lỗi";
-                                    }
-                                    else if (req.Status == 2)
-                                    {
-                                        trahang.Satus = "Không đúng sản phẩm trên We";
-                                    }
-                                    else if (req.Status == 3)
-                                    {
-                                        trahang.Satus = "Số lượng bị thiếu ";
-                                    }
-                                    itemOrder.typeReturn = true;
+                                  
+                                            tb_Return trahang = new tb_Return();
+                                            trahang.OrderId = itemOrder.OrderId;
+                                            trahang.CreateDate = DateTime.Now;
+                                            trahang.IdKhachHang = idKhach;
+                                            trahang.Code = itemOrder.Code;
+                                            trahang.Confirm = false;
 
-                                    db.tb_Return.Add(trahang);
-                                    db.SaveChanges();
+                                            if (req.Status == 1)
+                                            {
+                                                trahang.Satus = "Mặt hàng bị lỗi";
+                                            }
+                                            else if (req.Status == 2)
+                                            {
+                                                trahang.Satus = "Không đúng sản phẩm trên Web   ";
+                                            }
+                                            else if (req.Status == 3)
+                                            {
+                                                trahang.Satus = "Số lượng bị thiếu ";
+                                            }
+                                            itemOrder.typeReturn = true;
 
+                                            db.tb_Return.Add(trahang);
+                                            db.SaveChanges();
 
-                                    db.Entry(itemOrder).State = System.Data.Entity.EntityState.Modified;
+                                            db.Entry(itemOrder).State = System.Data.Entity.EntityState.Modified;
+
+                                            db.SaveChanges();
+                                            //code = new { Success = true, Code = 1, Url = "" };
+                                            return RedirectToAction("SuccessReturnOrder");
                                    
-                                    db.SaveChanges();
-                                    //code = new { Success = true, Code = 1, Url = "" };
-                                    return RedirectToAction("SuccessReturnOrder");
+                                  
                             }
-                     
-                       
-                    
                 }
                 else
                 {

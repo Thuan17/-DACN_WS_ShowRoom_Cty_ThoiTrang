@@ -48,7 +48,7 @@
 
 
     <!---SweetAlter-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limontesweetalert2/7.2.0/sweetalert2.min.css/" />
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -187,127 +187,127 @@
 
             @*@Html.Partial("_PartiaSideBar")*@
 
-        <div class="sidebar">
-            <!-- Sidebar user (optional) -->
-            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <div class="image">
-                    <img src="~/Content/clients/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            <div class="sidebar">
+                <!-- Sidebar user (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="~/Content/clients/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                    </div>
+                    <div class="info">
+                        @*<a href="#" class="d-block">Alexander Pierce</a>*@
+
+                        @{
+                            var user = (WSite_ShowRoom_CtyThoiTrang.Models.tb_NhanVien)HttpContext.Current.Session["user"];
+                            <apan>
+                                @user.TenNhanVien
+                            </apan>
+                        }
+
+
+
+                    </div>
                 </div>
-                <div class="info">
-                    @*<a href="#" class="d-block">Alexander Pierce</a>*@
 
-                    @{
-                        var user = (WSite_ShowRoom_CtyThoiTrang.Models.tb_NhanVien)HttpContext.Current.Session["user"];
-                        <apan>
-                            @user.TenNhanVien
-                        </apan>
-                    }
+                <!-- SidebarSearch Form -->
+                @*<div class="form-inline">
+                        <div class="input-group" data-widget="sidebar-search">
+                            <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                            <div class="input-group-append">
+                                <button class="btn btn-sidebar">
+                                    <i class="fas fa-search fa-fw"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>*@
+
+                <!-- Sidebar Menu -->
 
 
 
-                </div>
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+                        with font-awesome or any other icon font library -->
+                        <li class="nav-item">
+                            <a href="/admin/Category" class="nav-link">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    Danh mục
+                                    @*<i class="right fas fa-angle-left"></i>*@
+                                </p>
+                            </a>
+
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/admin/WareHouse/ImportWareHouse" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Nhập kho
+                                    @*<span class="right badge badge-danger">New</span>*@
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/admin/WareHouse/ExportWareHouse" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Xuất kho
+                                    @*<span class="right badge badge-danger">New</span>*@
+                                    @*<span class="right badge badge-danger">New</span>*@
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/admin/WareHouse/Return" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Hàng trả
+                                    @*<span class="right badge badge-danger">New</span>*@
+                                </p>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    Quản lý sản phẩm
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/admin/productcategory" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Danh mục sẳn phẩm</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/admin/product" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Sản phẩm</p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/admin/account/Logout" class="nav-link"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                        </li>
+                    </ul>
+                </nav>
+
+
+
+
+
+                <!-- /.sidebar-menu -->
             </div>
-
-            <!-- SidebarSearch Form -->
-            @*<div class="form-inline">
-            <div class="input-group" data-widget="sidebar-search">
-                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-sidebar">
-                        <i class="fas fa-search fa-fw"></i>
-                    </button>
-                </div>
-            </div>
-        </div>*@
-
-            <!-- Sidebar Menu -->
-
-
-
-            <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
-                    <li class="nav-item">
-                        <a href="/admin/Category" class="nav-link">
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
-                            <p>
-                                Danh mục
-                                @*<i class="right fas fa-angle-left"></i>*@
-                            </p>
-                        </a>
-
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="/admin/WareHouse/ImportWareHouse" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
-                            <p>
-                                Nhập kho
-                                @*<span class="right badge badge-danger">New</span>*@
-                            </p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="/admin/WareHouse/ExportWareHouse" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
-                            <p>
-                                Xuất kho
-                                @*<span class="right badge badge-danger">New</span>*@
-                                @*<span class="right badge badge-danger">New</span>*@
-                            </p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="/admin/WareHouse/Return" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
-                            <p>
-                               Hàng trả
-                                @*<span class="right badge badge-danger">New</span>*@
-                            </p>
-                        </a>
-                    </li>
-
-
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
-                            <p>
-                                Quản lý sản phẩm
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/admin/productcategory" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Danh mục sẳn phẩm</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/product" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Sản phẩm</p>
-                                </a>
-                            </li>
-
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="/admin/account/Logout" class="nav-link"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-                    </li>
-                </ul>
-            </nav>
-
-
-
-
-
-            <!-- /.sidebar-menu -->
-        </div>
 
 
         </aside>
@@ -340,6 +340,10 @@
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
+    <!---SweetAlter-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
+
+
     <!-- jQuery -->
     <script src="~/Content/clients/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
@@ -375,9 +379,7 @@
 
 
 
-    <!---SweetAlter-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
-
+    
 
     <script src="~/Scripts/autoNumeric-1.9.45.js"></script>
 

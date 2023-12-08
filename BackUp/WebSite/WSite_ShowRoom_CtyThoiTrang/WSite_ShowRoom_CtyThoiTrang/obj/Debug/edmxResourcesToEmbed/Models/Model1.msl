@@ -86,7 +86,6 @@
           <ScalarProperty Name="ReturnBy" ColumnName="ReturnBy" />
           <ScalarProperty Name="MSNV" ColumnName="MSNV" />
           <ScalarProperty Name="ReturnId" ColumnName="ReturnId" />
-          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
           <ScalarProperty Name="IdKho" ColumnName="IdKho" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -169,6 +168,7 @@
           <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="CartItem" ColumnName="CartItem" />
+          <ScalarProperty Name="damagedProduct" ColumnName="damagedProduct" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -233,6 +233,19 @@
           <ScalarProperty Name="MSNV" ColumnName="MSNV" />
           <ScalarProperty Name="IdChucNang" ColumnName="IdChucNang" />
           <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_Return">
+      <EntityTypeMapping TypeName="CONGTYTHOITRANGModel.tb_Return">
+        <MappingFragment StoreEntitySet="tb_Return">
+          <ScalarProperty Name="ReturnId" ColumnName="ReturnId" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="Confirm" ColumnName="Confirm" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="IdKhachHang" ColumnName="IdKhachHang" />
+          <ScalarProperty Name="Satus" ColumnName="Satus" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

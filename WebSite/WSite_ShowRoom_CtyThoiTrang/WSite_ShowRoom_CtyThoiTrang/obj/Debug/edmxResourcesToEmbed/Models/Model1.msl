@@ -179,6 +179,7 @@
           <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="CartItem" ColumnName="CartItem" />
+          <ScalarProperty Name="damagedProduct" ColumnName="damagedProduct" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

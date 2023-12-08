@@ -28,38 +28,70 @@
         function OnSuccessCO(res) {
             if (res.Success) {
                 if (res.Code == 1) {
-                    alert("Xuất thành công");
+
+                   
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+
+                    Toast.fire({
+                        icon: "success",
+                        title: "Xuất đơn hàng thành công"
+                    });
                     location.reload(true);
                 } else {
                 }
             }
             else {
                 if (res.Code == -2) {
-                    alert("Không tìm thấy đơn hàng ");
-
+                    Swal.fire({
+                        icon: "error",
+                        title: "Lỗi tìm...",
+                        text: "Không tìm thấy đơn hàng",
+                        /*footer: '<a href="#">Why do I have this issue?</a>'*/
+                    });
 
                 }
                 if (res.Code == -3) {
-
-                    alert("Đơn hàng dã hủy trên hệ thống ! Vui lòng kiểm tra lại ");
-
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Lỗi tìm...",
+                        text: "Đơn hàng dã hủy trên hệ thống ! Vui lòng kiểm tra lại ",
+                        /*footer: '<a href="#">Why do I have this issue?</a>'*/
+                    });
                 }
                 if (res.Code == -4) {
-
-                    alert("Đơn hàng chưa được xác nhận ");
-
+                    Swal.fire({
+                        icon: "question",
+                        title: "Lỗi tìm...",
+                        text: "Đơn hàng chưa được xác nhận ",
+                        /*footer: '<a href="#">Why do I have this issue?</a>'*/
+                    });
+                   
                 }
                 if (res.Code == -5) {
-
-                    alert("Mã hàng được trả về");
-
+                    Swal.fire({
+                        icon: "info",
+                        title: "Lỗi tìm...",
+                        text: "Mã hàng được trả về ",
+                        /*footer: '<a href="#">Why do I have this issue?</a>'*/
+                    });
                 }
                 if (res.Code == -6) {
-
-                    alert("Đơn hàng lập lại 2 lần  ");
-
-
-
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Lỗi tìm...",
+                        text: "Đơn hàng lập lại 2 lần ",
+                        /*footer: '<a href="#">Why do I have this issue?</a>'*/
+                    });
                 }
             }
 

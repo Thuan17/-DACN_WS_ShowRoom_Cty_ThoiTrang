@@ -195,21 +195,6 @@ go
 
 
 
---drop table tb_Return (
---	ReturnId int IDENTITY(1,1) not null primary key ,
---	IdKhachHang int,
---)
---go
-
---drop table tb_ReturnDetail(
---	ReturnDetailId int IDENTITY(1,1) not null primary key ,
---	ProductId int ,
---	Price decimal(18,2),
---	Quantity int ,
---	ReturnId int ,
---	OrderId int
---)
---go
 
 create table tb_Kho (
 	Idkho int IDENTITY(1,1) not null primary key ,
@@ -256,14 +241,38 @@ create table tb_KhoReturn(
 	ReturnDate datetime NOT NULL,
 	ReturnBy nvarchar(max) NOT NULL,
 	MSNV varchar(10) NOT NULL,
-	ReturnId int NULL,
-	OrderId int NULL,
-	IdKho int NULL,
+	ReturnId int NOT NULL, 
+	IdKho int NOT NULL,
 )
 go
 
 
+
+create table tb_Return (
+	ReturnId int IDENTITY(1,1) not null primary key ,
+	Code nvarchar(max) NOT NULL,
+	CreateDate datetime,
+	Confirm bit ,
+	OrderId int ,
+	IdKhachHang int,
+	Satus nvarchar(max)
+)
+go
+
+
+
 -----------------------------------------------------------------------FK 
+alter table tb_Return
+add constraint ReturntoOrder
+foreign key (OrderId)
+references tb_Order 
+
+
+alter table tb_KhoReturn
+add constraint KhoReturntoReturn
+foreign key (ReturnId)
+references tb_Return 
+
 
 alter table tb_NhanVienImage
 add constraint ImgNhanVien
@@ -295,10 +304,10 @@ foreign key (IdKho)
 references tb_Kho
 
 
-alter table tb_KhoReturn
-add constraint KhoReturntoOrder
-foreign key (OrderId)
-references tb_Order
+----alter table tb_KhoReturn
+----add constraint KhoReturntoOrder
+----foreign key (OrderId)
+----references tb_Order
 
 
 
@@ -471,6 +480,7 @@ select * from tb_KhoNhap
 select * from tb_KhoXuat
 select * from tb_ChucNang
 
+select * from tb_Return
 
 select * from tb_Cart
 select * from tb_CartItem

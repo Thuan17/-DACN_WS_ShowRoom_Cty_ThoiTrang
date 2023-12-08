@@ -101,7 +101,8 @@ create table tb_OrderDetail (
 	ProductId int NOT NULL,
 	Price decimal(18, 2) NOT NULL,
 	Quantity int NOT NULL,
-	CartItem int
+	CartItem int,
+	damagedProduct bit
 )
 go
 
@@ -255,10 +256,9 @@ create table tb_Return (
 	Confirm bit ,
 	OrderId int ,
 	IdKhachHang int,
+	Satus nvarchar(max)
 )
 go
-
-
 
 
 
@@ -464,8 +464,8 @@ select * from tb_NhanVien
 
 select * from tb_KhachHang
 
-select * from tb_KhoNhap
-
+select * from tb_Return
+select * from tb_OrderDetail
 select * from tb_Products
 select * from tb_Order
 
@@ -477,9 +477,10 @@ select * from tb_PhanQuyen
 select * from tb_ChucNang
 
 
-select * from tb_KhoNhap
+select * from tb_KhoReturn
 select * from tb_KhoXuat
 select * from tb_ChucNang
+
 
 
 select * from tb_Cart

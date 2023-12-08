@@ -207,7 +207,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             if (ModelState.IsValid) 
             {
 
-                string mDH = "DH" + rep.Code;
+                string mDH = "DH" + rep.Code.Trim();
                 var checkOrder = db.tb_Order.FirstOrDefault(x => x.Code == mDH.Trim());
                 if (checkOrder != null) 
                 {
@@ -302,8 +302,15 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                 if (!string.IsNullOrEmpty(Search))
                 {
                     var FindProduc = db.tb_Return.Where(x => x.Code.ToUpper().Contains(Search.ToUpper()));
-                    ViewBag.Find = Search;
-                    return View(FindProduc.ToList());
+                    if (FindProduc != null) 
+                    {
+                        ViewBag.Search = Search;
+                        return View(FindProduc.ToList());
+                    }
+                    else 
+                    {
+                        return View();
+                    }
                 }
                 return View();
                 
@@ -313,10 +320,136 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
 
 
 
-        //public ActionResult AddListReturn() 
+        public ActionResult OrderById(int id)
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("DangNhap", "Account");
+            }
+            else
+            {
+                var item = db.tb_Order.Find(id);
+                return View(item);
+            }
+
+        }
+
+        public ActionResult Detail_SanPham(int id)
+        {
+            var item = db.tb_OrderDetail.Where(row => row.OrderId == id).ToList();
+            return PartialView(item);
+        }
+
+
+
+        //public ActionResult Partial_ThongTinKhoReturn()
         //{
-            
+        //    if (Session["user"] == null)
+        //    {
+        //        return RedirectToAction("DangNhap", "Account");
+        //    }
+        //    else
+        //    {
+
+        //        ViewBag.Kho = new SelectList(db.tb_Kho.ToList(), "IdKho", "DiaChi");
+        //        return PartialView();
+        //    }
         //}
+
+
+
+
+
+        [HttpPost]
+       
+        public ActionResult ImportReturn(List<int> Id)
+        {
+            var code = new { Success = false, msg = "", code = -1 };
+            if (Id != null && Id.Any())
+            {
+                foreach (var id in Id)
+                {
+                    var checkOrderDetail = db.tb_OrderDetail.FirstOrDefault(x => x.Id == id);
+                    if (checkOrderDetail != null)
+                    {
+                        var checkOrder = db.tb_Order.FirstOrDefault(x => x.OrderId == checkOrderDetail.OrderId);
+                        if (checkOrder != null)
+                        {
+                            var checkReturn = db.tb_Return.FirstOrDefault(r => r.OrderId == checkOrder.OrderId);
+                            if (checkReturn != null)
+                            {
+                                var checkKhoReturn = db.tb_KhoReturn.FirstOrDefault(x => x.ReturnId == checkReturn.ReturnId);
+                                if (checkKhoReturn == null)
+                                {
+                                    var FindProduct = db.tb_Products.Find(checkOrderDetail.ProductId);
+                                    if (FindProduct != null)
+                                    {
+
+
+                                        checkReturn.Confirm = true; 
+                                        db.Entry(checkReturn).State=System.Data.Entity.EntityState.Modified;
+                                        db.SaveChanges();
+
+
+
+                                        FindProduct.Quantity += checkOrderDetail.Quantity;
+                                        db.Entry(FindProduct).State = System.Data.Entity.EntityState.Modified;
+                                        db.SaveChanges();
+
+                                        checkOrderDetail.damagedProduct = true;
+
+                                        db.Entry(checkOrderDetail).State = System.Data.Entity.EntityState.Modified;
+                                        db.SaveChanges();
+
+                                        var checkKhoXuat = db.tb_KhoXuat.FirstOrDefault(x=>x.OrderId==checkOrderDetail.OrderId);
+
+
+                                        tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
+                                        var item = db.tb_NhanVien.SingleOrDefault(row => row.MSNV == nvSession.MSNV);
+                                        tb_KhoReturn KhoReturn = new tb_KhoReturn();
+                                        KhoReturn.ReturnDate = DateTime.Now;
+                                        KhoReturn.IdKho = (int)checkKhoXuat.Idkho;
+                                        KhoReturn.ReturnId = checkReturn.ReturnId;
+                                        KhoReturn.MSNV = nvSession.MSNV;
+                                        KhoReturn.ReturnBy = item.TenNhanVien;
+                                        db.tb_KhoReturn.Add(KhoReturn);
+                                        db.SaveChanges();
+
+                                        code = new { Success = true, msg = "", code = 1 };
+                                    }
+
+
+                                }
+                                else
+                                {
+                                    code = new { Success = false, msg = "", code = -4 }; //Don lap lai 2 lan
+                                }
+
+                            }
+                            else
+                            {
+                                code = new { Success = false, msg = "", code = -3 }; //Khong tim thay Order trong reurnr
+                            }
+
+                        }
+
+                    }
+                    else
+                    {
+                        code = new { Success = false, msg = "", code = -2 }; //Khong tim thay Order
+                    }
+
+                }
+            }
+            else 
+            {
+                code = new { Success = false, msg = "", code = -5 }; //Khong tim thay danh sach san pham
+            }
+            return Json(code);
+        }
+
+
+
 
 
 

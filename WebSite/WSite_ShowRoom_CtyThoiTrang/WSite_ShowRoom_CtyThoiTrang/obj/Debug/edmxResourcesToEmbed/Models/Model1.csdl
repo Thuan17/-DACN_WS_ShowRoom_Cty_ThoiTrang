@@ -197,6 +197,7 @@
     <Property Name="Price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="Quantity" Type="Int32" Nullable="false" />
     <Property Name="CartItem" Type="Int32" />
+    <Property Name="damagedProduct" Type="Boolean" />
     <NavigationProperty Name="tb_Order" Relationship="Self.tb_OrderDetail_toi_tb_Order" FromRole="tb_OrderDetail" ToRole="tb_Order" />
     <NavigationProperty Name="tb_Products" Relationship="Self.OrderDetailtoProducts" FromRole="tb_OrderDetail" ToRole="tb_Products" />
   </EntityType>
