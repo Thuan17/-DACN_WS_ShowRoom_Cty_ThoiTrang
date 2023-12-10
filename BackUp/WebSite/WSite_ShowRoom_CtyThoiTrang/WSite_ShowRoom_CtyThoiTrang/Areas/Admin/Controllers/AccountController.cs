@@ -1,10 +1,12 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using WSite_ShowRoom_CtyThoiTrang.Models;
 
 namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
@@ -14,22 +16,34 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         // GET: Admin/Login
         CONGTYTHOITRANGEntities db = new CONGTYTHOITRANGEntities();
 
-        public ActionResult Index() 
+        public ActionResult Index()
         {
+
 
             if (Session["user"] == null)
             {
-                return RedirectToAction("DangNhap");
+                return RedirectToAction("DangNhap", "Account");
             }
             else
             {
-                var item = db.tb_NhanVien.ToList(); 
-                return View(item);
+
+                tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
+                var item = db.tb_PhanQuyen.SingleOrDefault(row => row.MSNV == nvSession.MSNV && (row.IdChucNang == 1 || row.IdChucNang == 2));
+                if (item == null)
+                {
+                    return RedirectToAction("NonRole", "HomePage");
+                }
+                else
+                {
+                    var nhanVien = db.tb_NhanVien.ToList();
+                    return View(nhanVien);
+                }
             }
-           
+
+
         }
 
-        public ActionResult Error() 
+        public ActionResult Error()
         {
 
             return View();
@@ -43,9 +57,9 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DangNhap(string msnv, string password,string user)
+        public ActionResult DangNhap(string msnv, string password, string user)
         {
-            
+
             if (ModelState.IsValid)
             {
                 var f_password = MaHoaPass(password);
@@ -64,10 +78,15 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                             Session["user"] = data;
                             return RedirectToAction("Index", "HomePage");
                         }
-                        else if (checkRole.IdChucNang == 3) 
+                        else if (checkRole.IdChucNang == 3)
                         {
                             Session["user"] = data;
                             return RedirectToAction("Index", "Warehouse");
+                        }
+                        else if (checkRole.IdChucNang == 4)
+                        {
+                            Session["user"] = data;
+                            return RedirectToAction("Index", "Seller");
                         }
                     }
                     else
@@ -75,10 +94,10 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                         ViewBag.error = "Không tồn tại tài khoản";
                     }
 
-                   
+
                     //Session["TenNhanVien"] = data.FirstOrDefault().TenNhanVien;
 
-                    
+
                 }
 
                 else
@@ -90,6 +109,9 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             return View();
         }
 
+      
+
+
         public ActionResult Create()
         {
             if (Session["user"] == null)
@@ -98,8 +120,19 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             }
             else
             {
-                var item = db.tb_NhanVien.ToList();
-                return View(item);
+                tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
+                var item = db.tb_PhanQuyen.SingleOrDefault(row => row.MSNV == nvSession.MSNV && (row.IdChucNang == 1 || row.IdChucNang == 2));
+                if (item == null)
+                {
+                    return RedirectToAction("NonRole", "HomePage");
+                }
+                else
+                {
+                    var NhanVien = db.tb_NhanVien.ToList();
+                    return View(NhanVien);
+                }
+
+              
             }
         }
         [HttpPost]

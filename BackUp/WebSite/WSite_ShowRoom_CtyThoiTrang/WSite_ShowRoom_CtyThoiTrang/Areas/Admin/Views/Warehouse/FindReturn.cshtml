@@ -1,7 +1,7 @@
-﻿@model IEnumerable<WSite_ShowRoom_CtyThoiTrang.Models.tb_Return>
+﻿@model WSite_ShowRoom_CtyThoiTrang.Models.tb_Return
 
 @{
-    ViewBag.Title = "FindReturn";
+    ViewBag.Title = "Đơn hàng trả";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutWareHouse.cshtml";
 }
 
@@ -61,11 +61,11 @@
                     <div class="col-12 col-lg-12">
                         <div class="card shadow-none border radius-15">
                             <div class="card-body">
-                                @if(Model!= null && Model.Any())
+                                @if(Model!= null )
                                 {
                                 <p>Mã đơn hàng trả:  @ViewBag.Search</p>
-                                     foreach (var item in Model)
-                                {
+                                    
+                                
                                 <div class="card">
                                     <div class="card-header">
                                         <h3 class="card-title">Chi tiết đơn hàng trả</h3>
@@ -75,13 +75,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Mã đơn hàng</label>
-                                                    <p class="form-control">@item.Code</p>
+                                                    <p class="form-control">@Model.Code</p>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Họ tên khách</label>
-                                                    <p class="form-control">@item.tb_Order.tb_KhachHang.TenKhachHang</p>
+                                                    <p class="form-control">@Model.tb_Order.tb_KhachHang.TenKhachHang</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -89,13 +89,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Tổng tiền</label>
-                                                    <p class="form-control">@WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(item.tb_Order.TotalAmount, 0) đ</p>
+                                                    <p class="form-control">@WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(Model.tb_Order.TotalAmount, 0) đ</p>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Số điện thoại</label>
-                                                    <p class="form-control">@item.tb_Order.tb_KhachHang.SDT</p>
+                                                    <p class="form-control">@Model.tb_Order.tb_KhachHang.SDT</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -109,7 +109,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Lý do trả hàng</label>
-                                                    <p class="form-control">@item.Satus</p>
+                                                    <p class="form-control">@Model.Satus</p>
                                                 </div>
                                             </div>
 
@@ -120,7 +120,7 @@
                                                 <h2>Danh sách sản phẩm</h2>
                                             </div>
                                             <div class="col-12">
-                                                @Html.Action("Detail_SanPham", "WareHouse", new { id = item.OrderId })
+                                                @Html.Action("Detail_SanPham", "WareHouse", new { id = Model.OrderId })
                                             </div>
                                         </div>
                                     </div>
@@ -128,9 +128,11 @@
                                     <div class="card-footer">
 
                                     </div>
-
+                                    <div class="">
+                                        <button class="btn btn-success BtnXNKiemTraHang" data-id="@Model.OrderId">Xác nhận kiểm tra</button>
+                                    </div>
                                 </div>
-                                }
+                                
                                 }
                                 else
                                 {
@@ -172,7 +174,9 @@
                 $('.cbkItem:checked').each(function () {
                     selectedProductIds.push($(this).data('id'));
                 });
+                var id = $(this).data("id");
                 console.log(selectedProductIds);
+                console.log(id);
 
                
 
@@ -180,34 +184,77 @@
                 $.ajax({
                     url: '/Admin/Warehouse/ImportReturn',
                     type: 'POST',
-                    data: { Id: selectedProductIds },
+                    data: { ListId: selectedProductIds ,OrderId:id},
                     dataType: 'json',
                     success: function (result) {
                         // Xử lý kết quả từ server nếu cần
                         if (result.Success) {
-                            console.log('Đặt hàng thành công');
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: "top-end",
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.onmouseenter = Swal.stopTimer;
-                                    toast.onmouseleave = Swal.resumeTimer;
-                                }
-                            });
-                            Toast.fire({
-                                icon: "success",
-                                title: "Nhập kho thành công "
-                            });
+                            if (result.code == 1) {
+                                console.log('Đặt hàng thành công');
+                                const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: "top-end",
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.onmouseenter = Swal.stopTimer;
+                                        toast.onmouseleave = Swal.resumeTimer;
+                                    }
+                                });
+                                Toast.fire({
+                                    icon: "success",
+                                    title: "Nhập kho thành công "
+                                });
+                            }
+                           
                         } else {
                             console.error('Lỗi khi đặt hàng. Lỗi:', result.msg, 'Mã lỗi:', result.code);
-                            if (result == -5) {
+                            if (result.code == -7) {
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: "Lỗi tìm...",
+                                    text: "Vui lòng tích sản phẩm khôn hỏng",
+                                    /*footer: '<a href="#">Why do I have this issue?</a>'*/
+                                });
+                            }
+                            if (result.code == -6) {
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: "Lỗi tìm...",
+                                    text: "Không tồn tài sản phẩm này ",
+                                    /*footer: '<a href="#">Why do I have this issue?</a>'*/
+                                });
+                            }
+                            if (result.code == -5) {
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: "Lỗi tìm...",
+                                    text: "Không tồn tài sản phẩm này trong đơn hàng",
+                                    /*footer: '<a href="#">Why do I have this issue?</a>'*/
+                                });
+                            }
+                            if (result.code == -4) {
                                 Swal.fire({
                                     icon: "error",
+                                    title: "Lỗi code...",
+                                    text: "Không tìm thấy kho xuất hãy kiểm tra lại",
+                                   
+                                });
+                            }
+                            if (result.code == -3) {
+                                Swal.fire({
+                                    icon: "question",
+                                    title: "Lỗi code...",
+                                    text: "Đơn hàng trả lập lại 2 lần",
+                                    /*footer: '<a href="#">Why do I have this issue?</a>'*/
+                                });
+                            }
+                            if (result.code == -2) {
+                                Swal.fire({
+                                    icon: "warning",
                                     title: "Lỗi tìm...",
-                                    text: "Không tìm thấy đơn hàng",
+                                    text: "Không tìm thấy trong bảng yêu cầu Return",
                                     /*footer: '<a href="#">Why do I have this issue?</a>'*/
                                 });
                             }

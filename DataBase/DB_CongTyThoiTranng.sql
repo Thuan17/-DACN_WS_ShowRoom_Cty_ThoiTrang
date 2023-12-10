@@ -509,11 +509,13 @@ select * from tb_NhanVien
 
 
 select * from tb_KhachHang
-
+select * from tb_KhoReturn
 select * from tb_Return
+select * from tb_Order
+select * from tb_Products
 select * from tb_OrderDetail
 select * from tb_Products
-select * from tb_Order
+
 
 select * from tb_KhoXuat
 select * from tb_Order

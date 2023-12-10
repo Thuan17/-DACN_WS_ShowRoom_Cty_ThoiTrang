@@ -18,8 +18,8 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public System.DateTime ReturnDate { get; set; }
         public string ReturnBy { get; set; }
         public string MSNV { get; set; }
-        public Nullable<int> ReturnId { get; set; }
-        public Nullable<int> IdKho { get; set; }
+        public int ReturnId { get; set; }
+        public int IdKho { get; set; }
     
         public virtual tb_Kho tb_Kho { get; set; }
         public virtual tb_NhanVien tb_NhanVien { get; set; }

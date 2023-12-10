@@ -20,6 +20,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
             this.tb_CartItem = new HashSet<tb_CartItem>();
             this.tb_OrderDetail = new HashSet<tb_OrderDetail>();
             this.tb_ProductImage = new HashSet<tb_ProductImage>();
+            this.tb_SellerDetail = new HashSet<tb_SellerDetail>();
         }
     
         public int ProductId { get; set; }
@@ -54,5 +55,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public virtual tb_ProductCategory tb_ProductCategory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_ProductImage> tb_ProductImage { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_SellerDetail> tb_SellerDetail { get; set; }
     }
 }

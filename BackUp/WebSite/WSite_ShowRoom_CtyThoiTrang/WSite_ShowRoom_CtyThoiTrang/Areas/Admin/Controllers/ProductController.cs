@@ -31,20 +31,28 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             }
             else
             {
-                IEnumerable<tb_Products> items = db.tb_Products.OrderByDescending(x => x.ProductId);
-                var pageSize = 10;
-                if (page == null)
+
+                tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
+                var item = db.tb_PhanQuyen.SingleOrDefault(row => row.MSNV == nvSession.MSNV && (row.IdChucNang == 1 || row.IdChucNang == 2));
+                if (item == null)
                 {
-                    page = 1;
+                    return RedirectToAction("NonRole", "HomePage");
                 }
-                var pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-                items = items.ToPagedList(pageIndex, pageSize);
-                ViewBag.PageSize = pageSize;
-                ViewBag.Page = page;
-                return View(items);
+                else
+                {
+                    IEnumerable<tb_Products> items = db.tb_Products.OrderByDescending(x => x.ProductId);
+                    var pageSize = 10;
+                    if (page == null)
+                    {
+                        page = 1;
+                    }
+                    var pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+                    items = items.ToPagedList(pageIndex, pageSize);
+                    ViewBag.PageSize = pageSize;
+                    ViewBag.Page = page;
+                    return View(items);
+                }
             }
-
-
         }
 
 
@@ -58,8 +66,19 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             }
             else
             {
-                ViewBag.ProductCategory = new SelectList(db.tb_ProductCategory.ToList(), "ProductCategoryId", "Title");
-                return View();
+
+                tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
+                var item = db.tb_PhanQuyen.SingleOrDefault(row => row.MSNV == nvSession.MSNV && (row.IdChucNang == 1 || row.IdChucNang == 2));
+                if (item == null)
+                {
+                    return RedirectToAction("NonRole", "HomePage");
+                }
+                else
+                {
+                    ViewBag.ProductCategory = new SelectList(db.tb_ProductCategory.ToList(), "ProductCategoryId", "Title");
+                    return View();
+                }
+             
             }
 
 
@@ -164,9 +183,18 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             }
             else
             {
-                ViewBag.ProductCategory = new SelectList(db.tb_ProductCategory.ToList(), "ProductCategoryId", "Title");
-                var item = db.tb_Products.Find(id);
-                return View(item);
+                tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
+                var item = db.tb_PhanQuyen.SingleOrDefault(row => row.MSNV == nvSession.MSNV && (row.IdChucNang == 1 || row.IdChucNang == 2));
+                if (item == null)
+                {
+                    return RedirectToAction("NonRole", "HomePage");
+                }
+                else
+                {
+                    ViewBag.ProductCategory = new SelectList(db.tb_ProductCategory.ToList(), "ProductCategoryId", "Title");
+                    var SanPham = db.tb_Products.Find(id);
+                    return View(SanPham);
+                }
             }
 
            

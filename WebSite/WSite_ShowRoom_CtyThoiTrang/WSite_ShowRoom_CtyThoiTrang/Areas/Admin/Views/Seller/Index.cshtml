@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "Bán hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutSeller.cshtml";
+}
+
+
+
+<p> thuan</p>
+<div class="row">
+    <div class="col-8">
+        <p>Bán hàng</p>
+        @Html.Action("Partail_Seller", "Seller")
+    </div>
+    <div class="col-4"> 
+    <p>Sản Phẩm</p>
+        @Html.Action("Partail_ProductSeller", "Seller")
+    </div>
+</div>

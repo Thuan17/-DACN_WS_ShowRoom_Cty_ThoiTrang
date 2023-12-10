@@ -29,7 +29,7 @@
             if (res.Success) {
                 if (res.Code == 1) {
 
-                   
+                    location.reload(true);
                     const Toast = Swal.mixin({
                         toast: true,
                         position: "top-end",
@@ -46,7 +46,7 @@
                         icon: "success",
                         title: "Xuất đơn hàng thành công"
                     });
-                    location.reload(true);
+                
                 } else {
                 }
             }

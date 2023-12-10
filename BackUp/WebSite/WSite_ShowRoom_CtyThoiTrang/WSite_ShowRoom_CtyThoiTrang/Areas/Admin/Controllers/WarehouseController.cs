@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Linq;
 using System.Web;
@@ -301,11 +302,11 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             {
                 if (!string.IsNullOrEmpty(Search))
                 {
-                    var FindProduc = db.tb_Return.Where(x => x.Code.ToUpper().Contains(Search.ToUpper()));
+                    var FindProduc = db.tb_Return.FirstOrDefault(x => x.Code.ToUpper().Contains(Search.ToUpper()));
                     if (FindProduc != null) 
                     {
                         ViewBag.Search = Search;
-                        return View(FindProduc.ToList());
+                        return View(FindProduc);
                     }
                     else 
                     {
@@ -362,80 +363,90 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
 
         [HttpPost]
        
-        public ActionResult ImportReturn(List<int> Id)
+        public ActionResult ImportReturn(List<int> ListId ,int OrderId)
         {
             var code = new { Success = false, msg = "", code = -1 };
-            if (Id != null && Id.Any())
+            if (ListId != null && ListId.Any())
             {
-                foreach (var id in Id)
+              var checkReturn =db.tb_Return.FirstOrDefault(x=>x.OrderId==OrderId);
+                if (checkReturn != null) 
                 {
-                    var checkOrderDetail = db.tb_OrderDetail.FirstOrDefault(x => x.Id == id);
-                    if (checkOrderDetail != null)
+                    var checkKhoReturn = db.tb_KhoReturn.FirstOrDefault(x => x.ReturnId == checkReturn.ReturnId);
+                    if (checkKhoReturn == null) 
                     {
-                        var checkOrder = db.tb_Order.FirstOrDefault(x => x.OrderId == checkOrderDetail.OrderId);
-                        if (checkOrder != null)
+                        foreach (var item in ListId)
                         {
-                            var checkReturn = db.tb_Return.FirstOrDefault(r => r.OrderId == checkOrder.OrderId);
-                            if (checkReturn != null)
+                            var checkOrderDetaill = db.tb_OrderDetail.Find(item);
+                            if (checkOrderDetaill != null) 
                             {
-                                var checkKhoReturn = db.tb_KhoReturn.FirstOrDefault(x => x.ReturnId == checkReturn.ReturnId);
-                                if (checkKhoReturn == null)
+                                var FindProduct = db.tb_Products.Find(checkOrderDetaill.ProductId);
+                                if (FindProduct != null) 
                                 {
-                                    var FindProduct = db.tb_Products.Find(checkOrderDetail.ProductId);
-                                    if (FindProduct != null)
-                                    {
-                                        FindProduct.Quantity += checkOrderDetail.Quantity;
-                                        db.Entry(FindProduct).State = System.Data.Entity.EntityState.Modified;
-                                        db.SaveChanges();
-
-                                        checkOrderDetail.damagedProduct = true;
-
-                                        db.Entry(checkOrderDetail).State = System.Data.Entity.EntityState.Modified;
-                                        db.SaveChanges();
-
-                                        var checkKhoXuat = db.tb_KhoXuat.Find(checkOrderDetail.OrderId);
-
-                                        tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
-                                        var item = db.tb_NhanVien.SingleOrDefault(row => row.MSNV == nvSession.MSNV);
+                                    checkReturn.Confirm = true;
+                                    db.Entry(checkReturn).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
 
 
-                                        tb_KhoReturn KhoReturn = new tb_KhoReturn();
-                                        KhoReturn.ReturnDate = DateTime.Now;
-                                        KhoReturn.IdKho = (int)checkKhoXuat.Idkho;
-                                        KhoReturn.ReturnId = checkReturn.ReturnId;
-                                        KhoReturn.MSNV = nvSession.MSNV;
-                                        KhoReturn.ReturnBy = item.TenNhanVien;
-                                        db.AD
 
-                                        code = new { Success = false, msg = "", code = 1 };
-                                    }
+                                    FindProduct.Quantity += checkOrderDetaill.Quantity;
+                                    db.Entry(FindProduct).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
 
+                                    checkOrderDetaill.damagedProduct = true;
+
+                                    db.Entry(checkOrderDetaill).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
 
                                 }
                                 else
                                 {
-                                    code = new { Success = false, msg = "", code = -4 }; //Don lap lai 2 lan
+                                    code = new { Success = false, msg = "", code = -6 }; //Không tồn tài sản phẩm này 
                                 }
-
                             }
-                            else
+                            else 
                             {
-                                code = new { Success = false, msg = "", code = -3 }; //Khong tim thay Order trong reurnr
+                                code = new { Success = false, msg = "", code = -5 }; //Không tồn tài sản phẩm này trong đơn hàng
                             }
-
                         }
 
+
+
+                        var checkKhoXuat = db.tb_KhoXuat.FirstOrDefault(x => x.OrderId == OrderId);
+                        if (checkKhoXuat != null) 
+                        {
+                            tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
+                            var item = db.tb_NhanVien.SingleOrDefault(row => row.MSNV == nvSession.MSNV);
+                            tb_KhoReturn KhoReturn = new tb_KhoReturn();
+                            KhoReturn.ReturnDate = DateTime.Now;
+                            KhoReturn.IdKho = (int)checkKhoXuat.Idkho;
+                            KhoReturn.ReturnId = checkReturn.ReturnId;
+                            KhoReturn.MSNV = nvSession.MSNV;
+                            KhoReturn.ReturnBy = item.TenNhanVien;
+                            db.tb_KhoReturn.Add(KhoReturn);
+                            db.SaveChanges();
+
+                            code = new { Success = true, msg = "", code = 1 };
+                        }
+                        else 
+                        {
+                            code = new { Success = false, msg = "", code = -4 }; //Không tìm thấy kho xuất hãy kiểm tra lại
+                        }
+                       
                     }
                     else
                     {
-                        code = new { Success = false, msg = "", code = -2 }; //Khong tim thay Order
+                        code = new { Success = false, msg = "", code = -3 }; //Đơn hàng trả lập lại 2 lần 
                     }
-
+                   
+                }
+                else 
+                {
+                    code = new { Success = false, msg = "", code = -2 }; //Không tìm thấy trong bảng yêu cầu Return
                 }
             }
             else 
             {
-                code = new { Success = false, msg = "", code = -5 }; //Khong tim thay danh sach san pham
+                code = new { Success = false, msg = "", code = -7}; //Khong tim thay danh sach san pham
             }
             return Json(code);
         }

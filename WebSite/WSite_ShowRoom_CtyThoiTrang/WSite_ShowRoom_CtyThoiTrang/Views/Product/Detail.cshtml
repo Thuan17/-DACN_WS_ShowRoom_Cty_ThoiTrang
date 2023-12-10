@@ -20,12 +20,14 @@
                                         <ul>
                                             @foreach (var item in Model.tb_ProductImage)
                                             {
+
+
                                                 <div id="myCarousel-2" class="carousel slide">
-                                                    @*<ul class="carousel-indicators">
-                                                            <li data-target="#myCarousel-2" data-slide-to="0" class="active"></li>
-                                                            <li data-target="#myCarousel-2" data-slide-to="1" class="active"></li>
-                                                            <li data-target="#myCarousel-2" data-slide-to="2" class="active"></li>
-                                                        </ul>*@
+                                                    <ul class="carousel-indicators">
+                                                        <li data-target="#myCarousel-2" data-slide-to="0" class="active"></li>
+                                                        <li data-target="#myCarousel-2" data-slide-to="1" class="active"></li>
+                                                        <li data-target="#myCarousel-2" data-slide-to="2" class="active"></li>
+                                                    </ul>
                                                     <div class="@*carousel-inner*@">
                                                         @if (item.IsDefault)
                                                         {
@@ -42,12 +44,13 @@
                                                         }
 
                                                     </div>
-                                                    @*<a class="left carousel-control" href="#myCarousel-2" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
-                                                        <a class="right carousel-control" href="#myCarousel-2" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>*@
+
                                                 </div>
+
+
                                             }
                                         </ul>
-                                    </div>
+                                        </div>
                                 </div>
                                 @*<div class="col-lg-9 image_col order-lg-2 order-1">
                                         <div class="single_product_image">

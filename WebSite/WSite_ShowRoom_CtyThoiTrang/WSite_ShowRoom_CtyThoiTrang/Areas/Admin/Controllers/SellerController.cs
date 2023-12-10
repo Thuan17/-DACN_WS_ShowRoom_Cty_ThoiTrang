@@ -24,17 +24,40 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             {
 
                 tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
-                var item = db.tb_PhanQuyen.SingleOrDefault(row => row.MSNV == nvSession.MSNV && row.IdChucNang == 1);
+                var item = db.tb_PhanQuyen.SingleOrDefault(row => row.MSNV == nvSession.MSNV && row.IdChucNang == 4);
                 if (item == null)
                 {
                     return RedirectToAction("NonRole", "HomePage");
                 }
                 else
                 {
-                    IEnumerable<tb_KhachHang> items = db.tb_KhachHang.OrderByDescending(x => x.IdKhachHang);
-                    return View(items);
+                    
+                    return View();
                 }
             }
         }
+
+
+        public ActionResult Partail_Seller()
+        {
+            
+            return PartialView();
+        }
+
+        public ActionResult Partail_ProductSeller() 
+        {
+            return PartialView();
+        }
+
+
+
+
+
+
+
+
+
+
+
     }
 }

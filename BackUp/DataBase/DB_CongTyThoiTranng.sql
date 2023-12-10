@@ -101,7 +101,8 @@ create table tb_OrderDetail (
 	ProductId int NOT NULL,
 	Price decimal(18, 2) NOT NULL,
 	Quantity int NOT NULL,
-	CartItem int
+	CartItem int,
+	damagedProduct bit
 )
 go
 
@@ -181,7 +182,7 @@ create  TABLE tb_KhachHang (
     SDT VARCHAR(15)  ,
     TenKhachHang NVARCHAR(max) not null,
     Email VARCHAR(100)not null,
-    Password  varchar(100) not null,
+    Password  varchar(100) ,
 	Image nvarchar(250) null,
 	Birthday Date null ,
 	DiaChi nvarchar(max)null,
@@ -261,7 +262,53 @@ go
 
 
 
+
+
+
+create table tb_SellerDetail (
+	Id int IDENTITY(1,1) NOT NULL primary key ,
+	SellerId int NOT NULL,
+	ProductId int NOT NULL,
+	Price decimal(18, 2) NOT NULL,
+	Quantity int NOT NULL,
+)
+go
+
+create table tb_Seller (
+	SellerId int IDENTITY(1,1) NOT NULL primary key,
+	Code nvarchar(max) NOT NULL,
+	CustomerName nvarchar(max) NOT NULL,
+	Phone nvarchar(max) NOT NULL,
+	Address nvarchar(max) NOT NULL,
+	TotalAmount [decimal](18, 2) NOT NULL,
+	Quantity int NOT NULL,
+	CreatedBy nvarchar(max) NULL,
+	CreatedDate datetime NOT NULL,
+	ModifiedDate datetime NOT NULL,
+	Modifiedby nvarchar(max) NULL,
+	TypePayment int NOT NULL,
+	Email nvarchar(max) NULL,
+	IdKhachHang int ,
+)
+go
+
+
+
 -----------------------------------------------------------------------FK 
+
+
+alter table tb_SellerDetail
+add constraint SellerDetailtoSeller
+foreign key (SellerId)
+references tb_Seller
+
+
+alter table tb_SellerDetail
+add constraint SellerDetailtoProducts
+foreign key (ProductId)
+references tb_Products
+
+
 alter table tb_Return
 add constraint ReturntoOrder
 foreign key (OrderId)
@@ -462,25 +509,31 @@ select * from tb_NhanVien
 
 
 select * from tb_KhachHang
-
-select * from tb_KhoNhap
-
-select * from tb_Products
+select * from tb_KhoReturn
+select * from tb_Return
 select * from tb_Order
+select * from tb_Products
+select * from tb_OrderDetail
+select * from tb_Products
+
 
 select * from tb_KhoXuat
+select * from tb_Order
+
 select * from tb_OrderDetail
 select * from tb_Products
 select * from tb_NhanVien
 select * from tb_PhanQuyen
 select * from tb_ChucNang
 
-
-select * from tb_KhoNhap
+select * from tb_Return
+select * from tb_KhoReturn
+select * from tb_OrderDetail
+select * from tb_KhoReturn
 select * from tb_KhoXuat
 select * from tb_ChucNang
 
-select * from tb_Return
+
 
 select * from tb_Cart
 select * from tb_CartItem

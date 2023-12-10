@@ -16,7 +16,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         // GET: Admin/Login
         CONGTYTHOITRANGEntities db = new CONGTYTHOITRANGEntities();
 
-        public ActionResult Index() 
+        public ActionResult Index()
         {
 
 
@@ -40,10 +40,10 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                 }
             }
 
-           
+
         }
 
-        public ActionResult Error() 
+        public ActionResult Error()
         {
 
             return View();
@@ -57,9 +57,9 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DangNhap(string msnv, string password,string user)
+        public ActionResult DangNhap(string msnv, string password, string user)
         {
-            
+
             if (ModelState.IsValid)
             {
                 var f_password = MaHoaPass(password);
@@ -78,10 +78,15 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                             Session["user"] = data;
                             return RedirectToAction("Index", "HomePage");
                         }
-                        else if (checkRole.IdChucNang == 3) 
+                        else if (checkRole.IdChucNang == 3)
                         {
                             Session["user"] = data;
                             return RedirectToAction("Index", "Warehouse");
+                        }
+                        else if (checkRole.IdChucNang == 4)
+                        {
+                            Session["user"] = data;
+                            return RedirectToAction("Index", "Seller");
                         }
                     }
                     else
@@ -89,10 +94,10 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                         ViewBag.error = "Không tồn tại tài khoản";
                     }
 
-                   
+
                     //Session["TenNhanVien"] = data.FirstOrDefault().TenNhanVien;
 
-                    
+
                 }
 
                 else
@@ -103,6 +108,9 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
 
             return View();
         }
+
+      
+
 
         public ActionResult Create()
         {

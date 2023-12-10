@@ -53,6 +53,33 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             }
 
         }
+        public ActionResult Partial_AddStaff()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("DangNhap", "Account");
+            }
+            else
+            {
+
+                tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
+                var item = db.tb_PhanQuyen.SingleOrDefault(row => row.MSNV == nvSession.MSNV && (row.IdChucNang == 1 || row.IdChucNang == 2));
+                if (item == null)
+                {
+                    return RedirectToAction("NonRole", "HomePage");
+                }
+                else
+                {
+                    Random ran = new Random();
+                    ViewBag.MSNV = "2" + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9);
+
+
+                    ViewBag.ChucNang = new SelectList(db.tb_ChucNang.ToList(), "IdChucNang", "TenChucNang");
+                    return PartialView();
+                }
+            }
+
+        }
 
 
         public ActionResult Add()
@@ -63,19 +90,15 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             }
             else
             {
-                Random ran = new Random();
-                ViewBag.MSNV = "2" + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9);
-
-
-                ViewBag.ChucNang = new SelectList(db.tb_ChucNang.ToList(), "IdChucNang", "TenChucNang");
+              
                 return View();
             }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(tb_NhanVien model, tb_PhanQuyen modelPhanQuyen, int? IdChucNang)
+        public ActionResult Add(tb_NhanVien model, tb_PhanQuyen modelPhanQuyen, Admin_Add_Staff_ToKen req)
         {
-
+            var code = new { Success = false, Code = -1, Url = "" };
             var checkMail = db.tb_NhanVien.FirstOrDefault(row => row.Email == model.Email);
             var checkPhone = db.tb_NhanVien.FirstOrDefault(row => row.SDT == model.SDT);
             if (checkMail == null)
@@ -86,7 +109,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                     var item = db.tb_NhanVien.SingleOrDefault(x => x.MSNV == nvSession.MSNV);
                     if (item != null)
                     {
-                        if (IdChucNang.HasValue)
+                        if (req.IdChucNang !=null)
                         {
                             string pass = "123";
 
@@ -95,22 +118,33 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
 
                             string msnv = "2" + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9);
                             model.MSNV = msnv.Trim();
+                            model.TenNhanVien = req.Name.Trim();
+                            model.SDT = req.SDT;
+                            model.CCCD = req.CCCD;  
+                            model.Email = req.Email;
+                            model.Birthday = req.Birthday;  
+                            model.DiaChi = req.DiaChi;  
+                            model.Luong = req.Luong;    
+
+
+
                             model.Password = MaHoaPass(pass);
                             model.CreatedDate = DateTime.Now;
                             model.NgayVaoLam = DateTime.Now;
 
 
                             modelPhanQuyen.MSNV = msnv;
-                            modelPhanQuyen.IdChucNang = (int)IdChucNang;
+                            modelPhanQuyen.IdChucNang = (int)req.IdChucNang;
 
                             db.tb_PhanQuyen.Add(modelPhanQuyen);
                             db.tb_NhanVien.Add(model);
                             db.SaveChanges();
-                            return RedirectToAction("index");
+                            code = new { Success = true, Code = 1, Url = "" };
                         }
                         else
                         {
-                            ViewBag.error = "Không thấy chức năng cho nhân viên mới";
+                           //"Không thấy chức năng cho nhân viên mới";
+                            code = new { Success = false, Code = -4, Url = "" };
                         }
                     }
                     else
@@ -118,17 +152,19 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                 }
                 else
                 {
-                    ViewBag.error = "Số điện thoại đã tồn tại";
+                    // "Số điện thoại đã tồn tại";
+                    code = new { Success = false, Code = -3, Url = "" };
                 }
 
             }
             else
             {
-                ViewBag.error = "Email đã tồn tại";
+                //"Email đã tồn tại";
+                code = new { Success = false, Code = -2, Url = "" };
             }
 
             ViewBag.ChucNang = new SelectList(db.tb_ChucNang.ToList(), "IdChucNang", "TenChucNang");
-            return View();
+            return Json(code);
         }
 
         public ActionResult Edit(string id)

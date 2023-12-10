@@ -48,187 +48,8 @@
 
 
 <section class="content">
-    <h3 class="text-danger">@ViewBag.error</h3>
-    @using (Html.BeginForm("Add", "Staff", FormMethod.Post, new { }))
-    {
-
-
-        @Html.AntiForgeryToken()
-
-        @Html.ValidationSummary(true)
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h3 class="text-dark">Thông tin nhân viên mới</h3>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="job-detail mt-2 p-4">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="resume-user mb-5">
-                                    <i class="mdi mdi-account text-white"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="custom-form">
-                            <form>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        @*<div class="col-md-4">
-                                            <div class="form-group app-label">
-                                                <label for="middle-name" class="text-muted">Số điện thoại</label>
-                                                <div class="form-group">
-                                                    @ViewBag.MSNV
-                                                 
-                                                </div>
-                                            </div>
-                                        </div>*@
-                                        <div class="form-group app-label">
-                                            <label for="frist-name" class="text-muted">Họ Tên</label>
-
-                                            @Html.EditorFor(model => model.TenNhanVien, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập tên nhân viên" } })
-                                            @Html.ValidationMessageFor(model => model.TenNhanVien, "", new { @class = "text-danger" })
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group app-label">
-                                            <label for="middle-name" class="text-muted">Số điện thoại</label>
-                                            <div class="form-group">
-                                                @Html.EditorFor(model => model.SDT, new { htmlAttributes = new { @class = "form-control", @placeholder = "Số điện thoại" } })
-                                                @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group app-label">
-                                            <label for="surname-name" class="text-muted">Căn cước công dân</label>
-                                            <div class="form-group">
-                                                @Html.EditorFor(model => model.CCCD, new { htmlAttributes = new { @class = "form-control", @placeholder = "Căn cước công dân" } })
-                                                @Html.ValidationMessageFor(model => model.CCCD, "", new { @class = "text-danger" })
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group app-label">
-                                            <label for="date-of-birth" class="text-muted">Ngày sinh</label>
-
-                                            @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control", @placeholder = "13-02-1999" } })
-                                            @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-md-4">
-                                        <div class="form-group app-label">
-                                            <label for="date-of-birth" class="text-muted">Email</label>
-                                            <div class="form-group">
-                                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email" } })
-                                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div class="col-md-4">
-                                        <div class="form-group app-label">
-                                            <label for="General" class="text-muted">Chức vụ</label>
-                                            @*@Html.Action("Partival_IdChucNang", "Staff")*@
-
-                                            @*@Html.ValidationMessageFor(x => x.ProductCategoryId, null, new { @class = "text-danger" })*@
-                                            @Html.DropDownListFor(x => x.IdChucNang, ViewBag.ChucNang as SelectList, "-Chọn danh mục chức năng-", new { @class = "form-control", @placeholder = "Chức Năng Nhân Viên" })
-                                            @Html.ValidationMessageFor(x => x.IdChucNang, null, new { @class = "text-danger" })
-
-
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group app-label">
-                                            <div class="col-lg-12">
-                                                <div class="form-group app-label">
-                                                    <label for="General" class="text-muted">Lương</label>
-
-                                                    <input type="text" name="demoPrice" value="0" id="demoPrice" class="form-control auto" data-a-dec="," data-a-sep=".">
-
-                                                    @Html.HiddenFor(model => model.Luong, new { @class = "form-control", @placeholder = "Lương" })
-                                                    @Html.ValidationMessageFor(model => model.Luong, "", new { @class = "text-danger" })
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div class="col-md-10">
-                                        <div class="form-group app-label">
-                                            <div class="col-lg-12">
-                                                <div class="form-group app-label">
-
-                                                    <label for="General" class="text-muted">Địa Chỉ</label>
-
-                                                    @Html.EditorFor(model => model.DiaChi, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.DiaChi, "", new { @class = "text-danger" })
-
-
-                                                    @*<textarea id="address" rows="4" class="form-control resume" placeholder=""></textarea>*@
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div class="col-md-2">
-                                        <div class="form-group app-label">
-                                            <div class="col-lg-12">
-                                                <div class="form-group app-label">
-
-                                                    <label for="General" class="text-muted">Giới tính</label>
-
-                                                    @Html.EditorFor(model => model.GioiTinh, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.GioiTinh, "", new { @class = "text-danger" })
-
-                                                    @*<textarea id="address" rows="4" class="form-control resume" placeholder=""></textarea>*@
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-
-
-            <div class="form-horizontal">
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-default" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
+   @Html.Action("Partial_AddStaff", "Staff")
+    
 </section>
 
 
@@ -242,8 +63,17 @@
                 $('#Luong').autoNumeric('set', demoGet);
             });
 
-
+            $('body').on('click', '.btnTest', function () {
+                var id = $(this).data("id");
+                var conf = confirm('Bạn có muốn xóa các sản phẩm đã chọn không');
+              
+            });
         });
+
+
+
+
+
     </script>    
     
 }
