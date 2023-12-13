@@ -267,7 +267,6 @@
           <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
           <ScalarProperty Name="Phone" ColumnName="Phone" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
           <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
           <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
@@ -275,8 +274,6 @@
           <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
           <ScalarProperty Name="Modifiedby" ColumnName="Modifiedby" />
           <ScalarProperty Name="TypePayment" ColumnName="TypePayment" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="IdKhachHang" ColumnName="IdKhachHang" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

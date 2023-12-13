@@ -206,7 +206,7 @@
 
     });
 
-
+    //cap nhaap so luong san pham trong gio hang
     $('body').on('input', '.Quantity', function (e) {
         var productId = $(this).attr('id');
         var newQuantity = $(this).val();

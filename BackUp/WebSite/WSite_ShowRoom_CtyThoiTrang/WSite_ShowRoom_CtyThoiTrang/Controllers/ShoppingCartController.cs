@@ -141,8 +141,8 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                     tb_Order order = new tb_Order();
                     order.CustomerName = req.CustomerName;
                     order.Phone = req.Phone;
-                    order.Address = req.Address;
-                    order.Email = req.Email;
+                    //order.Address = req.Address;
+                    //order.Email = req.Email;
                     cart.Items.ForEach(row => order.tb_OrderDetail.Add(new tb_OrderDetail {
                         ProductId = row.ProductId,
                         Quantity = row.SoLuong,
@@ -184,11 +184,11 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                     contentCustomer = contentCustomer.Replace("{{NgayDat}}", DateTime.Now.ToString("dd/MM/yyyy"));
                     contentCustomer = contentCustomer.Replace("{{TenKhachHang}}", order.CustomerName);
                     contentCustomer = contentCustomer.Replace("{{Phone}}", order.Phone);
-                    contentCustomer = contentCustomer.Replace("{{Email}}", req.Email);
+                    //contentCustomer = contentCustomer.Replace("{{Email}}", req.Email);
                     contentCustomer = contentCustomer.Replace("{{DiaChiNhanHang}}", order.Address);
                     contentCustomer = contentCustomer.Replace("{{ThanhTien}}", WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(thanhTien, 0));
                     contentCustomer = contentCustomer.Replace("{{TongTien}}", WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(tongTien, 0));
-                    WSite_ShowRoom_CtyThoiTrang.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, contentCustomer.ToString(), req.Email);
+                    //WSite_ShowRoom_CtyThoiTrang.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, contentCustomer.ToString(), req.Email);
 
                     string contentAdmin = System.IO.File.ReadAllText(Server.MapPath("~/Content/templates/send1.html"));
                     contentAdmin = contentAdmin.Replace("{{MaDon}}", order.Code);
@@ -196,7 +196,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                     contentAdmin = contentAdmin.Replace("{{NgayDat}}", DateTime.Now.ToString("dd/MM/yyyy"));
                     contentAdmin = contentAdmin.Replace("{{TenKhachHang}}", order.CustomerName);
                     contentAdmin = contentAdmin.Replace("{{Phone}}", order.Phone);
-                    contentAdmin = contentAdmin.Replace("{{Email}}", req.Email);
+                    //contentAdmin = contentAdmin.Replace("{{Email}}", req.Email);
                     contentAdmin = contentAdmin.Replace("{{DiaChiNhanHang}}", order.Address);
                     contentAdmin = contentAdmin.Replace("{{ThanhTien}}", WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(thanhTien, 0));
                     contentAdmin = contentAdmin.Replace("{{TongTien}}", WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(tongTien, 0));

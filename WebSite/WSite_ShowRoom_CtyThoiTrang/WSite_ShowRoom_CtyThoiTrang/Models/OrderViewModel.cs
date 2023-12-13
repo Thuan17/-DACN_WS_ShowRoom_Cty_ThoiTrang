@@ -13,9 +13,9 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         [Required(ErrorMessage = "Số điện thoại không để trống")]
         public string Phone { get; set; }
         [Required(ErrorMessage = "Địa chỉ khổng để trống")]
-        public string Address { get; set; }
-        public string Email { get; set; }
-        [Required(ErrorMessage = "Số điện thoại không để trống")]
+        //public string Address { get; set; }
+        //public string Email { get; set; }
+        //[Required(ErrorMessage = "Số điện thoại không để trống")]
         public int TypePayment { get; set; }
         public int TypePaymentVNPay { get; set; }
     }

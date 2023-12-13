@@ -53,7 +53,7 @@
           <Property Name="IdKhachHang" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SDT" Type="varchar" MaxLength="15" />
           <Property Name="TenKhachHang" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
           <Property Name="Password" Type="varchar" MaxLength="100" />
           <Property Name="Image" Type="nvarchar" MaxLength="250" />
           <Property Name="Birthday" Type="date" />
@@ -255,7 +255,6 @@
           <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CustomerName" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
           <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar(max)" />
@@ -263,8 +262,6 @@
           <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
           <Property Name="Modifiedby" Type="nvarchar(max)" />
           <Property Name="TypePayment" Type="int" Nullable="false" />
-          <Property Name="Email" Type="nvarchar(max)" />
-          <Property Name="IdKhachHang" Type="int" />
         </EntityType>
         <EntityType Name="tb_SellerDetail">
           <Key>
@@ -725,7 +722,7 @@
           <Property Name="IdKhachHang" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SDT" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="TenKhachHang" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Image" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Birthday" Type="DateTime" Precision="0" />
@@ -964,7 +961,6 @@
           <Property Name="Code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -972,8 +968,6 @@
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Modifiedby" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TypePayment" Type="Int32" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IdKhachHang" Type="Int32" />
           <NavigationProperty Name="tb_SellerDetail" Relationship="Self.SellerDetailtoSeller" FromRole="tb_Seller" ToRole="tb_SellerDetail" />
         </EntityType>
         <EntityType Name="tb_SellerDetail">
@@ -1650,7 +1644,6 @@
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
@@ -1658,8 +1651,6 @@
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="Modifiedby" ColumnName="Modifiedby" />
                 <ScalarProperty Name="TypePayment" ColumnName="TypePayment" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="IdKhachHang" ColumnName="IdKhachHang" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

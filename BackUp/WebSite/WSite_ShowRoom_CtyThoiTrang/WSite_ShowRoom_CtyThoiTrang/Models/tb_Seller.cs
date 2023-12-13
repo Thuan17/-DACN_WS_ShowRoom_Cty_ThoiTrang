@@ -24,7 +24,6 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public string Code { get; set; }
         public string CustomerName { get; set; }
         public string Phone { get; set; }
-        public string Address { get; set; }
         public decimal TotalAmount { get; set; }
         public int Quantity { get; set; }
         public string CreatedBy { get; set; }
@@ -32,8 +31,6 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public System.DateTime ModifiedDate { get; set; }
         public string Modifiedby { get; set; }
         public int TypePayment { get; set; }
-        public string Email { get; set; }
-        public Nullable<int> IdKhachHang { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_SellerDetail> tb_SellerDetail { get; set; }

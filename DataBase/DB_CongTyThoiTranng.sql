@@ -179,9 +179,9 @@ go
 
 create  TABLE tb_KhachHang (
 	IdKhachHang  int IDENTITY(1,1) NOT NULL primary key ,
-    SDT VARCHAR(15)  ,
+    SDT VARCHAR(15)null ,
     TenKhachHang NVARCHAR(max) not null,
-    Email VARCHAR(100)not null,
+    Email VARCHAR(100)null,
     Password  varchar(100) ,
 	Image nvarchar(250) null,
 	Birthday Date null ,
@@ -279,19 +279,16 @@ create table tb_Seller (
 	Code nvarchar(max) NOT NULL,
 	CustomerName nvarchar(max) NOT NULL,
 	Phone nvarchar(max) NOT NULL,
-	Address nvarchar(max) NOT NULL,
 	TotalAmount [decimal](18, 2) NOT NULL,
 	Quantity int NOT NULL,
 	CreatedBy nvarchar(max) NULL,
 	CreatedDate datetime NOT NULL,
-	ModifiedDate datetime NOT NULL,
+	ModifiedDate datetime  NULL,
 	Modifiedby nvarchar(max) NULL,
 	TypePayment int NOT NULL,
-	Email nvarchar(max) NULL,
-	IdKhachHang int ,
+	
 )
 go
-
 
 
 -----------------------------------------------------------------------FK 
@@ -508,8 +505,8 @@ select * from tb_NhanVien
 
 
 
-select * from tb_KhachHang
-select * from tb_KhoReturn
+select * from tb_Seller
+select * from tb_SellerDetail
 select * from tb_Return
 select * from tb_Order
 select * from tb_Products
@@ -517,7 +514,7 @@ select * from tb_OrderDetail
 select * from tb_Products
 
 
-select * from tb_KhoXuat
+select * from tb_Products
 select * from tb_Order
 
 select * from tb_OrderDetail

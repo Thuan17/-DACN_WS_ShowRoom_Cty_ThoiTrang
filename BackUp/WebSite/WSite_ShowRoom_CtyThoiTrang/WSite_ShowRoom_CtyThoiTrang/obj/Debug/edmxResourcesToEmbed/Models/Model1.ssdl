@@ -48,7 +48,7 @@
     <Property Name="IdKhachHang" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SDT" Type="varchar" MaxLength="15" />
     <Property Name="TenKhachHang" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="100" />
     <Property Name="Password" Type="varchar" MaxLength="100" />
     <Property Name="Image" Type="nvarchar" MaxLength="250" />
     <Property Name="Birthday" Type="date" />
@@ -250,7 +250,6 @@
     <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CustomerName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
     <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="Quantity" Type="int" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar(max)" />
@@ -258,8 +257,6 @@
     <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
     <Property Name="Modifiedby" Type="nvarchar(max)" />
     <Property Name="TypePayment" Type="int" Nullable="false" />
-    <Property Name="Email" Type="nvarchar(max)" />
-    <Property Name="IdKhachHang" Type="int" />
   </EntityType>
   <EntityType Name="tb_SellerDetail">
     <Key>
