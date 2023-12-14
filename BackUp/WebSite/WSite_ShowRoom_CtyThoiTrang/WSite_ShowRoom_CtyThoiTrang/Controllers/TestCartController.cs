@@ -434,9 +434,9 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             }
             else
             {
-                ViewBag.error = "Vui lòng chọn sản phẩm";
-            
-            
+                code = new { Success = false, msg = "", code = -2 };
+
+
             }
            
 

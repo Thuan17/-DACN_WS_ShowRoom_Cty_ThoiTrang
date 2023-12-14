@@ -18,7 +18,7 @@
            
             Swal.fire({
                 icon: "error",
-                title: "Lỗi tìm...",
+                title: "Lỗi đăng ký...",
                 text: "Vui lòng điền đầy đủ thông tin.",
                 /*footer: '<a href="#">Why do I have this issue?</a>'*/
             });
@@ -51,10 +51,10 @@
 
         if (passwordInput.type === "password") {
             passwordInput.type = "text";
-            toggleButton.textContent = "Ẩn mật khẩu";
+            
         } else {
             passwordInput.type = "password";
-            toggleButton.textContent = "Hiện mật khẩu";
+            
         }
     }
 

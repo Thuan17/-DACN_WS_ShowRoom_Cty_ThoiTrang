@@ -3190,6 +3190,7 @@
     <Content Include="Content\sweetalert\thumbs-up.jpg" />
     <Content Include="Content\templates\send1.html" />
     <Content Include="Content\templates\send2.html" />
+    <Content Include="Content\templates\SendForgotPass.html" />
     <Content Include="Global.asax" />
     <Content Include="hinh\3.jpg" />
     <Content Include="hinh\bia1.jpg" />
@@ -3446,6 +3447,7 @@
     <Content Include="Areas\Admin\Views\Seller\CheckOut.cshtml" />
     <Content Include="Areas\Admin\Views\Seller\Partial_Item_ThanhToan.cshtml" />
     <Content Include="Areas\Admin\Views\Seller\FindClient.cshtml" />
+    <Content Include="Areas\Admin\Views\Seller\Partial_ThanhToanDaCoTaiKhoan.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -3453,7 +3455,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admin\Views\Seller\Partial_ThanhToanDaCoTaiKhoan.cshtml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
@@ -3568,6 +3569,7 @@
     <Compile Include="Models\Admin_WareHouse_Export_ToKen.cs" />
     <Compile Include="Models\Cancel.cs" />
     <Compile Include="Models\Common\Filter.cs" />
+    <Compile Include="Models\ForgetPassClient.cs" />
     <Compile Include="Models\InforAddStaff.cs" />
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
@@ -3743,6 +3745,12 @@
     <Content Include="Views\User\Partail_AllOrder.cshtml" />
     <Content Include="Views\Product\Partail_ProCategory.cshtml" />
     <Content Include="Views\Product\Find.cshtml" />
+    <Content Include="Views\Account\Forgotpassword.cshtml" />
+    <Content Include="Views\Account\Forgot.cshtml" />
+    <Content Include="Views\Account\UpdatePass.cshtml" />
+    <Content Include="Views\Account\Partail_UpdatePass.cshtml" />
+    <Content Include="Views\Account\Profile.cshtml" />
+    <Content Include="Views\Account\editProfile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

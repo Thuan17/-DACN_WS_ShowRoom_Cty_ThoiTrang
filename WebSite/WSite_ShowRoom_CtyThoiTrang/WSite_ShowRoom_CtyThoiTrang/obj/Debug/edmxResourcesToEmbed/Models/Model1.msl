@@ -58,6 +58,7 @@
           <ScalarProperty Name="Birthday" ColumnName="Birthday" />
           <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
           <ScalarProperty Name="SoLanMua" ColumnName="SoLanMua" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -195,6 +196,21 @@
           <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
           <ScalarProperty Name="Modifiedby" ColumnName="Modifiedby" />
           <ScalarProperty Name="Alias" ColumnName="Alias" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_ProductDetai">
+      <EntityTypeMapping TypeName="CONGTYTHOITRANGModel.tb_ProductDetai">
+        <MappingFragment StoreEntitySet="tb_ProductDetai">
+          <ScalarProperty Name="ProductDetai" ColumnName="ProductDetai" />
+          <ScalarProperty Name="Size" ColumnName="Size" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="Modifeby" ColumnName="Modifeby" />
+          <ScalarProperty Name="Alias" ColumnName="Alias" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

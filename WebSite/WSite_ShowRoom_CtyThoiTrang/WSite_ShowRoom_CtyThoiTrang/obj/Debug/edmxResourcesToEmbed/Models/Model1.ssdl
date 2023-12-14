@@ -54,6 +54,7 @@
     <Property Name="Birthday" Type="date" />
     <Property Name="DiaChi" Type="nvarchar(max)" />
     <Property Name="SoLanMua" Type="int" />
+    <Property Name="Code" Type="char" MaxLength="10" />
   </EntityType>
   <EntityType Name="tb_Kho">
     <Key>
@@ -182,6 +183,20 @@
     <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
     <Property Name="Modifiedby" Type="nvarchar(max)" />
     <Property Name="Alias" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tb_ProductDetai">
+    <Key>
+      <PropertyRef Name="ProductDetai" />
+    </Key>
+    <Property Name="ProductDetai" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Size" Type="int" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="250" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="Modifeby" Type="nvarchar(max)" />
+    <Property Name="Alias" Type="nvarchar" MaxLength="250" />
+    <Property Name="ProductId" Type="int" />
   </EntityType>
   <EntityType Name="tb_ProductImage">
     <Key>
@@ -472,6 +487,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="ProductDetaitoProducts">
+    <End Role="tb_Products" Type="Self.tb_Products" Multiplicity="0..1" />
+    <End Role="tb_ProductDetai" Type="Self.tb_ProductDetai" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Products">
+        <PropertyRef Name="ProductId" />
+      </Principal>
+      <Dependent Role="tb_ProductDetai">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="ProductstoProductCategory">
     <End Role="tb_ProductCategory" Type="Self.tb_ProductCategory" Multiplicity="0..1" />
     <End Role="tb_Products" Type="Self.tb_Products" Multiplicity="*" />
@@ -559,6 +586,7 @@
     <EntitySet Name="tb_Order" EntityType="Self.tb_Order" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_OrderDetail" EntityType="Self.tb_OrderDetail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_ProductCategory" EntityType="Self.tb_ProductCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_ProductDetai" EntityType="Self.tb_ProductDetai" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_ProductImage" EntityType="Self.tb_ProductImage" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Products" EntityType="Self.tb_Products" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_PhanQuyen" EntityType="Self.tb_PhanQuyen" Schema="dbo" store:Type="Tables" />
@@ -632,6 +660,10 @@
     <AssociationSet Name="PQuyentoNhanVien" Association="Self.PQuyentoNhanVien">
       <End Role="tb_NhanVien" EntitySet="tb_NhanVien" />
       <End Role="tb_PhanQuyen" EntitySet="tb_PhanQuyen" />
+    </AssociationSet>
+    <AssociationSet Name="ProductDetaitoProducts" Association="Self.ProductDetaitoProducts">
+      <End Role="tb_Products" EntitySet="tb_Products" />
+      <End Role="tb_ProductDetai" EntitySet="tb_ProductDetai" />
     </AssociationSet>
     <AssociationSet Name="ProductstoProductCategory" Association="Self.ProductstoProductCategory">
       <End Role="tb_ProductCategory" EntitySet="tb_ProductCategory" />

@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using WSite_ShowRoom_CtyThoiTrang.Models;
 
 namespace WSite_ShowRoom_CtyThoiTrang.Controllers
@@ -89,7 +90,17 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                     }
                     else
                     {
-                        ViewBag.error = "Số điện thoại đã tồn";
+                        checkPhone.Email = _khachhang.Email;
+                        checkPhone.Password = MaHoaPass(_khachhang.Password);
+                        checkPhone.Birthday = _khachhang.Birthday;
+                        checkPhone.DiaChi = _khachhang.DiaChi;
+
+
+                        db.tb_KhachHang.Add(checkPhone);
+
+                        db.Entry(checkPhone).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+
                         return RedirectToAction("Login", "Account");
                     }
                 }
@@ -101,6 +112,161 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             }
             return View();
         }
+
+
+
+
+
+
+
+
+
+        public ActionResult Forgotpassword()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult Forgot(string Email = "")
+        {
+
+
+            if (!string.IsNullOrEmpty(Email))
+            {
+                //var FindProduc = db.tb_KhachHang.Where(x => x.Email.ToUpper().Contains(Email.ToUpper()));
+                var FindClient = db.tb_KhachHang.SingleOrDefault(x => x.Email == Email);
+                if (FindClient != null) {
+                    ViewBag.Find = Email;
+
+
+
+                    Random ran = new Random();
+                    FindClient.Code = "KP" + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9) + ran.Next(0, 9);
+
+                    db.tb_KhachHang.Add(FindClient);
+
+                    db.Entry(FindClient).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+
+
+
+
+                    string contentCustomer = System.IO.File.ReadAllText(Server.MapPath("~/Content/templates/SendForgotPass.html"));
+                    contentCustomer = contentCustomer.Replace("{{MaDon}}", FindClient.Code);
+
+                    contentCustomer = contentCustomer.Replace("{{NgayDat}}", DateTime.Now.ToString("dd/MM/yyyy"));
+                    contentCustomer = contentCustomer.Replace("{{TenKhachHang}}", FindClient.TenKhachHang);
+
+                    WSite_ShowRoom_CtyThoiTrang.Common.Common.SendMail("ShopOnline", "Mã khôi phục #" + FindClient.Code, contentCustomer.ToString(), FindClient.Email);
+
+
+                    return RedirectToAction("UpdatePass", new { id = FindClient.IdKhachHang });
+
+                }
+
+            }
+            return View();
+        }
+
+
+
+        public ActionResult UpdatePass(int id)
+        {
+            var KhachHang = db.tb_KhachHang.Find(id);
+
+            return View(KhachHang);
+        }
+        public ActionResult Partail_UpdatePass(int id)
+        {
+            ViewBag.id = id;
+
+            return PartialView();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdatePass(ForgetPassClient req)
+        {
+            var code = new { Success = false, Code = -1, Url = "" };
+            if (ModelState.IsValid)
+            {
+                var checkClient = db.tb_KhachHang.FirstOrDefault(row => row.IdKhachHang == req.Id && row.Code == req.Code);
+                if (checkClient != null)
+                {
+                    checkClient.Password = MaHoaPass(req.Password);
+                    db.tb_KhachHang.Add(checkClient);
+
+                    db.Entry(checkClient).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                    code = new { Success = true, Code = 1, Url = "" };//Cập nhập thành công
+
+                }
+                else
+                {
+                    code = new { Success = false, Code = -2, Url = "" };//Lỗi mã code
+                }
+
+            }
+            return Json(code);
+        }
+
+
+        public ActionResult Profile()
+        {
+            if (Session["IdKhachHang"] != null)
+            {
+                int idKhach = (int)Session["IdKhachHang"];
+                var item = db.tb_KhachHang.Find(idKhach);
+                return View(item);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+        }
+
+
+        public ActionResult editProfile(int id)
+        {
+            if (Session["IdKhachHang"] != null)
+            {
+                int idKhach = (int)Session["IdKhachHang"];
+                var item = db.tb_KhachHang.Find(idKhach);
+                return View(item);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult editProfile(tb_KhachHang model) 
+        {
+            if (ModelState.IsValid) 
+            {
+                //db.tb_Products.Add(model);
+                db.Entry(model).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Profile");
+            }
+            return View(model); 
+        }
+
+
+
+
+        //#region
+        //public ActionResult upAvatar(int id) 
+        //{
+        // ViewBag.id=   
+        //}
+        //#endregion
+
+
+
 
 
 

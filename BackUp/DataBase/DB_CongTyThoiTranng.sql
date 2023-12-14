@@ -187,10 +187,9 @@ create  TABLE tb_KhachHang (
 	Birthday Date null ,
 	DiaChi nvarchar(max)null,
 	SoLanMua int, 
-	
+	Code char(10)
 )
 go
-
 
 
 
@@ -501,7 +500,7 @@ END;
 select * from tb_ProductCategory
 
 
-select * from tb_NhanVien
+select * from tb_KhachHang
 
 
 
@@ -514,7 +513,7 @@ select * from tb_OrderDetail
 select * from tb_Products
 
 
-select * from tb_KhoXuat
+select * from tb_Products
 select * from tb_Order
 
 select * from tb_OrderDetail

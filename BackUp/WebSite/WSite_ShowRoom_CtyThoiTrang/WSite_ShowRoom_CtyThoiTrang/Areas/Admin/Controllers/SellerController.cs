@@ -114,6 +114,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                         item.Price = (decimal)checkSanPham.PriceSale;
                     }
                     item.PriceTotal = item.SoLuong * item.Price;
+
                     //checkSanPham.Quantity = -soluong;
                     cart.AddToCart(item, soluong);
                     Session["Seller"] = cart;
@@ -197,6 +198,24 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         }
 
 
+        [HttpPost]
+        public ActionResult UpdateQuanTity(int id,int quantity) 
+        {
+            SellerCart cart = (SellerCart)Session["Seller"];
+            if (cart != null && cart.Items.Any())
+            {
+                cart.UpSoLuong(id, quantity);
+                return Json(new { Success = true });
+            }
+            return Json(new { Success = false });   
+        }
+
+
+
+
+
+
+
         public ActionResult CheckOut()
         {
             SellerCart cart = (SellerCart)Session["Seller"];
@@ -208,7 +227,6 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
 
 
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CheckOut(OrderViewModel req)
@@ -224,6 +242,29 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
 
                     if (req.Phone != null)
                     {
+                        
+                        foreach (var item in cart.Items)
+                        {
+                            var checkQuantityPro = db.tb_Products.Find(item.ProductId);
+                            if (checkQuantityPro != null)
+                            {
+                                if (checkQuantityPro.Quantity >= item.SoLuong)
+                                {
+                                    checkQuantityPro.Quantity -= item.SoLuong;
+
+
+
+                                    db.Entry(checkQuantityPro).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
+                                }
+                                else
+                                {
+                                    code = new { Success = false, Code = -7, Url = "" };//Số lượng sản phẩm hiện không đủ 
+
+                                }
+                            }
+                        }
+
                         tb_KhachHang khachHang = new tb_KhachHang();
                         khachHang.SDT = req.Phone.Trim();
                         khachHang.TenKhachHang = req.CustomerName.Trim();
@@ -273,11 +314,9 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             return Json(code);
 
         }
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CheckOutClient(SellerPay req)
+        public ActionResult CheckOutClient(SellerPay req ,tb_Products model )
         {
             var code = new { Success = false, Code = -1, Url = "" };
             var checkClient = db.tb_KhachHang.FirstOrDefault(row=>row.IdKhachHang== req.idKhachHang);
@@ -287,12 +326,36 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                 if (cart != null) 
                 {
 
+
+
+
+                    foreach (var item in cart.Items)
+                    {
+                        var checkQuantityPro = db.tb_Products.Find(item.ProductId);
+                        if (checkQuantityPro != null)
+                        {
+                            if (checkQuantityPro.Quantity >= item.SoLuong)
+                            {
+                                checkQuantityPro.Quantity -= item.SoLuong;
+
+                             
+
+                                db.Entry(checkQuantityPro).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                            else
+                            {
+                                code = new { Success = false, Code = -7, Url = "" };//Số lượng sản phẩm hiện không đủ 
+                              
+                            }
+                        }
+                    }
+
+
                     tb_Seller seller = new tb_Seller();
                     seller.CustomerName = checkClient.TenKhachHang;
                     seller.Phone = checkClient.SDT;
-                    //seller.Address = req.Address;
-                    //seller.Email = req.Email;
-                    /*  seller.Status = 1;*///chưa thanh toán / 2/đã thanh toán, 3/Hoàn thành, 4/hủy
+                 
                     cart.Items.ForEach(x => seller.tb_SellerDetail.Add(new tb_SellerDetail
                     {
                         ProductId = x.ProductId,

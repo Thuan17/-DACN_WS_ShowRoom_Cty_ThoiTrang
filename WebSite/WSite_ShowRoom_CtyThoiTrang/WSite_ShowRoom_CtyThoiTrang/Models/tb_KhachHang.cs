@@ -30,6 +30,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public Nullable<System.DateTime> Birthday { get; set; }
         public string DiaChi { get; set; }
         public Nullable<int> SoLanMua { get; set; }
+        public string Code { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Cart> tb_Cart { get; set; }

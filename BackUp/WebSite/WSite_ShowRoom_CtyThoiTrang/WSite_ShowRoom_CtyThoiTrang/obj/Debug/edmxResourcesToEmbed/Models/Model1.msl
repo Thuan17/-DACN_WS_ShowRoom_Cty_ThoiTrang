@@ -58,6 +58,7 @@
           <ScalarProperty Name="Birthday" ColumnName="Birthday" />
           <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
           <ScalarProperty Name="SoLanMua" ColumnName="SoLanMua" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

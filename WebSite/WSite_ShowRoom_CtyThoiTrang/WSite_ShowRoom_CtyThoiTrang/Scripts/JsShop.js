@@ -72,14 +72,20 @@
     });
 
 
+  
+
    
 
     $('.btn-dat-hang').on('click', function () {
         // Lấy danh sách ProductId từ các checkbox đã chọn
         var selectedProductIds = getSelectedProductIds();
-
-        // Gọi hàm thực hiện AJAX
-        sendAjaxRequest(selectedProductIds);
+        if (selectedProductIds != null) {
+            sendAjaxRequest(selectedProductIds);
+        }
+        else {
+            
+        }
+        
     });
 
 
@@ -322,24 +328,37 @@ function getSelectedProductIds() {
 
 //gui list vao dat hang
 function sendAjaxRequest(selectedProductIds) {
-    $.ajax({
-        url: '/TestCart/DatHang',
-        type: 'POST',
-        data: { productIds: selectedProductIds },
-        dataType: 'json',
-        success: function (result) {
-            // Xử lý kết quả từ server nếu cần
-            if (result.Success) {
-                console.log('Đặt hàng thành công');
-                window.location.href = '/testCart/CheckOut';
-            } else {
-                console.error('Lỗi khi đặt hàng. Lỗi:', result.msg, 'Mã lỗi:', result.code);
+   
+        $.ajax({
+            url: '/TestCart/DatHang',
+            type: 'POST',
+            data: { productIds: selectedProductIds },
+            dataType: 'json',
+            success: function (result) {
+                // Xử lý kết quả từ server nếu cần
+                if (result.Success) {
+                    console.log('Đặt hàng thành công');
+                    window.location.href = '/testCart/CheckOut';
+                } else {
+                    if (result.code == -2) {
+                        alert("Vui lòng chọn sản phẩm");
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Vui lòng chọn sản phẩm",
+
+                        });
+                    
+                    }
+                }
+            },
+            error: function (error) {
+                console.error('Lỗi khi gọi API:', error);
             }
-        },
-        error: function (error) {
-            console.error('Lỗi khi gọi API:', error);
-        }
-    });
+       });
+    
+   
+   
 }
 
 

@@ -54,6 +54,7 @@
     <Property Name="Birthday" Type="date" />
     <Property Name="DiaChi" Type="nvarchar(max)" />
     <Property Name="SoLanMua" Type="int" />
+    <Property Name="Code" Type="char" MaxLength="10" />
   </EntityType>
   <EntityType Name="tb_Kho">
     <Key>

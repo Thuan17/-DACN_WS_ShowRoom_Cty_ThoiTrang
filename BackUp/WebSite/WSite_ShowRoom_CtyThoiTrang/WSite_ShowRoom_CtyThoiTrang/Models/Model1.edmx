@@ -59,6 +59,7 @@
           <Property Name="Birthday" Type="date" />
           <Property Name="DiaChi" Type="nvarchar(max)" />
           <Property Name="SoLanMua" Type="int" />
+          <Property Name="Code" Type="char" MaxLength="10" />
         </EntityType>
         <EntityType Name="tb_Kho">
           <Key>
@@ -728,6 +729,7 @@
           <Property Name="Birthday" Type="DateTime" Precision="0" />
           <Property Name="DiaChi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SoLanMua" Type="Int32" />
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="tb_Cart" Relationship="Self.GioHangtoKhachHang" FromRole="tb_KhachHang" ToRole="tb_Cart" />
           <NavigationProperty Name="tb_Order" Relationship="Self.OrdertoKhachHang" FromRole="tb_KhachHang" ToRole="tb_Order" />
         </EntityType>
@@ -1435,6 +1437,7 @@
                 <ScalarProperty Name="Birthday" ColumnName="Birthday" />
                 <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
                 <ScalarProperty Name="SoLanMua" ColumnName="SoLanMua" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

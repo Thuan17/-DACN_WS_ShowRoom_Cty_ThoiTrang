@@ -136,7 +136,58 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             return View();
         }
 
-      
+        //public ActionResult DetailProduct(int id)
+        //{
+        //    var item = db.tb_ProductDetai.Find(id);
+        //    return View(item);
+        //}
+
+        public ActionResult AddProductDetail(int id)
+        {
+
+            var item = db.tb_Products.Find(id);
+          return View(item);
+        }
+        public ActionResult Partial_AddProductDetail(int id)
+        {
+            ViewBag.Id = id;
+           
+            return PartialView();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddProductDetail(TokenAddProductsDetail req)
+        {
+            var code = new { Success = false, Code = -1, Url = "" };
+            if (ModelState.IsValid) 
+            {
+                var checkProduct = db.tb_Products.Find(req.ProductId);
+                if (checkProduct != null) 
+                {
+                    tb_ProductDetai model = new tb_ProductDetai();  
+                    model .ProductId = req.ProductId;
+                    model.Quantity = req.Quantity;  
+                    model.Size = req.Size;
+
+
+
+                    db.tb_ProductDetai.Add(model);  
+                    db.SaveChanges();
+                    code = new { Success = true, Code = 1, Url = "" };//Thêm thành công 
+
+                }
+                else 
+                {
+                    code = new { Success = false, Code = -2, Url = "" };//Không tìm thấy mã sản phẩm gốc
+                }
+            }
+            return Json(code);  
+        }
+
+
+
+
 
         [HttpPost]
         public ActionResult Delete(int id)

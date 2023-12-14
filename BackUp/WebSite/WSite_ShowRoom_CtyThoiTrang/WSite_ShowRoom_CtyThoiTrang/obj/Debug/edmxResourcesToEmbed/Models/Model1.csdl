@@ -60,6 +60,7 @@
     <Property Name="Birthday" Type="DateTime" Precision="0" />
     <Property Name="DiaChi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="SoLanMua" Type="Int32" />
+    <Property Name="Code" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
     <NavigationProperty Name="tb_Cart" Relationship="Self.GioHangtoKhachHang" FromRole="tb_KhachHang" ToRole="tb_Cart" />
     <NavigationProperty Name="tb_Order" Relationship="Self.OrdertoKhachHang" FromRole="tb_KhachHang" ToRole="tb_Order" />
   </EntityType>
