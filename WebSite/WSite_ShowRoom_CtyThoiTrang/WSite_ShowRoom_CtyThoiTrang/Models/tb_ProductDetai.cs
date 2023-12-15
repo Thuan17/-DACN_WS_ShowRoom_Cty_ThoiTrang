@@ -14,6 +14,13 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
     
     public partial class tb_ProductDetai
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tb_ProductDetai()
+        {
+            this.tb_CartItem = new HashSet<tb_CartItem>();
+            this.tb_OrderDetail = new HashSet<tb_OrderDetail>();
+        }
+    
         public int ProductDetai { get; set; }
         public Nullable<int> Size { get; set; }
         public Nullable<int> Quantity { get; set; }
@@ -24,6 +31,10 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public string Alias { get; set; }
         public Nullable<int> ProductId { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_CartItem> tb_CartItem { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_OrderDetail> tb_OrderDetail { get; set; }
         public virtual tb_Products tb_Products { get; set; }
     }
 }

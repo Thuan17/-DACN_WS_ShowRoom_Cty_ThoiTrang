@@ -40,7 +40,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                         join od in db.tb_OrderDetail
                         on o.OrderId equals od.OrderId
                         join p in db.tb_Products
-                        on od.ProductId equals p.ProductId
+                        on od.ProductDetai equals p.ProductId
                         select new
                         {
                             CreatedDate = o.CreatedDate,

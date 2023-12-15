@@ -20,42 +20,57 @@
                                             <th>Hình ảnh</th>
                                             <th>Tên sản phẩm</th>
                                             <th>Loại sản phẩm</th>
+                                            <th>Size</th>
                                             <th>Số lượng</th>
                                             <th>Giá</th>
-                                            <th>Tổng Tiền</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach (var item in Model)
                                         {
                                             var i = 0;
-                                            //tongTien += item.PriceTotal;
-                                            <tr  id="trow_@item.ProductId">
+                                            //var tongTien += item.PriceTotal;
+                                            <tr id="trow_@item.ProductDetai">
 
-                                                <td><input type="checkbox" class="cbkItem" data-id="@item.ProductId" /></td>
+                                                <td><input type="checkbox" class="cbkItem" data-id="@item.ProductDetai" /></td>
                                                 <td>
                                                     @(i+1)
                                                 </td>
-                                                <td><img src="@item.tb_Products.Image" class="img-cart w-25"></td>
+                                                <td><img src="@item.tb_ProductDetai.tb_Products.Image" class="img-cart w-25"></td>
                                                 <td>
                                                     @*<a href="/chi-tiet/@item.Alias-p@(item.ProductId)">*@
-                                                    @item.tb_Products.Title
+                                                    @item.tb_ProductDetai.tb_Products.Title
                                                     @*</a>*@
                                                 </td>
                                                 <td>
-                                                    @item.tb_Products.tb_ProductCategory.Title
+                                                    @item.tb_ProductDetai.tb_Products.tb_ProductCategory.Title
+                                                </td>
+                                                <td>
+                                                    @if (item.tb_ProductDetai.Size == 1)
+                                                    {
+                                                        <span>Size:S</span>
+                                                    }
+                                                    else if (item.tb_ProductDetai.Size == 2)
+                                                    {
+                                                        <span>Size:M</span>
+                                                    }
+                                                    else if (item.tb_ProductDetai.Size == 3)
+                                                    {
+                                                        <span>Size:Xl</span>
+                                                    }
                                                 </td>
                                                 <td>
                                                     <form class="form-inline">
-                                                        <input type="number" class="form-control Quantity" id="@item.ProductId" value="@item.Quantity" />
+                                                        <input type="number" class="form-control Quantity" id="@item.ProductDetai" value="@item.Quantity" />
 
                                                     </form>
                                                 </td>
                                                 <td>@WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(item.Price) vnđ</td>
                                                 @*<td>@WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(item.) vnđ</td>*@
                                                 <td>
-                                                    <a href="#" data-id="@item.ProductId" class="btn btn-sm btn-primary btnUpdate"><i class="fa fa-pencil"></i></a>
-                                                    <a href="#" data-id="@item.ProductId" class="btn btn-sm btn-danger btnDelete123"><i class="far fa-trash-alt"></i></a>
+                                                    
+                                                    <a href="#" data-id="@item.tb_ProductDetai.ProductId" class="btn btn-sm btn-danger btnDelete123"><i class="far fa-trash-alt"></i></a>
                                                 </td>
                                             </tr>
                                             i++;

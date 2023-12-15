@@ -141,18 +141,45 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         //    var item = db.tb_ProductDetai.Find(id);
         //    return View(item);
         //}
+        
+
+
+
+
 
         public ActionResult AddProductDetail(int id)
         {
 
-            var item = db.tb_Products.Find(id);
-          return View(item);
+
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("DangNhap", "Account");
+            }
+            else
+            {
+                var item = db.tb_Products.Find(id);
+                return View(item);
+            }
+             
         }
+        
         public ActionResult Partial_AddProductDetail(int id)
         {
-            ViewBag.Id = id;
-           
-            return PartialView();
+
+
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("DangNhap", "Account");
+            }
+            else
+            {
+                ViewBag.Id = id;
+
+                return PartialView();
+            }
+
+             
+       
         }
 
         [HttpPost]
@@ -160,27 +187,49 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         public ActionResult AddProductDetail(TokenAddProductsDetail req)
         {
             var code = new { Success = false, Code = -1, Url = "" };
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
-                var checkProduct = db.tb_Products.Find(req.ProductId);
-                if (checkProduct != null) 
+                if (req.Size > 0)
                 {
-                    tb_ProductDetai model = new tb_ProductDetai();  
-                    model .ProductId = req.ProductId;
-                    model.Quantity = req.Quantity;  
-                    model.Size = req.Size;
+                    var checkProduct = db.tb_Products.Find(req.ProductId);
+                    if (checkProduct != null)
+                    {
+                        var checkProductDetail = db.tb_ProductDetai.FirstOrDefault(x=>x.ProductId==req.ProductId&&x.Size==req.Size);
+                        if (checkProductDetail == null)
+                        {
+                            tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
+                            tb_ProductDetai model = new tb_ProductDetai();
+                            model.ProductId = req.ProductId;
+                            model.Quantity = req.Quantity;
+                            model.Size = req.Size;
+
+                            model.CreatedBy = nvSession.TenNhanVien;
+                            model.CreateDate = DateTime.Now;
+
+                            db.tb_ProductDetai.Add(model);
+                            db.SaveChanges();
+                            code = new { Success = true, Code = 1, Url = "" };//Thêm thành công 
+                        }
+                        else
+                        {
+                            code = new { Success = false, Code = -3, Url = "" };//Không tìm thấy mã sản phẩm gốc
+                        }
 
 
-
-                    db.tb_ProductDetai.Add(model);  
-                    db.SaveChanges();
-                    code = new { Success = true, Code = 1, Url = "" };//Thêm thành công 
-
+                    }
+                    else
+                    {
+                        code = new { Success = false, Code = -2, Url = "" };//Không tìm thấy mã sản phẩm gốc
+                    }
                 }
                 else 
                 {
-                    code = new { Success = false, Code = -2, Url = "" };//Không tìm thấy mã sản phẩm gốc
+                    code = new { Success = false, Code = -4, Url = "" };//Không tìm thấy mã sản phẩm gốc
                 }
+               
+                 
+               
+              
             }
             return Json(code);  
         }

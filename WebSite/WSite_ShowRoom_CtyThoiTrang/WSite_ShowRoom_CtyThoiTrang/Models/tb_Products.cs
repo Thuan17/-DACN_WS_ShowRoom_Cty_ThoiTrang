@@ -17,8 +17,6 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tb_Products()
         {
-            this.tb_CartItem = new HashSet<tb_CartItem>();
-            this.tb_OrderDetail = new HashSet<tb_OrderDetail>();
             this.tb_ProductDetai = new HashSet<tb_ProductDetai>();
             this.tb_ProductImage = new HashSet<tb_ProductImage>();
             this.tb_SellerDetail = new HashSet<tb_SellerDetail>();
@@ -49,10 +47,6 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public int ViewCount { get; set; }
         public Nullable<decimal> OrigianlPrice { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_CartItem> tb_CartItem { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_OrderDetail> tb_OrderDetail { get; set; }
         public virtual tb_ProductCategory tb_ProductCategory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_ProductDetai> tb_ProductDetai { get; set; }

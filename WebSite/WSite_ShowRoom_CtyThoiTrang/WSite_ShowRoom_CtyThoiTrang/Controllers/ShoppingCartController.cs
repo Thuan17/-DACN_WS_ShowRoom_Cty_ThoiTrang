@@ -144,7 +144,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                     //order.Address = req.Address;
                     //order.Email = req.Email;
                     cart.Items.ForEach(row => order.tb_OrderDetail.Add(new tb_OrderDetail {
-                        ProductId = row.ProductId,
+                        ProductDetai = row.ProductId,
                         Quantity = row.SoLuong,
                         Price = row.Price,
                     }));

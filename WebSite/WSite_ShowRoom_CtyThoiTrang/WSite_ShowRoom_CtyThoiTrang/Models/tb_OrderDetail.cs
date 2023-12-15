@@ -16,13 +16,13 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
     {
         public int Id { get; set; }
         public int OrderId { get; set; }
-        public int ProductId { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public Nullable<int> CartItem { get; set; }
         public Nullable<bool> damagedProduct { get; set; }
+        public Nullable<int> ProductDetai { get; set; }
     
         public virtual tb_Order tb_Order { get; set; }
-        public virtual tb_Products tb_Products { get; set; }
+        public virtual tb_ProductDetai tb_ProductDetai { get; set; }
     }
 }

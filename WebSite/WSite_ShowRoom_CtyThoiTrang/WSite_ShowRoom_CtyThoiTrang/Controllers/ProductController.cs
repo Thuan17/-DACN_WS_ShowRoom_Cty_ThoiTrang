@@ -58,18 +58,26 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
         public ActionResult Detail(string alias, int id)
         {
             var item = db.tb_Products.Find(id);
-            if (item != null)
-            {
-                db.tb_Products.Attach(item);
-                item.ViewCount = item.ViewCount + 1;
-                db.Entry(item).Property(x => x.ViewCount).IsModified = true;
-                db.SaveChanges();
-            }
-            if (id <= 0)
-            {
-                ViewBag.Error = "Lỗi sản phẩm";
-                return View();
-            }
+           
+
+            return View(item);
+        }
+
+        //public ActionResult DetailBySize()
+
+
+        public ActionResult Partial_ProductDetail(int id) 
+        {
+            var item = db.tb_ProductDetai.Where(row => row.ProductId == id);
+            return PartialView(item.ToList());   
+
+        }
+
+
+        public ActionResult DetaiSize(int id) 
+        {
+            var item = db.tb_ProductDetai.Find(id);
+           
 
             return View(item);
         }

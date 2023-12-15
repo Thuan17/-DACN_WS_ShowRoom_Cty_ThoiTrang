@@ -19,9 +19,9 @@ create table tb_Products(
 	Description nvarchar(max),
 	Detail nvarchar(max),
 	Image nvarchar(250),
-	Price decimal(18,2),
-	PriceSale decimal(18,2),
-	Quantity int ,
+	--Price decimal(18,2),
+	--PriceSale decimal(18,2),
+	--Quantity int ,
 	IsHome bit ,
 	IsSale bit ,
 	IsFeature bit,
@@ -38,6 +38,23 @@ create table tb_Products(
 	ViewCount int  Not NUll,
 	OrigianlPrice decimal(18,2)
 
+)
+go
+
+
+
+create table tb_ProductDetai(
+	ProductDetai int IDENTITY(1,1) not null primary key ,
+	Size int ,
+	
+
+	Quantity int ,
+	CreatedBy nvarchar(250),
+	CreateDate DateTime ,
+	ModifiedDate datetime ,
+	Modifeby nvarchar(max),
+	Alias nvarchar(250)Null,
+	ProductId int,
 )
 go
 
@@ -291,6 +308,13 @@ go
 
 
 -----------------------------------------------------------------------FK 
+alter table tb_ProductDetai
+add constraint ProductDetaitoProducts
+foreign key (ProductId)
+references tb_Products
+
+
+
 
 
 alter table tb_SellerDetail

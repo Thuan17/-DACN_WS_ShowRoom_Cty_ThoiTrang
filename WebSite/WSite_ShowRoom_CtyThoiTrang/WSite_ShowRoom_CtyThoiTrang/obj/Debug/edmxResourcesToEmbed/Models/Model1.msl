@@ -30,6 +30,7 @@
           <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="PriceTotal" ColumnName="PriceTotal" />
           <ScalarProperty Name="TemPrice" ColumnName="TemPrice" />
+          <ScalarProperty Name="ProductDetai" ColumnName="ProductDetai" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -176,11 +177,11 @@
         <MappingFragment StoreEntitySet="tb_OrderDetail">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
           <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="CartItem" ColumnName="CartItem" />
           <ScalarProperty Name="damagedProduct" ColumnName="damagedProduct" />
+          <ScalarProperty Name="ProductDetai" ColumnName="ProductDetai" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

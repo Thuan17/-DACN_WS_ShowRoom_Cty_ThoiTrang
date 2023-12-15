@@ -8,6 +8,7 @@
                 <th><input type="checkbox" id="SelectAll" /></th>
                 <th class="text-center">STT</th>
                 <th class="border-gray-200 text-center" scope="col">Tên sản phẩm</th>
+                <th class="border-gray-200 text-center" scope="col">Size</th>
                 <th class="border-gray-200 text-center" scope="col">Giá</th>
                 <th class="border-gray-200 text-center" scope="col">Số lượng</th>
                 <th class="border-gray-200 text-center" scope="col">Tổng tiền</th>
@@ -21,7 +22,21 @@
                 <tr id="trow_@item.Id">
                     <td><input type="checkbox" class="cbkItem" data-id="@item.Id" /></td>
                     <td class="text-center">@i</td>
-                    <td class="text-center">@item.tb_Products.Title</td>
+                    <td class="text-center">@item.tb_ProductDetai.tb_Products.Title</td>
+                    <td class="text-center">
+                        @if (item.tb_ProductDetai.Size == 1)
+                        {
+                            <span>Size:S</span>
+                        }
+                        else if (item.tb_ProductDetai.Size == 2)
+                        {
+                            <span>Size:M</span>
+                        }
+                        else if (item.tb_ProductDetai.Size == 3)
+                        {
+                            <span>Size:Xl</span>
+                        }
+                    </td>
                     <td class="text-center">@WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(item.Price)</td>
                     <td class="text-center">@item.Quantity</td>
                     <td class="text-center">@WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(item.Price * item.Quantity, 0)</td>

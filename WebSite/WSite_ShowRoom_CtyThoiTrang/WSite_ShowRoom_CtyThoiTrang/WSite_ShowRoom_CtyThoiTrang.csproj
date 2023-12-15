@@ -3448,6 +3448,10 @@
     <Content Include="Areas\Admin\Views\Seller\Partial_Item_ThanhToan.cshtml" />
     <Content Include="Areas\Admin\Views\Seller\FindClient.cshtml" />
     <Content Include="Areas\Admin\Views\Seller\Partial_ThanhToanDaCoTaiKhoan.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\TestAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\Partail_TestAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\AddProductDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\Partial_AddProductDetail.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -3455,10 +3459,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admin\Views\Product\TestAdd.cshtml" />
-    <Content Include="Areas\Admin\Views\Product\Partail_TestAdd.cshtml" />
-    <Content Include="Areas\Admin\Views\Product\AddProductDetail.cshtml" />
-    <Content Include="Areas\Admin\Views\Product\Partial_AddProductDetail.cshtml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
@@ -3686,7 +3686,6 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <None Include="packages.config" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Product\Detail.cshtml" />
     <Content Include="Views\Error\_DetailError.cshtml" />
     <Content Include="Views\Menu\_MenuProductCategory.cshtml" />
     <Content Include="Views\Product\Phan_SanPhamId.cshtml" />
@@ -3759,6 +3758,9 @@
     <Content Include="Views\Account\Partail_UpdatePass.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\Account\editProfile.cshtml" />
+    <Content Include="Views\Product\Partial_ProductDetail.cshtml" />
+    <Content Include="Views\Product\DetaiSize.cshtml" />
+    <Content Include="Views\Product\Detail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

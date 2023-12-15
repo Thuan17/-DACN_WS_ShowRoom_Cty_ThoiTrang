@@ -16,7 +16,7 @@
         function validateForm() {
             var Size = document.getElementById('Size').value.trim();
             var Quantity = document.getElementById('Quantity').value.trim();
-            var code = document.getElementById('Code').value.trim();
+
             if (!Quantity || !Size) {
 
                 Swal.fire({
@@ -36,7 +36,7 @@
             if (res.Success) {
                 if (res.Code == 1) {
 
-                    location.reload(true);
+                    
                     const Toast = Swal.mixin({
                         toast: true,
                         position: "top-end",
@@ -54,8 +54,7 @@
                         title: "Thêm thành thành công"
                     });
 
-                } else {
-                }
+                } 
             }
             else {
                 if (res.Code == -2) {
@@ -67,7 +66,24 @@
                     });
 
                 }
-              
+                if (res.Code == -3) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Lỗi tìm...",
+                        text: "Sản phẩm đã có bảng size",
+                        /*footer: '<a href="#">Why do I have this issue?</a>'*/
+                    });
+
+                }
+                if (res.Code == -1) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Lỗi ...",
+                        text: "Vui lòng chọn size",
+                        /*footer: '<a href="#">Why do I have this issue?</a>'*/
+                    });
+
+                }
             }
 
         }
@@ -82,14 +98,14 @@
     @Html.AntiForgeryToken()
     <h5>Thông tin xuất đơn hàng</h5>
 
-    @if (ViewBag.Id != null)
+    if (ViewBag.Id != null)
     {
-        <input type="hidden" id="Id" name="Id" value="@ViewBag.Id" />
+        <input type="hidden" id="ProductId" name="ProductId" value="@ViewBag.Id" />
     }
 
 
-    <h4 class="Text-danger">@ViewBag.Error</h4>
- 
+
+
     <div class="form-group">
         <label>Số lượng </label>
         <input type="text" name="Quantity" id="Quantity" required class="form-control" autocomplete="off" placeholder="" />
@@ -98,7 +114,7 @@
 
 
 
-    <select class="form-control" id="drTypePayment" name="Size">
+    <select class="form-control" id="Size" name="Size">
         <option value="" selected>COD</option>
         <option value="1" id="chuyenkhoan">M</option>
         <option value="2" id="chuyenkhoan">L</option>

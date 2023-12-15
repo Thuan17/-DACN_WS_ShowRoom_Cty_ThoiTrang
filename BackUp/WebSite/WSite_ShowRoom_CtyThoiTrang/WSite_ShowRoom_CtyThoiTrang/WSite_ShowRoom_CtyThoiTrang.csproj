@@ -3455,6 +3455,10 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admin\Views\Product\TestAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\Partail_TestAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\AddProductDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\Partial_AddProductDetail.cshtml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
@@ -3640,6 +3644,9 @@
     <Compile Include="Models\tb_ProductCategory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tb_ProductDetai.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tb_ProductImage.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -3655,6 +3662,7 @@
     <Compile Include="Models\tb_SellerDetail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TokenAddProductsDetail.cs" />
     <Compile Include="Models\Token_CLient_Seller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

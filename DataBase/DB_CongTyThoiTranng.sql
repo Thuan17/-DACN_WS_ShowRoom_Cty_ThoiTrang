@@ -19,9 +19,9 @@ create table tb_Products(
 	Description nvarchar(max),
 	Detail nvarchar(max),
 	Image nvarchar(250),
-	--Price decimal(18,2),
-	--PriceSale decimal(18,2),
-	--Quantity int ,
+	Price decimal(18,2),
+	PriceSale decimal(18,2),
+	Quantity int ,
 	IsHome bit ,
 	IsSale bit ,
 	IsFeature bit,
@@ -115,13 +115,17 @@ go
 create table tb_OrderDetail (
 	Id int IDENTITY(1,1) NOT NULL primary key ,
 	OrderId int NOT NULL,
-	ProductId int NOT NULL,
 	Price decimal(18, 2) NOT NULL,
 	Quantity int NOT NULL,
 	CartItem int,
-	damagedProduct bit
+	damagedProduct bit,
+	ProductDetai int
 )
 go
+
+
+
+
 
 
 create table tb_Cart(
@@ -139,8 +143,10 @@ create table tb_CartItem (
 	Price decimal (18,0) Not null,
 	 PriceTotal decimal (18,0) Not null,
 	TemPrice decimal (18,0) not null,	
+	ProductDetai int,
 )
 go
+
 create  TABLE tb_NhanVien(
 	MSNV varchar(10)PRIMARY KEY Not null,
 	SDT VARCHAR(15)  Not null,
@@ -315,6 +321,10 @@ references tb_Products
 
 
 
+alter table tb_OrderDetail
+add constraint OrderDetailtoProductDetail
+foreign key (ProductDetai)
+references tb_ProductDetai
 
 
 alter table tb_SellerDetail
@@ -403,10 +413,6 @@ references tb_Order
 
 
 
-alter table tb_CartItem
-add constraint ChiTietGioHangtoSanPham
-foreign key (ProductId)
-references tb_Products 
 
 alter table tb_Products
 add constraint ProductstoProductCategory
@@ -437,6 +443,14 @@ foreign key (CartId)
 references tb_Cart 
  
 
+ alter table tb_CartItem
+add constraint CartItemtoProducdetai
+foreign key (ProductDetai)
+references tb_Productdetai
+ 
+
+
+
 alter table tb_PhanQuyen
 add constraint PQuyentoNhanVien
 foreign key (MSNV)
@@ -461,16 +475,14 @@ foreign key (IdKhachHang)
 references tb_KhachHang
 
 
-alter table tb_OrderDetail
-add constraint OrderDetailtoProducts
-foreign key (ProductId)
-references tb_Products
+
+
 
 
 
 -----------------------------------------------------------------------TRIGGER
 CREATE TRIGGER trg_UpdateIshome
-ON tb_Products -- Thay YourTableName bằng tên bảng thực tế của bạn
+ON tb_Products -- Thay YourTableName bằng tên bảng thực tế của bạn loi 
 AFTER UPDATE
 AS
 BEGIN
@@ -521,7 +533,7 @@ END;
 -----------------------------------------------------------------------DATA
 
 
-select * from tb_ProductCategory
+select * from tb_ProductDetai
 
 
 select * from tb_KhachHang

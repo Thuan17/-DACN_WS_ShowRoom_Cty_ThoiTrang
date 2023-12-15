@@ -28,7 +28,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public int Quantity { get; set; }
         public string CreatedBy { get; set; }
         public System.DateTime CreatedDate { get; set; }
-        public System.DateTime ModifiedDate { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string Modifiedby { get; set; }
         public int TypePayment { get; set; }
     
