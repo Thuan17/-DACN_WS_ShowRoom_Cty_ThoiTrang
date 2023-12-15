@@ -54,6 +54,21 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                 }
             }
         }
+        public ActionResult Detail(int id)
+        {
+            var item = db.tb_Products.Find(id);
+            return View(item);
+        }
+
+        public ActionResult Partail_ProductDetailForDetail(int id) 
+        {
+            var item = db.tb_ProductDetai.Where(x => x.ProductId == id);
+            return PartialView(item);
+        }
+
+
+
+
 
 
         //////////////////////////////////////////////////////////////Da Xong
@@ -78,7 +93,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                     ViewBag.ProductCategory = new SelectList(db.tb_ProductCategory.ToList(), "ProductCategoryId", "Title");
                     return View();
                 }
-             
+
             }
 
 
@@ -141,8 +156,12 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         //    var item = db.tb_ProductDetai.Find(id);
         //    return View(item);
         //}
-        
 
+        public ActionResult Partail_ProductDetail(int id) 
+        {
+            var item = db.tb_ProductDetai.Where(x => x.ProductId == id).ToList();
+            return PartialView(item);
+        }
 
 
 

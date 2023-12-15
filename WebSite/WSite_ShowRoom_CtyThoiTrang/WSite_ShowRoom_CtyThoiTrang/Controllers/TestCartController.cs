@@ -251,10 +251,11 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
       [HttpPost]
         public ActionResult AddtoCart(int id, int soluong)
         {
+            var code = new { Success = false, msg = "", code = -1 };
 
             if (Session["IdKhachHang"] != null)
             {
-                var code = new { Success = false, msg = "", code = -1 };
+                
                 int idKhach = (int)Session["IdKhachHang"];
 
                 var checkIdCart = db.tb_Cart.SingleOrDefault(x => x.IdKhachHang == idKhach);
@@ -302,7 +303,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                     }
 
                     code = new { Success = true, msg = "Thêm sản phẩm vào giỏ hàng thành công!", code = 1 };
-                    return Json(code);
+                
                 }
                 else
                 {
@@ -312,8 +313,9 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             }
             else
             {
-                return RedirectToAction("Login", "Account");
+               code=new { Success = false, msg = "", code = -2 };
             }
+            return Json(code);
 
         }
 

@@ -15,10 +15,10 @@
 
 
         if (!sdt || !tenKhachHang || !email || !password || !diaChi || !confirmPassword) {
-           
+
             Swal.fire({
                 icon: "error",
-                title: "Lỗi đăng ký...",
+                title: "Lỗi tìm...",
                 text: "Vui lòng điền đầy đủ thông tin.",
                 /*footer: '<a href="#">Why do I have this issue?</a>'*/
             });
@@ -28,7 +28,7 @@
 
 
         if (password !== confirmPassword) {
-           
+
             Swal.fire({
                 icon: "warning",
                 title: "Lỗi tìm...",
@@ -51,10 +51,10 @@
 
         if (passwordInput.type === "password") {
             passwordInput.type = "text";
-            
+            toggleButton.textContent = "Ẩn mật khẩu";
         } else {
             passwordInput.type = "password";
-            
+            toggleButton.textContent = "Hiện mật khẩu";
         }
     }
 
@@ -84,7 +84,7 @@
                         <div class="form-horizontal">
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="form-group">
-                                @Html.LabelFor(model => model.SDT, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <span>Số Điện Thoại *</span>
                                 <div class="col-md-10">
                                     @Html.EditorFor(model => model.SDT, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập Số Điện Thoại" } })
                                     @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-danger" })
@@ -92,7 +92,7 @@
                             </div>
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.TenKhachHang, "Họ Tên *", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <spanp>Họ Tên *</spanp>
                                 <div class="col-md-10">
                                     @Html.EditorFor(model => model.TenKhachHang, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập Tên Của Bạn " } })
                                     @Html.ValidationMessageFor(model => model.TenKhachHang, "", new { @class = "text-danger" })
@@ -100,7 +100,7 @@
                             </div>
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.Email, "Email *", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <span>Địa Chỉ Email *</span>
                                 <div class="col-md-10">
                                     @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập Email" } })
                                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -108,33 +108,27 @@
                             </div>
 
                             <div class="form-group">
-                                <span> Mật Khẩu</span>
+                                <span> Mật Khẩu *</span>
                                 <div class="col-md-10 d-flex">
                                     <input type="password" id="Password" name="Password" class="form-control" autocomplete="new-password" placeholder="Nhập Mật Khẩu" />
-                                    <button type="button" onclick="togglePasswordVisibility('Password', 'togglePasswordBtn')"><i class="far fa-eye"></i></button>
+                                    <button type="button" class="btn btn-success" onclick="togglePasswordVisibility('Password', 'togglePasswordBtn')"><i class="far fa-eye"></i></button>
                                     @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
-                                <span> Nhập lại mật khẩu </span>
+                                <span> Nhập lại mật khẩu * </span>
                                 <div class="col-md-10 d-flex">
                                     <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" autocomplete="new-password" placeholder="Nhập Lại Mật Khẩu" />
-                                    <button type="button"class="btn btn-success" onclick="togglePasswordVisibility('ConfirmPassword', 'toggleConfirmPasswordBtn')"><i class="far fa-eye"></i></button>
+                                    <button type="button" class="btn btn-success" onclick="togglePasswordVisibility('ConfirmPassword', 'toggleConfirmPasswordBtn')"><i class="far fa-eye"></i></button>
                                     @Html.ValidationMessage("ConfirmPassword", "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            @*<div class="form-group">
-                                @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
-                                                                    <div class="col-md-10">
-                                                                        @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
-                                                                        @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
-                                                                    </div>
-                                                                </div>*@
+
 
 
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.DiaChi, "Địa Chỉ *", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <span>Địa Chỉ *</span>
 
                                 <div class="col-md-10">
                                     @Html.EditorFor(model => model.DiaChi, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập Địa Chỉ Của Bạn" } })

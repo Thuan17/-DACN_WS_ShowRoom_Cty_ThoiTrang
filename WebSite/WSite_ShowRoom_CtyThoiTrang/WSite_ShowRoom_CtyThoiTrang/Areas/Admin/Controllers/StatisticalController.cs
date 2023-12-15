@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -14,20 +15,52 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         CONGTYTHOITRANGEntities db = new CONGTYTHOITRANGEntities();
         public ActionResult Index()
         {
-
-
-            tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
-            var item = db.tb_PhanQuyen.SingleOrDefault(row => row.MSNV == nvSession.MSNV && (row.IdChucNang == 1));
-            if (item == null)
+            if (Session["user"] == null)
             {
-                return RedirectToAction("NonRole", "HomePage");
+                return RedirectToAction("DangNhap", "Account");
             }
             else
             {
 
-                return View();
+                tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
+                var item = db.tb_PhanQuyen.SingleOrDefault(row => row.MSNV == nvSession.MSNV && (row.IdChucNang == 1));
+                if (item == null)
+                {
+                    return RedirectToAction("NonRole", "HomePage");
+                }
+                else
+                {
+
+                    return View();
+                }
+
             }
-            
+        }
+
+
+
+        public ActionResult Statistical() 
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("DangNhap", "Account");
+            }
+            else
+            {
+
+                tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
+                var item = db.tb_PhanQuyen.SingleOrDefault(row => row.MSNV == nvSession.MSNV && (row.IdChucNang == 1));
+                if (item == null)
+                {
+                    return RedirectToAction("NonRole", "HomePage");
+                }
+                else
+                {
+
+                    return View();
+                }
+
+            }
         }
 
 
@@ -36,30 +69,39 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult GetStatistical(string fromDate, string toDate)
         {
-            var query = from o in db.tb_Order
-                        join od in db.tb_OrderDetail
-                        on o.OrderId equals od.OrderId
-                        join p in db.tb_Products
-                        on od.ProductDetai equals p.ProductId
-                        select new
-                        {
-                            CreatedDate = o.CreatedDate,
-                            Quantity = od.Quantity,
-                            Price = od.Price,
-                            OriginalPrice = p.Price
-                        };
+
+
+            var loinhuan = from a in db.tb_Order
+                           join b in db.tb_OrderDetail
+                           on a.OrderId equals b.OrderId
+                           join c in db.tb_ProductDetai
+                           on b.ProductDetai equals c.ProductDetai
+                           join d in db.tb_Products
+                           on c.ProductId equals d.ProductId
+                           select new
+                           {
+                               CreatedDate = a.CreatedDate,
+                               Quantity = b.Quantity,
+                               Price = b.Price,
+                               OriginalPrice = d.OrigianlPrice
+
+                           };
+
+
+
+
             if (!string.IsNullOrEmpty(fromDate))
             {
                 DateTime startDate = DateTime.ParseExact(fromDate, "dd/MM/yyyy", null);
-                query = query.Where(x => x.CreatedDate >= startDate);
+                loinhuan = loinhuan.Where(x => x.CreatedDate >= startDate);
             }
             if (!string.IsNullOrEmpty(toDate))
             {
                 DateTime endDate = DateTime.ParseExact(toDate, "dd/MM/yyyy", null);
-                query = query.Where(x => x.CreatedDate < endDate);
+                loinhuan = loinhuan.Where(x => x.CreatedDate < endDate);
             }
 
-            var result = query.GroupBy(x => DbFunctions.TruncateTime(x.CreatedDate)).Select(x => new
+            var result = loinhuan.GroupBy(x => DbFunctions.TruncateTime(x.CreatedDate)).Select(x => new
             {
                 Date = x.Key.Value,
                 TotalBuy = x.Sum(y => y.Quantity * y.OriginalPrice),

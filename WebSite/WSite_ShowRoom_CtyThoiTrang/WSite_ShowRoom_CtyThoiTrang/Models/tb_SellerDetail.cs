@@ -16,11 +16,11 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
     {
         public int Id { get; set; }
         public int SellerId { get; set; }
-        public int ProductId { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
+        public int ProductDetai { get; set; }
     
-        public virtual tb_Products tb_Products { get; set; }
+        public virtual tb_ProductDetai tb_ProductDetai { get; set; }
         public virtual tb_Seller tb_Seller { get; set; }
     }
 }

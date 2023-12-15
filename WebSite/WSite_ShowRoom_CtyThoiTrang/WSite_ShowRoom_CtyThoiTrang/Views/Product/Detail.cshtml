@@ -116,24 +116,24 @@
                     @Html.Action("Partial_ProductDetail", "Product", new { id = Model.ProductId })
                     <div class="row">
                         <div class="col-sm-12 col-md-6 col-lg-6">
-                            <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
+                            @*<div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
                                 <span>Số lượng:</span>
                                 <div class="quantity_selector">
                                     <span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
                                     <span id="quantity_value">1</span>
                                     <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             @*<div class="red_button add_to_cart_button"><a href="/TestCart/AddtoCart"
                                 class="btnAddToCart123" data-id="@item.ProductId">Thêm vào giỏ hàng</a></div>*@
-                            <a href="/TestCart/AddtoCart" class="btnAddToCart123" data-id="@Model.ProductId">
+                            @*<a href="/TestCart/AddtoCart" class="btnAddToCart123" data-id="@Model.ProductId">
                                 Thêm vào giỏ  hàng
                             </a>
                             <button href="#" class="btnAddToCart123 btn btn-success btn-lg  " data-id="@Model.ProductId">
                                 <span>Thêm vào giỏ hàng<i class="fas fa-cart-plus"></i></span>
-                            </button>
+                            </button>*@
                         </div>
                     </div>
                     <hr />

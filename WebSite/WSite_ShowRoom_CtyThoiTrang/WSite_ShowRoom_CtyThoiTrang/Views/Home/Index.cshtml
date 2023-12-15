@@ -8,16 +8,16 @@
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
 <div class="row">
     <div style="display:inline-block" class="col-9">
-        <img id="img" onclick=" changeImage() " src="~/hinh/bia1.jpg" width="1500px%" height="auto" style="padding-top:9px;" />
+        <img id="img" onclick=" changeImage() " src="~/hinh/hinh1.jpg" width="1300p" height="auto" style="padding-top:9px;" />
     </div>
     <script class="" style="width:100%">
         var index = 1;
         changeImage = function () {
-            var imgs = ["/hinh/bia1.jpg", "/hinh/bia2.jpg", "/hinh/bia3.jpg", "/hinh/bia4.jpg", "/hinh/bia5.jpg",]
+            var imgs = ["/hinh/hinh1.jpg", "/hinh/hinh2.jpg",]
 
             document.getElementById('img').src = imgs[index];
             index++;
-            if (index == 5) {
+            if (index == 2) {
                 index = 0;
             }
 
@@ -52,6 +52,9 @@
                 <button class="btn btn-outline-primary my-1 my-sm-0 " style="width:200px" type="submit">Xem Thêm</button>
             </div>
         </div>
+    </div>
+    <div class="row ">
+        @Html.Action("Partial_ProSale", "Product")
     </div>
     <div class="row">
         <h2 class="text-center p-2"> Tin Tức Nổi Bật</h2>
@@ -93,9 +96,7 @@
 
         </div>
     </div>
-    <div class="row ">
-        @Html.Action("Partial_ProSale", "Product")
-    </div>
+
     @*<div class="row">
             <div class="col">
                 <img src="~/hinh/trangsuc.jpg" class="w-100" />

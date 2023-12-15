@@ -4,28 +4,27 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2b84b37057cd40cbabc9166008f8a9e0" Name="Diagram1">
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_Cart" Width="1.5" PointX="15.25" PointY="14.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_CartItem" Width="1.5" PointX="17.5" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_ChucNang" Width="1.5" PointX="0.75" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_KhachHang" Width="1.5" PointX="0.75" PointY="15.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_Kho" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_KhoNhap" Width="1.5" PointX="5.25" PointY="8.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_KhoReturn" Width="1.5" PointX="8.25" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_KhoXuat" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_NhanVien" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_NhanVienImage" Width="1.5" PointX="5.25" PointY="20.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_Order" Width="1.5" PointX="3" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_OrderDetail" Width="1.5" PointX="17.5" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_ProductCategory" Width="1.5" PointX="10.75" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_ProductDetai" Width="1.5" PointX="15.25" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_ProductImage" Width="1.5" PointX="15.25" PointY="9.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_Products" Width="1.5" PointX="13" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_PhanQuyen" Width="1.5" PointX="5.25" PointY="13.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_Return" Width="1.5" PointX="6" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_Seller" Width="1.5" PointX="13" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_SellerDetail" Width="1.5" PointX="15.25" PointY="2.25" IsExpanded="true" />
+      <Diagram DiagramId="553a3e11fda348dcacb74bfff4b8cdc5" Name="Diagram1">
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_Cart" Width="1.5" PointX="15.25" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_CartItem" Width="1.5" PointX="17.5" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_ChucNang" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_KhachHang" Width="1.5" PointX="0.75" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_Kho" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_KhoNhap" Width="1.5" PointX="5.25" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_KhoReturn" Width="1.5" PointX="8.25" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_KhoXuat" Width="1.5" PointX="5.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_NhanVien" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_NhanVienImage" Width="1.5" PointX="5.25" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_Order" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_OrderDetail" Width="1.5" PointX="17.5" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_ProductCategory" Width="1.5" PointX="10.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_ProductDetai" Width="1.5" PointX="15.25" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_ProductImage" Width="1.5" PointX="15.25" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_Products" Width="1.5" PointX="13" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_PhanQuyen" Width="1.5" PointX="5.25" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_Return" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_Seller" Width="1.5" PointX="18.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONGTYTHOITRANGModel.tb_SellerDetail" Width="1.5" PointX="20.5" PointY="5.625" IsExpanded="true" />
         <AssociationConnector Association="CONGTYTHOITRANGModel.ChiTietGioHangtoGioHang1" ManuallyRouted="false" />
         <AssociationConnector Association="CONGTYTHOITRANGModel.GioHangtoKhachHang" ManuallyRouted="false" />
         <AssociationConnector Association="CONGTYTHOITRANGModel.CartItemtoProducdetai" ManuallyRouted="false" />
@@ -47,8 +46,8 @@
         <AssociationConnector Association="CONGTYTHOITRANGModel.OrderDetailtoProductDetail" ManuallyRouted="false" />
         <AssociationConnector Association="CONGTYTHOITRANGModel.ProductstoProductCategory" ManuallyRouted="false" />
         <AssociationConnector Association="CONGTYTHOITRANGModel.ProductDetaitoProducts" ManuallyRouted="false" />
+        <AssociationConnector Association="CONGTYTHOITRANGModel.SellerDetailtoProductDetai" ManuallyRouted="false" />
         <AssociationConnector Association="CONGTYTHOITRANGModel.ProImgtoProduc" ManuallyRouted="false" />
-        <AssociationConnector Association="CONGTYTHOITRANGModel.SellerDetailtoProducts" ManuallyRouted="false" />
         <AssociationConnector Association="CONGTYTHOITRANGModel.SellerDetailtoSeller" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>

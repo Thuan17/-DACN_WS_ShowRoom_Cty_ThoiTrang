@@ -50,7 +50,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             else
             {
                 //var item = db.tb_Order.ToList();
-                var item = db.tb_Order.Where(row => row.Confirm==false).OrderByDescending(x => x.OrderId).ToList();
+                var item = db.tb_Order.Where(row => row.Confirm == false).OrderByDescending(x => x.OrderId).ToList();
                 if (page == null)
                 {
                     page = 1;
@@ -85,14 +85,14 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
 
 
 
-        public ActionResult CountUnConfimred() 
+        public ActionResult CountUnConfimred()
         {
             var item = db.tb_Order.Count(row => row.Confirm.HasValue);
             return PartialView(item);
         }
 
 
-        public ActionResult Detail(int id) 
+        public ActionResult Detail(int id)
         {
             if (Session["user"] == null)
             {
@@ -103,15 +103,31 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                 var item = db.tb_Order.Find(id);
                 return View(item);
             }
-            
+
         }
 
 
-        public ActionResult Detail_SanPham(int id) 
-        { 
-           var item =db.tb_OrderDetail.Where(row => row.OrderId==id).ToList();  
+        public ActionResult Detail_SanPham(int id)
+        {
+            var item = db.tb_OrderDetail.Where(row => row.OrderId == id).ToList();
             return PartialView(item);
         }
 
+
+
+        public ActionResult ordertoday() 
+        {
+            DateTime today = DateTime.Today;
+            DateTime startOfDay = today.Date;
+            DateTime endOfDay = today.Date.AddDays(1).AddTicks(-1);
+
+            var exportToDay = db.tb_KhoXuat.Where(row => row.OutDate >= startOfDay && row.OutDate <= endOfDay).OrderByDescending(x => x.IdKhoXuat).ToList();
+            if (exportToDay != null)
+            {
+                return View(exportToDay);
+            }
+            return View();
+
+        }
     }
 }

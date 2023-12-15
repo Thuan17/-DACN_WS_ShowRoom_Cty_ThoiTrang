@@ -65,7 +65,35 @@
                 if (rs.Success) {
                     /*  $('#checkout_items').html(rs.Count);*/
                     /*alert(rs.msg);*/
-                    ShowCoun123();
+                    if (rs.code == 1)
+                    {
+                        ShowCoun123();
+                        location.reload(true);
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.onmouseenter = Swal.stopTimer;
+                                toast.onmouseleave = Swal.resumeTimer;
+                            }
+                        });
+
+                        Toast.fire({
+                            icon: "success",
+                            title: "Thêm giỏ hàng thành công"
+                        });
+                    }
+                }
+                else
+                {
+                    if (rs.code == -2)
+                    {
+                       
+                        location.href = "/Account/Login";
+                    }
                 }
             }
         });
@@ -75,6 +103,7 @@
     $('body').on('click', '.btnDelete123', function (e) {
         e.preventDefault();
         var id = $(this).data('id');
+       
         var conf = confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?');
         if (conf == true) {
             $.ajax({

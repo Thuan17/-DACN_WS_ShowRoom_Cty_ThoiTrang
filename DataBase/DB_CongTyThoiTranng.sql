@@ -290,11 +290,13 @@ go
 create table tb_SellerDetail (
 	Id int IDENTITY(1,1) NOT NULL primary key ,
 	SellerId int NOT NULL,
-	ProductId int NOT NULL,
+	
 	Price decimal(18, 2) NOT NULL,
 	Quantity int NOT NULL,
+	ProductDetai int Not null 
 )
 go
+
 
 create table tb_Seller (
 	SellerId int IDENTITY(1,1) NOT NULL primary key,
@@ -334,9 +336,9 @@ references tb_Seller
 
 
 alter table tb_SellerDetail
-add constraint SellerDetailtoProducts
-foreign key (ProductId)
-references tb_Products
+add constraint SellerDetailtoProductDetai
+foreign key (ProductDetai)
+references tb_ProductDetai
 
 
 alter table tb_Return
@@ -536,7 +538,7 @@ END;
 select * from tb_ProductDetai
 
 
-select * from tb_KhachHang
+select * from tb_Products
 
 
 
@@ -544,8 +546,9 @@ select * from tb_Seller
 select * from tb_SellerDetail
 select * from tb_Return
 select * from tb_Order
-select * from tb_Products
 select * from tb_OrderDetail
+select * from tb_Products
+
 select * from tb_Products
 
 
@@ -562,7 +565,7 @@ select * from tb_Return
 select * from tb_KhoReturn
 select * from tb_OrderDetail
 select * from tb_KhoReturn
-select * from tb_KhoXuat
+select * from tb_KhachHang
 select * from tb_ChucNang
 
 

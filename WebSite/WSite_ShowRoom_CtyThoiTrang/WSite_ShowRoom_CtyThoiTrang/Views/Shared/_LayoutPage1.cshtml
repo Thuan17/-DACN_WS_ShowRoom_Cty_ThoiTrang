@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width" />
 
 
-
+    <!---SweetAlter-->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css" rel="stylesheet">
     @*@===============================================================@*@
 
     @*@CSS@*@
@@ -52,7 +53,10 @@
 <body>
 
     <style>
-        * {
+        .body-content {
+            margin-top: 15px;
+            padding-left: 15px;
+            padding-right: 15px;
         }
 
         #search-box {
@@ -96,7 +100,7 @@
                 <div id="khung">
                     <ul class="nav-main d-flex justify-content-center">
                         <li class="nav-1">
-                            <a style="color:black" href="/Home/Index"><h4> Shop</h4></a>
+                            <a style="color:black" href="/Home/Index"><h4> Trang Chủ</h4></a>
                         </li>
                         <li class="nav-1">
                             <a style="color:black" href="/Product/index"><h4>Sản Phẩm</h4></a>
@@ -105,9 +109,9 @@
                             </ul>
                         </li>
                         <li class="nav-1">
-                            <a href="#" style="color:black"><h4>Sale</h4></a>
+                            <a href="#" style="color:black"><h4>Khuyễn Mãi</h4></a>
                         </li>
-                        <li class="nav-1">
+                        @*<li class="nav-1">
                             <a style="color:black" href=" #"><h4>Trang Nội Dung</h4></a>
                             <ul class="nav-2">
                                 <li>
@@ -122,8 +126,8 @@
                                 <li>
                                     <a href="#">Học Sinh - Sinh Viên</a>
                                 </li>
-                            </ul>
-                        </li>
+                            </ul>*@
+                        @*</li>*@
                         <li class="nav-1">
                             <div class="input-group form-group form-inline">
 
@@ -134,10 +138,6 @@
                                     <button type="submit" class="btn btn-success rounded-end-pill" style="width: 70px" value="Search">  <i style="color:white" class="fa-solid fa-magnifying-glass"></i></button>
 
                                 }
-
-
-
-
                             </div>
                         </li>
                     </ul>
@@ -150,7 +150,12 @@
 
                             <ul>
                                 <li class="nav-1 ">
-                                    <a style="color: black; text-decoration: none" href="/account/profile"><span> @Session["TenKhachHang"]</span></a>
+                                    <a style="color: black; text-decoration: none" href=" #">
+                                        <i class="fas fa-user">
+                                            <span> @Session["TenKhachHang"]</span>
+                                        </i>
+
+                                    </a>
                                     <ul class="nav-2">
                                         <li>
                                             <a href="/User/index" style=" text-decoration: none">Đơn mua</a>
@@ -159,7 +164,7 @@
                                             <a href="/account/logout" style=" text-decoration: none">Đăng xuất</a>
                                         </li>
                                         <li>
-                                            <a href="# " style=" text-decoration: none">Hồ sơ</a>
+                                            <a href="# " style=" text-decoration: none">Tài Khoản</a>
                                         </li>
 
                                     </ul>
@@ -174,10 +179,10 @@
                         }
                     </div>
                     <div>
-                        <a href="/testCart/index" class=" " style="padding-left:15px">
-                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                            <span id="checkout_items" class="checkout_items text-black">0</span>
+                        <a href="/testCart/index" style="padding-left:15px">
+                            <i class="fa fa-shopping-cart" aria-hidden="true">  <span id="checkout_items" class="checkout_items text-red">0</span></i>
                         </a>
+
                     </div>
                     <div id="thunho" class="p-2">
                         <i class="fa-solid fa-bars"></i>
@@ -185,75 +190,63 @@
                 </div>
             </div>
         </div>
-        <style>
-            .body-content{
-                margin-top:15px;
-                padding-left:15px;
-                padding-right:15px;
-            }
-        </style>
-        <div class="container body-content">
-
-            <div class="">
-                @RenderBody()
-            </div>
+        <div class="container body-content p-3">
+            @RenderBody()
         </div>
-        <footer>
-            <div class="bg-light">
-                <div class="container p-1">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <h3><b>Về KTA MODE</b></h3>
-                            <p>
-                                Với các giải pháp công nghệ tốt nhất, Haravan là tất cả những gì bạn cần để xây dựng thương hiệu online, thành công trong bán lẻ và marketing đột phá.
-                            </p>
-                            <h4 class="fw-bold text-danger">
-                                <i class="fas fa-phone"> 1900.000.XXX</i>
-                            </h4>
-                            <p class="fst-italic">
-                                Từ Thứ hai đến thứ bày (7h30-21h00)
-                            </p>
-                            <p>
-                                <i class="fas fa-envelope">  hi@luxe-mode.abc</i>
-                            </p>
-                        </div>
 
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <h4> <b>ĐIỀU KHOẢN&amp;CHÍNH SÁCH</b></h4>
-                            <a class="nav-link mt-2" href="/DieuKhoanChinhSachHoTro/DieuKhoanDieuKien">- Điều khoản điều kiện</a>
-                            <a class="nav-link mt-2" href="/DieuKhoanChinhSachHoTro/ChinhSachGiaoHang">- Chính sách giao hàng</a>
-                            <a class="nav-link mt-2" href="/DieuKhoanChinhSachHoTro/ChinhSachThanhToan">- Chính sách thanh toán</a>
-                        </div>
-
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <h4><b>HỖ TRỢ KHÁCH HÀNG</b></h4>
-                            <a class="nav-link mt-2" href="#">- Sản phẩm khuyến mãi</a>
-                            <a class="nav-link mt-2" href="#">- Sản phẩm nổi bật</a>
-                            <a><img class="img-fluid w-50 h-auto" src="~/hinh/bocongthuong.png" /></a>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <h3><b>Kết nối với chung tôi</b></h3>
-                            <div class="d-flex justify-content-center ">
-                                <a class="m-2"> <i class="fab fa-facebook"></i></a>
-                                <a class="m-2">  <i class="fab fa-twitter-square"></i></a>
-                                <a class="m-2">   <i class="fab fa-instagram-square"></i></a>
-                                <a class="m-2">  <i class="fab fa-google-plus-g"></i></a>
-                                <a class="m-2">  <i class="fab fa-youtube"></i></a>
-                            </div>
-                        </div>
+    </div>
+    <footer>
+        <div class="bg-light">
+            <div class="container p-1">
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <h3><b>Về KTA MODE</b></h3>
+                        <p>
+                            Với các giải pháp công nghệ tốt nhất, Haravan là tất cả những gì bạn cần để xây dựng thương hiệu online, thành công trong bán lẻ và marketing đột phá.
+                        </p>
+                        <h4 class="fw-bold text-danger">
+                            <i class="fas fa-phone"> 1900.000.XXX</i>
+                        </h4>
+                        <p class="fst-italic">
+                            Từ Thứ hai đến thứ bày (7h30-21h00)
+                        </p>
+                        <p>
+                            <i class="fas fa-envelope">  hi@luxe-mode.abc</i>
+                        </p>
                     </div>
-                    <hr />
-                    <br>
-                    <div class="text-center">
-                        <h3 class="text-center  text-black">Về KTA MODE</h3>
-                        <p>Mỗi một người phụ nữ đều mang trong mình nét đẹp riêng & xứng đáng được ngưỡng mộ, được tôn vinh và được tự tin với chính con người mình. Phụ nữ luôn xứng đáng với những điều trọn vẹn nhất cho cuộc sống của mình: Hạnh phúc trọn vẹn, vẻ đẹp trọn vẹn và còn nhiều hơn thế. The Swan hơn cả một thương hiệu trang sức, mà còn là đại diện cho một phong cách sống của những giá trị hoàn mỹ xứng đáng nhất dành cho phụ nữ.</p>
-                        <p>"TRANG SỨC The Swan – CHO PHỤ NỮ LUÔN TRỌN VẸN"</p>
+
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <h4> <b>ĐIỀU KHOẢN&amp;CHÍNH SÁCH</b></h4>
+                        <a class="nav-link mt-2" href="/DieuKhoanChinhSachHoTro/DieuKhoanDieuKien">- Điều khoản điều kiện</a>
+                        <a class="nav-link mt-2" href="/DieuKhoanChinhSachHoTro/ChinhSachGiaoHang">- Chính sách giao hàng</a>
+                        <a class="nav-link mt-2" href="/DieuKhoanChinhSachHoTro/ChinhSachThanhToan">- Chính sách thanh toán</a>
+                    </div>
+
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <h4><b>HỖ TRỢ KHÁCH HÀNG</b></h4>
+                        <a class="nav-link mt-2" href="#">- Sản phẩm khuyến mãi</a>
+                        <a class="nav-link mt-2" href="#">- Sản phẩm nổi bật</a>
+                        <a><img class="img-fluid w-50 h-auto" src="~/hinh/bocongthuong.png" /></a>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <h3><b>Kết nối với chung tôi</b></h3>
+                        <div class="d-flex justify-content-center ">
+                            <a class="m-2"> <i class="fab fa-facebook"></i></a>
+                            <a class="m-2">  <i class="fab fa-twitter-square"></i></a>
+                            <a class="m-2">   <i class="fab fa-instagram-square"></i></a>
+                            <a class="m-2">  <i class="fab fa-google-plus-g"></i></a>
+                            <a class="m-2">  <i class="fab fa-youtube"></i></a>
+                        </div>
                     </div>
                 </div>
+                <hr />
+                <br>
+                <div class="text-center">
+                    <h4 class="text-center  text-black">Copyright © 2023 KTA Mode Studio. Powered by Sapo</h4>
+                </div>
             </div>
-        </footer>
-    </div>
-
+        </div>
+    </footer>
     <script>
         $(document).ready(function () {
             $('#thunho').click(function () {
