@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WSite_ShowRoom_CtyThoiTrang.Models;
+using static System.Data.Entity.Infrastructure.Design.Executor;
 
 namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
 {
@@ -39,7 +40,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
 
 
 
-        public ActionResult Statistical() 
+        public ActionResult Statistical()
         {
             if (Session["user"] == null)
             {
@@ -61,6 +62,115 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                 }
 
             }
+        }
+
+
+
+
+
+        public ActionResult Partial_StatisticalByMon()
+        {
+
+            return View();
+        }
+
+        public ActionResult StatisticalByYear()
+        {
+            return View();
+        }
+
+
+
+        [HttpGet]
+        public ActionResult GetYearlyStatistical(string fromDate, string toDate)
+        {
+            var loinhuan = from a in db.tb_Order
+                           join b in db.tb_OrderDetail on a.OrderId equals b.OrderId
+                           join c in db.tb_ProductDetai on b.ProductDetai equals c.ProductDetai
+                           join d in db.tb_Products on c.ProductId equals d.ProductId
+                           select new
+                           {
+                               CreatedDate = a.CreatedDate,
+                               Quantity = b.Quantity,
+                               Price = b.Price,
+                               OriginalPrice = d.OrigianlPrice
+                           };
+
+            if (!string.IsNullOrEmpty(fromDate))
+            {
+                DateTime startDate = DateTime.ParseExact(fromDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                loinhuan = loinhuan.Where(x => x.CreatedDate >= startDate);
+            }
+            if (!string.IsNullOrEmpty(toDate))
+            {
+                DateTime endDate = DateTime.ParseExact(toDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                loinhuan = loinhuan.Where(x => x.CreatedDate < endDate.AddDays(1)); // Include the end date
+            }
+
+            var result = loinhuan.GroupBy(x => x.CreatedDate.Year)
+                .Select(x => new
+                {
+                    Year = x.Key,
+                    TotalBuy = x.Sum(y => y.Quantity * y.OriginalPrice),
+                    TotalSell = x.Sum(y => y.Quantity * y.Price),
+                })
+                .Select(x => new
+                {
+                    Year = x.Year,
+                    DoanhThu = x.TotalSell,
+                    LoiNhuan = x.TotalSell - x.TotalBuy
+                });
+
+            return Json(new { Data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
+        [HttpGet]
+        public ActionResult GetStatisticalByMon(string fromDate, string toDate) 
+        {
+            var loinhuan = from a in db.tb_Order
+                           join b in db.tb_OrderDetail on a.OrderId equals b.OrderId
+                           join c in db.tb_ProductDetai on b.ProductDetai equals c.ProductDetai
+                           join d in db.tb_Products on c.ProductId equals d.ProductId
+                           select new
+                           {
+                               CreatedDate = a.CreatedDate,
+                               Quantity = b.Quantity,
+                               Price = b.Price,
+                               OriginalPrice = d.OrigianlPrice
+                           };
+
+            if (!string.IsNullOrEmpty(fromDate))
+            {
+                DateTime startDate = DateTime.ParseExact(fromDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                loinhuan = loinhuan.Where(x => x.CreatedDate >= startDate);
+            }
+            if (!string.IsNullOrEmpty(toDate))
+            {
+                DateTime endDate = DateTime.ParseExact(toDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                loinhuan = loinhuan.Where(x => x.CreatedDate < endDate.AddDays(1)); // Include the end date
+            }
+
+            var result = loinhuan.GroupBy(x => new { x.CreatedDate.Year, x.CreatedDate.Month })
+                .Select(x => new
+                {
+                    Year = x.Key.Year,
+                    Month = x.Key.Month,
+                    TotalBuy = x.Sum(y => y.Quantity * y.OriginalPrice),
+                    TotalSell = x.Sum(y => y.Quantity * y.Price),
+                })
+                .Select(x => new
+                {
+                    Year = x.Year,
+                    Month = x.Month,
+                    DoanhThu = x.TotalSell,
+                    LoiNhuan = x.TotalSell - x.TotalBuy
+                });
+
+            return Json(new { Data = result }, JsonRequestBehavior.AllowGet);
+
         }
 
 

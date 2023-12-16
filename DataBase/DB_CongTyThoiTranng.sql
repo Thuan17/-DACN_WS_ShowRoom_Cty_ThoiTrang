@@ -43,6 +43,8 @@ go
 
 
 
+
+
 create table tb_ProductDetai(
 	ProductDetai int IDENTITY(1,1) not null primary key ,
 	Size int ,
