@@ -91,7 +91,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                     {
                         int checkId = checkIdCart.CartId;
 
-                        var checkIdCartItem = db.tb_CartItem.FirstOrDefault(ci => ci.CartId == checkId && ci.ProductId == id);
+                        var checkIdCartItem = db.tb_CartItem.FirstOrDefault(ci => ci.CartId == checkId && ci.ProductDetai == id);
 
                         if (checkIdCartItem != null)
                         {
@@ -148,7 +148,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                         foreach (var cartItemId in CartItemId)
                         {
                             // Kiểm tra xem sản phẩm có tồn tại trong giỏ hàng không
-                            var checkIdCartItem = db.tb_CartItem.FirstOrDefault(ci => ci.CartId == checkId && ci.ProductId == cartItemId);
+                            var checkIdCartItem = db.tb_CartItem.FirstOrDefault(ci => ci.CartId == checkId && ci.ProductDetai == cartItemId);
                             if (checkIdCartItem != null)
                             {
                                 db.tb_CartItem.Remove(checkIdCartItem);
@@ -201,7 +201,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                         int checkId = checkIdCart.CartId;
 
                         // Kiểm tra xem sản phẩm có tồn tại trong giỏ hàng không
-                        var checkIdCartItem = db.tb_CartItem.FirstOrDefault(ci => ci.CartId == checkId && ci.ProductId == id);
+                        var checkIdCartItem = db.tb_CartItem.FirstOrDefault(ci => ci.CartId == checkId && ci.ProductDetai == id);
 
                         if (checkIdCartItem != null)
                         {
@@ -251,10 +251,11 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
       [HttpPost]
         public ActionResult AddtoCart(int id, int soluong)
         {
+            var code = new { Success = false, msg = "", code = -1 };
 
             if (Session["IdKhachHang"] != null)
             {
-                var code = new { Success = false, msg = "", code = -1 };
+                
                 int idKhach = (int)Session["IdKhachHang"];
 
                 var checkIdCart = db.tb_Cart.SingleOrDefault(x => x.IdKhachHang == idKhach);
@@ -265,7 +266,8 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                     int checkId = checkIdCart.CartId;
 
                     // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
-                    var checkIdCartItem = db.tb_CartItem.SingleOrDefault(ci => ci.CartId == checkId && ci.ProductId == id);
+                    var checkIdCartItem = db.tb_CartItem.SingleOrDefault(ci => ci.CartId == checkId && ci.ProductDetai == id);
+            
                     if (checkIdCartItem != null)
                     {
                         // Nếu sản phẩm đã tồn tại trong giỏ hàng, cập nhật số lượng và giá
@@ -278,17 +280,17 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
 
 
                         // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm mới
-                        var product = db.tb_Products.Find(id);
+                        var product = db.tb_ProductDetai.Find(id);
                         if (product != null)
                         {
                             tb_CartItem cartitem = new tb_CartItem
                             {
                                 CartId = checkId,
-                                ProductId = id,
+                                ProductDetai = product.ProductDetai,
                                 Quantity = soluong,
-                                Price = (decimal)product.Price,
-                                TemPrice = (decimal)product.Price * soluong,
-                                PriceTotal = (decimal)product.Price
+                                Price = (decimal)product.tb_Products.Price,
+                                TemPrice = (decimal)product.tb_Products.Price * soluong,
+                                PriceTotal = (decimal)product.tb_Products.Price
                             };
                             db.tb_CartItem.Add(cartitem);
                             db.SaveChanges();
@@ -301,7 +303,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                     }
 
                     code = new { Success = true, msg = "Thêm sản phẩm vào giỏ hàng thành công!", code = 1 };
-                    return Json(code);
+                
                 }
                 else
                 {
@@ -311,8 +313,9 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             }
             else
             {
-                return RedirectToAction("Login", "Account");
+               code=new { Success = false, msg = "", code = -2 };
             }
+            return Json(code);
 
         }
 
@@ -390,30 +393,30 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
 
                         foreach (var productId in productIds)
                         {
-                            var cartItem = db.tb_CartItem.SingleOrDefault(row => row.CartId == checkId && row.ProductId == productId);
+                            var cartItem = db.tb_CartItem.SingleOrDefault(row => row.CartId == checkId && row.ProductDetai == productId);
                             if (cartItem != null)
                             {
-                                var checkSanPham = db.tb_Products.FirstOrDefault(row => row.ProductId == productId);
+                                var checkSanPham = db.tb_ProductDetai.FirstOrDefault(row => row.ProductDetai == productId);
                                 if (checkSanPham != null)
                                 {
                                     ShoppingCartItem item = new ShoppingCartItem
                                     {
-                                        ProductId = cartItem.ProductId,
-                                        ProductName = cartItem.tb_Products.Title.ToString(),
-                                        CategoryName = cartItem.tb_Products.tb_ProductCategory.Title.ToString(),
-                                        Alias = cartItem.tb_Products.Alias.ToString(),
+                                        ProductId = (int)cartItem.ProductDetai,
+                                        ProductName = cartItem.tb_ProductDetai.tb_Products.Title.ToString(),
+                                        CategoryName = cartItem.tb_ProductDetai.tb_Products.tb_ProductCategory.Title.ToString(),
+                                        Alias = cartItem.tb_ProductDetai.tb_Products.Alias.ToString(),
                                         SoLuong = cartItem.Quantity,
                                     };
 
-                                    if (cartItem.tb_Products.tb_ProductImage.FirstOrDefault(x => x.IsDefault) != null)
+                                    if (cartItem.tb_ProductDetai.tb_Products.tb_ProductImage.FirstOrDefault(x => x.IsDefault) != null)
                                     {
-                                        item.ProductImg = cartItem.tb_Products.tb_ProductImage.FirstOrDefault(row => row.IsDefault).Image;
+                                        item.ProductImg = cartItem.tb_ProductDetai.tb_Products.tb_ProductImage.FirstOrDefault(row => row.IsDefault).Image;
                                     }
 
-                                    item.Price = (decimal)checkSanPham.Price;
-                                    if (checkSanPham.PriceSale > 0)
+                                    item.Price = (decimal)checkSanPham.tb_Products.Price;
+                                    if (checkSanPham.tb_Products.PriceSale > 0)
                                     {
-                                        item.Price = (decimal)checkSanPham.PriceSale;
+                                        item.Price = (decimal)checkSanPham.tb_Products.PriceSale;
                                     }
                                     item.PriceTotal = item.SoLuong * item.Price;
                                     cart.AddToCart(item, cartItem.Quantity);
@@ -565,9 +568,14 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                             order.Email = inforKhachHang.Email;
                             order.typeOrder = false;
 
+                            
+
+
+
                             cart.Items.ForEach(row => order.tb_OrderDetail.Add(new tb_OrderDetail
                             {
-                                ProductId = row.ProductId,
+                                
+                                ProductDetai = row.ProductId,
                                 Quantity = row.SoLuong,
                                 Price = row.Price,
                             }));
@@ -603,7 +611,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
 
                             foreach (var item in cart.Items)
                             {
-                                var checkQuantityPro = db.tb_Products.Find(item.ProductId);
+                                var checkQuantityPro = db.tb_ProductDetai.Find(item.ProductId);
                                 if (checkQuantityPro != null)
                                 {
                                     if (checkQuantityPro.Quantity >= item.SoLuong)
@@ -690,7 +698,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                 var checkCart = db.tb_Cart.FirstOrDefault(x => x.IdKhachHang == idKhach);
                 if (checkCart != null)
                 {
-                    var checkItemCart = db.tb_CartItem.SingleOrDefault(x => x.CartId == checkCart.CartId &&x.ProductId== productId);
+                    var checkItemCart = db.tb_CartItem.SingleOrDefault(x => x.CartId == checkCart.CartId && x.ProductDetai == productId);
                     if (checkItemCart != null)
                     {
                         db.tb_CartItem.Remove(checkItemCart);

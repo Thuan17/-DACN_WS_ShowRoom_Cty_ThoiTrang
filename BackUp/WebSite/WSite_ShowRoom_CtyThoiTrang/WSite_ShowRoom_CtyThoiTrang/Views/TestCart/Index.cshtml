@@ -6,34 +6,25 @@
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
 <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
-<div class="container product_section_container">
+<div class="container p-5">
     <div class="row">
-        <div class="col product_section clearfix">
+        <div class=" d-flex ">
 
-            <div class="breadcrumbs d-flex flex-row align-items-center">
+            <span><a href="/Home/Index">Home</a></span>/@ViewBag.Title
 
-                <span><a href="index.html">Home</a></span>/@ViewBag.Title
-            </div>
-            <div class="row">
-                <div class="col-md-12" id="load_data123">
-                    <div id="show_success"></div>
-                    @Html.Action("Partial_ItemCart", "TestCart")
-                </div>
-                @if (ViewBag.Cart != null)
-                {
-
-                    <div class="col-md-12">
-                        <div class="text-right">
-                            <a href="#" class="btn btn-danger btnDeleteAll">Xóa</a>
-                            @*<a href="/TestCart/CheckOut" class="btn btn-success">Thanh toán</a>*@
-                            <button type="button" class="btn btn-primary btn-dat-hang">Đặt Hàng</button>
-                        </div>
-                    </div>
-                }
-
-
-            </div>
         </div>
+        <div class="col-md-12" id="load_data123">
+            @Html.Action("Partial_ItemCart", "TestCart")
+        </div>
+        @if (ViewBag.Cart != null)
+        {
+            <div class="col-md-12">
+                <div class="text-right">
+                    <a href="#" class="btn btn-danger btnDeleteAll">Xóa</a>
+                    <button type="button" class="btn btn-primary btn-dat-hang">Đặt Hàng</button>
+                </div>
+            </div>
+        }
     </div>
 </div>
 

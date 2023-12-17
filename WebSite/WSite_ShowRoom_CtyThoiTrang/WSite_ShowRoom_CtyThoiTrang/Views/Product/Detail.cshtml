@@ -9,8 +9,8 @@
 
 @if (Model != null)
 {
-    <div class="container p-5">
-        <div class="product-content product-wrap clearfix product-deatil">
+    <div class="container ">
+        <div class="product-content product-wrap clearfix product-deatil ">
             <div class="row">
                 <div class="col-md-5 col-sm-12 col-xs-12">
                     @if (Model.tb_ProductImage != null && Model.tb_ProductImage.Any())
@@ -19,190 +19,104 @@
                             <div class="row">
                                 <div class="col-lg-3 thumbnails_col order-lg-1 order-2">
                                     <div class="single_product_thumbnails">
+                                        <ul>
+                                            @foreach (var item in Model.tb_ProductImage)
+                                            {
 
-                                        @foreach (var item in Model.tb_ProductImage)
-                                        {
 
+                                                <div id="myCarousel-2" class="carousel slide">
+                                                    <ul class="carousel-indicators">
+                                                        <li data-target="#myCarousel-2" data-slide-to="0" class="active"></li>
+                                                        <li data-target="#myCarousel-2" data-slide-to="1" class="active"></li>
+                                                        <li data-target="#myCarousel-2" data-slide-to="2" class="active"></li>
+                                                    </ul>
+                                                    <div class="@*carousel-inner*@">
+                                                        @if (item.IsDefault)
+                                                        {
+                                                            <div class="item active">
+                                                                <img src="@item.Image" class="img-responsive" width="300px" />
+                                                            </div>
 
-                                            <div id="myCarousel-2" class="carousel slide">
-                                                <ul class="carousel-indicators">
-                                                    <li data-target="#myCarousel-2" data-slide-to="0" class="active"></li>
-                                                    <li data-target="#myCarousel-2" data-slide-to="1" class="active"></li>
-                                                    <li data-target="#myCarousel-2" data-slide-to="2" class="active"></li>
-                                                </ul>
-                                                <div class="@*carousel-inner*@">
-                                                    @if (item.IsDefault)
-                                                    {
-                                                        <div class="item active">
-                                                            <img src="@item.Image" class="img-responsive" />
-                                                        </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="item">
+                                                                <img src="@item.Image" class="img-responsive" width="300px" />
+                                                            </div>
+                                                        }
 
-                                                    }
-                                                    else
-                                                    {
-                                                        <div class="item">
-                                                            <img src="@item.Image" class="img-responsive" />
-                                                        </div>
-                                                    }
+                                                    </div>
 
                                                 </div>
 
-                                            </div>
 
-
-                                        }
-
+                                            }
+                                        </ul>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     }
 
                 </div>
                 <div class="col-md-6 col-md-offset-1 col-sm-12 col-xs-12">
-                    <h2 class="name">
-                        @Model.Title
-                        <small>Product by <a href="javascript:void(0);">Adeline</a></small>
-                        <i class="fa fa-star fa-2x text-primary"></i>
-                        <i class="fa fa-star fa-2x text-primary"></i>
-                        <i class="fa fa-star fa-2x text-primary"></i>
-                        <i class="fa fa-star fa-2x text-primary"></i>
-                        <i class="fa fa-star fa-2x text-muted"></i>
-                        <span class="fa fa-2x">
-                            <h5>(109) Votes</h5>
-                        </span>
-
-                    </h2>
-                    <hr />
-                    <h3 class="price-container">
+                    <h2> @Model.Title</h2>
+                    <p>Tình Trạng : Còn Hàng</p>
+                    @Html.Action("Partial_ProductDetail", "Product", new { id = Model.ProductId })
+                    <h3 class="">
                         @if (Model.PriceSale > 0)
                         {
-                            <div class="certified">
-                                <ul class="d-flex p-sm-2">
-                                    <li>
-                                        <b class="text-decoration-line-through">
-                                            @WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(Model.Price)đ
-                                        </b>
-                                    </li>
-                                    <li class="p-2">
-                                        <h4>
-                                            <small class="text-danger">Sale</small>
-                                            <b class="text-danger">
-                                                @WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(Model.PriceSale)
-                                                đ
-                                            </b>
-                                        </h4>
+                            <ul class="p-sm-2">
+                                <li>
+                                    <small> Giá Gốc :</small>
+                                    <small class="text-decoration-line-through"> @WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(Model.Price) đ</small>
+                                </li>
+                                <li>
 
-                                    </li>
-                                </ul>
-                            </div>
+                                    <small class="text-danger">Giá Khuyến Mãi: @WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(Model.PriceSale) đ</small>
+
+
+                                </li>
+                            </ul>
                         }
                         else
                         {
-                            <div class="certified text-danger">
-                                <ul>
-                                    <li>
-                                        <b>
-                                            @WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(Model.Price)đ
-                                        </b>
-                                    </li>
-                                </ul>
-                            </div>
+                            <ul class="p-sm-2">
+                                <li>
+                                    <small>Giá Gốc : @WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(Model.Price)đ</small>
+                                </li>
+                            </ul>
                         }
                     </h3>
                     <hr />
-                    <p>to</p>
-                    @Html.Action("Partial_ProductDetail", "Product", new { id = Model.ProductId })
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6 col-lg-6">
-                            @*<div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
-                                <span>Số lượng:</span>
-                                <div class="quantity_selector">
-                                    <span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
-                                    <span id="quantity_value">1</span>
-                                    <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
-                                </div>
-                            </div>*@
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-6">
-                            @*<div class="red_button add_to_cart_button"><a href="/TestCart/AddtoCart"
-                                class="btnAddToCart123" data-id="@item.ProductId">Thêm vào giỏ hàng</a></div>*@
-                            @*<a href="/TestCart/AddtoCart" class="btnAddToCart123" data-id="@Model.ProductId">
-                                Thêm vào giỏ  hàng
-                            </a>
-                            <button href="#" class="btnAddToCart123 btn btn-success btn-lg  " data-id="@Model.ProductId">
-                                <span>Thêm vào giỏ hàng<i class="fas fa-cart-plus"></i></span>
-                            </button>*@
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="card">
-                        <div class="card-header p-2">
-                            <ul class="nav nav-pills">
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="#activity" data-toggle="tab">
-                                        Bảng size
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#timeline" data-toggle="tab">Bình luận</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="tab-pane" id="timeline">
-                            <div class="row">
-                                <div class="col-md-12 text-right">
+                    <table class="table table-bordered my-3">
+                        <tbody>
+                            <tr>
+                                <th class=""><i class="fas fa-money"></i>  Hàng chính hãng, chứng nhận an toàn</th>
+                            </tr>
+                            <tr>
+                                <th class=""><i class="fas fa-cart"></i>  Miễn phí giao hàng toàn quốc đơn trên 500K</th>
+                            </tr>
+                            <tr>
+                                <th class=""><i class="fas fa-phone"></i>  Liên hệ hỗ trợ: 1900.1208</th>
+                            </tr>
+                            <tr>
+                            </tr>
 
-                                </div>
-                                <div class="col-md-12">
-                                    <table class="table table-hover" id="tbAnhSanPham">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">#</th>
-                                                <th class="text-center">Ảnh</th>
-                                                <th class="text-center">Ảnh đại diện</th>
-                                                <th class="text-center">Thao tác</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tbHtml">
-                                        </tbody>
-                                    </table>
-                                    <input type="hidden" id="tCurrentId" value="0" />
-                                </div>
-                            </div>
-                        </div>
-
-
-
-
-                        <div class="row">
-                            <div class="col-sm-12 col-md-6 col-lg-6">
-                                <div class="btn-group pull-right">
-                                    <button class="btn btn-white btn-default">
-                                        <i class="fa fa-star"></i> Add to
-                                        wishlist
-                                    </button>
-                                    <button class="btn btn-white btn-default">
-                                        <i class="fa fa-envelope"></i> Liên Hệ
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                        </tbody>
+                    </table>
 
 
                 </div>
             </div>
         </div>
     </div>
-
 }
 else
 {
     <p> Không có bản ghi nào !</p>
 }
+
 
 
 <script src="../js/jquery-3.1.1.min.js" type=text/javascript></script>

@@ -3,6 +3,5 @@
     ViewBag.Title = "Thêm Size";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-<p>@Model.Title</p>
-<hr />
-@Html.Action("Partial_AddProductDetail", "Product", new { id = Model.ProductId })
+
+@Html.Action("Partial_AddProductDetail", "ProductDetail", new { id = Model.ProductId })

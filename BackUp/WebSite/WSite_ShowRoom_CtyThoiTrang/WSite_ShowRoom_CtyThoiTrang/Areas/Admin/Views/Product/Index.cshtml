@@ -61,7 +61,7 @@
                         <th>Hình ảnh</th>
                         <th>Tên sản phẩm</th>
                         <th>Danh mục</th>
-                        <th>Số lượng</th>
+                        <th>Thông số</th>
                         <th>Giá</th>
                         <th>Ngày tạo</th>
                         <th>Home</th>
@@ -91,8 +91,10 @@
                                 <td>@i</td>
                                 <td><img class="imgproduct" data-id="@item.ProductId" src="@strImg" width="50" /></td>
                                 <td>@item.Title</td>
-                                <td>@*@item.tb_ProductCategory.Title*@</td>
-                                <td>@item.Quantity</td>
+                                <td>@item.tb_ProductCategory.Title</td>
+                                <td>
+                                    @Html.Action("Partail_ProductDetail", "Product", new{id=item.ProductId})
+                                </td>
                                 <td>@WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(item.Price, 0)</td>
                                 <td>@*@item.CreateDate.ToString("dd/MM/yyyy")*@</td>
                                 <td class="text-center">
@@ -105,9 +107,10 @@
                                     <a href='#' data-id="@item.ProductId" class="btnActive">@Html.Raw(strCheck)</a>
                                 </td>
                                 <td>
-                                    <a href="/admin/Product/edit/@item.ProductId" class="btn btn-sm btn-primary">Sửa</a>
-                                    <a href="#" data-id="@item.ProductId" class="btn btn-sm btn-danger btnDelete">Xóa</a>
-                                    <a href="/admin/Product/ProductDetail/@item.ProductId" data-id="@item.ProductId" class="btn btn-sm btn-primary ">Xem</a>
+                                    @*<a href="/admin/Product/edit/@item.ProductId" class="btn btn-sm btn-primary">Sửa</a>
+                                    <a href="#" data-id="@item.ProductId" class="btn btn-sm btn-danger btnDelete">Xóa</a>*@
+                                   
+                                    <a href="/admin/Product/Detail/@item.ProductId" data-id="@item.ProductId" class="btn btn-sm btn-primary ">Xem</a>
                                 </td>
                             </tr>
                             i++;

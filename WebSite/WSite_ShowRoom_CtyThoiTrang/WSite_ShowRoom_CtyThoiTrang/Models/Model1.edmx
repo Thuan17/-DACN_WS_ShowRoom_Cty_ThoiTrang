@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="CONGTYTHOITRANGModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="tb_Cart">
           <Key>
             <PropertyRef Name="CartId" />
@@ -215,7 +225,6 @@
           <Property Name="Image" Type="nvarchar" MaxLength="250" />
           <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
           <Property Name="PriceSale" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Quantity" Type="int" />
           <Property Name="IsHome" Type="bit" />
           <Property Name="IsSale" Type="bit" />
           <Property Name="IsFeature" Type="bit" />
@@ -252,6 +261,16 @@
           <Property Name="OrderId" Type="int" />
           <Property Name="IdKhachHang" Type="int" />
           <Property Name="Satus" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tb_ReturnDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReturnId" Type="int" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="ProductDetai" Type="int" />
         </EntityType>
         <EntityType Name="tb_Seller">
           <Key>
@@ -519,6 +538,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="ReturnDetailtoProductDetail">
+          <End Role="tb_ProductDetai" Type="Self.tb_ProductDetai" Multiplicity="0..1" />
+          <End Role="tb_ReturnDetail" Type="Self.tb_ReturnDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_ProductDetai">
+              <PropertyRef Name="ProductDetai" />
+            </Principal>
+            <Dependent Role="tb_ReturnDetail">
+              <PropertyRef Name="ProductDetai" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ReturnDetailtoReturn">
+          <End Role="tb_Return" Type="Self.tb_Return" Multiplicity="1" />
+          <End Role="tb_ReturnDetail" Type="Self.tb_ReturnDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Return">
+              <PropertyRef Name="ReturnId" />
+            </Principal>
+            <Dependent Role="tb_ReturnDetail">
+              <PropertyRef Name="ReturnId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="ReturntoOrder">
           <End Role="tb_Order" Type="Self.tb_Order" Multiplicity="0..1" />
           <End Role="tb_Return" Type="Self.tb_Return" Multiplicity="*" />
@@ -568,6 +611,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="CONGTYTHOITRANGModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Cart" EntityType="Self.tb_Cart" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_CartItem" EntityType="Self.tb_CartItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_ChucNang" EntityType="Self.tb_ChucNang" Schema="dbo" store:Type="Tables" />
@@ -586,6 +630,7 @@
           <EntitySet Name="tb_Products" EntityType="Self.tb_Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_PhanQuyen" EntityType="Self.tb_PhanQuyen" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Return" EntityType="Self.tb_Return" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_ReturnDetail" EntityType="Self.tb_ReturnDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Seller" EntityType="Self.tb_Seller" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_SellerDetail" EntityType="Self.tb_SellerDetail" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="CartItemtoProducdetai" Association="Self.CartItemtoProducdetai">
@@ -668,6 +713,14 @@
             <End Role="tb_Products" EntitySet="tb_Products" />
             <End Role="tb_ProductImage" EntitySet="tb_ProductImage" />
           </AssociationSet>
+          <AssociationSet Name="ReturnDetailtoProductDetail" Association="Self.ReturnDetailtoProductDetail">
+            <End Role="tb_ProductDetai" EntitySet="tb_ProductDetai" />
+            <End Role="tb_ReturnDetail" EntitySet="tb_ReturnDetail" />
+          </AssociationSet>
+          <AssociationSet Name="ReturnDetailtoReturn" Association="Self.ReturnDetailtoReturn">
+            <End Role="tb_Return" EntitySet="tb_Return" />
+            <End Role="tb_ReturnDetail" EntitySet="tb_ReturnDetail" />
+          </AssociationSet>
           <AssociationSet Name="ReturntoOrder" Association="Self.ReturntoOrder">
             <End Role="tb_Order" EntitySet="tb_Order" />
             <End Role="tb_Return" EntitySet="tb_Return" />
@@ -690,6 +743,16 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CONGTYTHOITRANGModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <EntityType Name="tb_Cart">
           <Key>
             <PropertyRef Name="CartId" />
@@ -914,6 +977,7 @@
           <NavigationProperty Name="tb_CartItem" Relationship="Self.CartItemtoProducdetai" FromRole="tb_ProductDetai" ToRole="tb_CartItem" />
           <NavigationProperty Name="tb_OrderDetail" Relationship="Self.OrderDetailtoProductDetail" FromRole="tb_ProductDetai" ToRole="tb_OrderDetail" />
           <NavigationProperty Name="tb_Products" Relationship="Self.ProductDetaitoProducts" FromRole="tb_ProductDetai" ToRole="tb_Products" />
+          <NavigationProperty Name="tb_ReturnDetail" Relationship="Self.ReturnDetailtoProductDetail" FromRole="tb_ProductDetai" ToRole="tb_ReturnDetail" />
           <NavigationProperty Name="tb_SellerDetail" Relationship="Self.SellerDetailtoProductDetai" FromRole="tb_ProductDetai" ToRole="tb_SellerDetail" />
         </EntityType>
         <EntityType Name="tb_ProductImage">
@@ -938,7 +1002,6 @@
           <Property Name="Image" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PriceSale" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Quantity" Type="Int32" />
           <Property Name="IsHome" Type="Boolean" />
           <Property Name="IsSale" Type="Boolean" />
           <Property Name="IsFeature" Type="Boolean" />
@@ -982,6 +1045,19 @@
           <Property Name="Satus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tb_KhoReturn" Relationship="Self.KhoReturntoReturn" FromRole="tb_Return" ToRole="tb_KhoReturn" />
           <NavigationProperty Name="tb_Order" Relationship="Self.ReturntoOrder" FromRole="tb_Return" ToRole="tb_Order" />
+          <NavigationProperty Name="tb_ReturnDetail" Relationship="Self.ReturnDetailtoReturn" FromRole="tb_Return" ToRole="tb_ReturnDetail" />
+        </EntityType>
+        <EntityType Name="tb_ReturnDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReturnId" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="ProductDetai" Type="Int32" />
+          <NavigationProperty Name="tb_ProductDetai" Relationship="Self.ReturnDetailtoProductDetail" FromRole="tb_ReturnDetail" ToRole="tb_ProductDetai" />
+          <NavigationProperty Name="tb_Return" Relationship="Self.ReturnDetailtoReturn" FromRole="tb_ReturnDetail" ToRole="tb_Return" />
         </EntityType>
         <EntityType Name="tb_Seller">
           <Key>
@@ -1264,6 +1340,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="ReturnDetailtoProductDetail">
+          <End Role="tb_ProductDetai" Type="Self.tb_ProductDetai" Multiplicity="0..1" />
+          <End Role="tb_ReturnDetail" Type="Self.tb_ReturnDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_ProductDetai">
+              <PropertyRef Name="ProductDetai" />
+            </Principal>
+            <Dependent Role="tb_ReturnDetail">
+              <PropertyRef Name="ProductDetai" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="SellerDetailtoProductDetai">
           <End Role="tb_ProductDetai" Type="Self.tb_ProductDetai" Multiplicity="1" />
           <End Role="tb_SellerDetail" Type="Self.tb_SellerDetail" Multiplicity="*" />
@@ -1288,6 +1376,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="ReturnDetailtoReturn">
+          <End Role="tb_Return" Type="Self.tb_Return" Multiplicity="1" />
+          <End Role="tb_ReturnDetail" Type="Self.tb_ReturnDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Return">
+              <PropertyRef Name="ReturnId" />
+            </Principal>
+            <Dependent Role="tb_ReturnDetail">
+              <PropertyRef Name="ReturnId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="SellerDetailtoSeller">
           <End Role="tb_Seller" Type="Self.tb_Seller" Multiplicity="1" />
           <End Role="tb_SellerDetail" Type="Self.tb_SellerDetail" Multiplicity="*" />
@@ -1301,6 +1401,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="CONGTYTHOITRANGEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="tb_Cart" EntityType="Self.tb_Cart" />
           <EntitySet Name="tb_CartItem" EntityType="Self.tb_CartItem" />
           <EntitySet Name="tb_ChucNang" EntityType="Self.tb_ChucNang" />
@@ -1319,6 +1420,7 @@
           <EntitySet Name="tb_Products" EntityType="Self.tb_Products" />
           <EntitySet Name="tb_PhanQuyen" EntityType="Self.tb_PhanQuyen" />
           <EntitySet Name="tb_Return" EntityType="Self.tb_Return" />
+          <EntitySet Name="tb_ReturnDetail" EntityType="Self.tb_ReturnDetail" />
           <EntitySet Name="tb_Seller" EntityType="Self.tb_Seller" />
           <EntitySet Name="tb_SellerDetail" EntityType="Self.tb_SellerDetail" />
           <AssociationSet Name="ChiTietGioHangtoGioHang1" Association="Self.ChiTietGioHangtoGioHang1">
@@ -1405,6 +1507,10 @@
             <End Role="tb_Products" EntitySet="tb_Products" />
             <End Role="tb_ProductDetai" EntitySet="tb_ProductDetai" />
           </AssociationSet>
+          <AssociationSet Name="ReturnDetailtoProductDetail" Association="Self.ReturnDetailtoProductDetail">
+            <End Role="tb_ProductDetai" EntitySet="tb_ProductDetai" />
+            <End Role="tb_ReturnDetail" EntitySet="tb_ReturnDetail" />
+          </AssociationSet>
           <AssociationSet Name="SellerDetailtoProductDetai" Association="Self.SellerDetailtoProductDetai">
             <End Role="tb_ProductDetai" EntitySet="tb_ProductDetai" />
             <End Role="tb_SellerDetail" EntitySet="tb_SellerDetail" />
@@ -1412,6 +1518,10 @@
           <AssociationSet Name="ProImgtoProduc" Association="Self.ProImgtoProduc">
             <End Role="tb_Products" EntitySet="tb_Products" />
             <End Role="tb_ProductImage" EntitySet="tb_ProductImage" />
+          </AssociationSet>
+          <AssociationSet Name="ReturnDetailtoReturn" Association="Self.ReturnDetailtoReturn">
+            <End Role="tb_Return" EntitySet="tb_Return" />
+            <End Role="tb_ReturnDetail" EntitySet="tb_ReturnDetail" />
           </AssociationSet>
           <AssociationSet Name="SellerDetailtoSeller" Association="Self.SellerDetailtoSeller">
             <End Role="tb_Seller" EntitySet="tb_Seller" />
@@ -1424,6 +1534,17 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="CONGTYTHOITRANGModelStoreContainer" CdmEntityContainer="CONGTYTHOITRANGEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="CONGTYTHOITRANGModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tb_Cart">
             <EntityTypeMapping TypeName="CONGTYTHOITRANGModel.tb_Cart">
               <MappingFragment StoreEntitySet="tb_Cart">
@@ -1648,7 +1769,6 @@
                 <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="PriceSale" ColumnName="PriceSale" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="IsHome" ColumnName="IsHome" />
                 <ScalarProperty Name="IsSale" ColumnName="IsSale" />
                 <ScalarProperty Name="IsFeature" ColumnName="IsFeature" />
@@ -1686,6 +1806,17 @@
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="IdKhachHang" ColumnName="IdKhachHang" />
                 <ScalarProperty Name="Satus" ColumnName="Satus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_ReturnDetail">
+            <EntityTypeMapping TypeName="CONGTYTHOITRANGModel.tb_ReturnDetail">
+              <MappingFragment StoreEntitySet="tb_ReturnDetail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ReturnId" ColumnName="ReturnId" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductDetai" ColumnName="ProductDetai" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

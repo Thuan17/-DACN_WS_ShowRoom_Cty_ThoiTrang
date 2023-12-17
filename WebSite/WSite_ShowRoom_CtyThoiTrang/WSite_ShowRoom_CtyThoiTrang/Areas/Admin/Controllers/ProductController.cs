@@ -129,12 +129,14 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                         }
                     }
                 }
+                tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
                 model.CreateDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
                 model.IsHome = false;
                 model.IsFeature = false;
                 model.IsActive = false;
                 model.IsSale = false;
+                model.CreatedBy = nvSession.TenNhanVien; 
                 if (string.IsNullOrEmpty(model.Title))
                 {
                     model.SeoTitle = model.Title;
@@ -159,8 +161,19 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
 
         public ActionResult Partail_ProductDetail(int id) 
         {
+            ViewBag.Id = id;
             var item = db.tb_ProductDetai.Where(x => x.ProductId == id).ToList();
-            return PartialView(item);
+            if (item != null)
+            {
+                ViewBag.Title = "San Pham";
+                return PartialView(item);
+            }
+            else 
+            {
+                return PartialView();
+            }
+           
+           
         }
 
 

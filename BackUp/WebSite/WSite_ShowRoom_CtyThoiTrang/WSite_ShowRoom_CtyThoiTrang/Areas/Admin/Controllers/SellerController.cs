@@ -245,7 +245,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                         
                         foreach (var item in cart.Items)
                         {
-                            var checkQuantityPro = db.tb_Products.Find(item.ProductId);
+                            var checkQuantityPro = db.tb_ProductDetai.Find(item.ProductId);
                             if (checkQuantityPro != null)
                             {
                                 if (checkQuantityPro.Quantity >= item.SoLuong)
@@ -282,7 +282,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                         /*  seller.Status = 1;*///chưa thanh toán / 2/đã thanh toán, 3/Hoàn thành, 4/hủy
                         cart.Items.ForEach(x => seller.tb_SellerDetail.Add(new tb_SellerDetail
                         {
-                            ProductId = x.ProductId,
+                            ProductDetai = x.ProductId,
                             Quantity = x.SoLuong,
                             Price = x.Price,
 
@@ -331,7 +331,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
 
                     foreach (var item in cart.Items)
                     {
-                        var checkQuantityPro = db.tb_Products.Find(item.ProductId);
+                        var checkQuantityPro = db.tb_ProductDetai.Find(item.ProductId);
                         if (checkQuantityPro != null)
                         {
                             if (checkQuantityPro.Quantity >= item.SoLuong)
@@ -358,7 +358,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                  
                     cart.Items.ForEach(x => seller.tb_SellerDetail.Add(new tb_SellerDetail
                     {
-                        ProductId = x.ProductId,
+                        ProductDetai = x.ProductId,
                         Quantity = x.SoLuong,
                         Price = x.Price,
 
@@ -373,6 +373,23 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
 
                     db.tb_Seller.Add(seller);
                     db.SaveChanges();
+
+
+
+
+
+
+
+
+                    checkClient.SoLanMua += 1;
+
+
+
+                    db.Entry(checkClient).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+
+
+
 
 
                     cart.ClearCart();

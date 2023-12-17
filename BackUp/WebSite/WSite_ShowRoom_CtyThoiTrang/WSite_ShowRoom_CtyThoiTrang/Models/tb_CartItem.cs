@@ -21,8 +21,9 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public decimal Price { get; set; }
         public decimal PriceTotal { get; set; }
         public decimal TemPrice { get; set; }
+        public Nullable<int> ProductDetai { get; set; }
     
         public virtual tb_Cart tb_Cart { get; set; }
-        public virtual tb_Products tb_Products { get; set; }
+        public virtual tb_ProductDetai tb_ProductDetai { get; set; }
     }
 }

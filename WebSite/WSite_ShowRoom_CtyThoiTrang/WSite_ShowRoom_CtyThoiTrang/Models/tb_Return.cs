@@ -18,6 +18,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public tb_Return()
         {
             this.tb_KhoReturn = new HashSet<tb_KhoReturn>();
+            this.tb_ReturnDetail = new HashSet<tb_ReturnDetail>();
         }
     
         public int ReturnId { get; set; }
@@ -31,5 +32,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_KhoReturn> tb_KhoReturn { get; set; }
         public virtual tb_Order tb_Order { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_ReturnDetail> tb_ReturnDetail { get; set; }
     }
 }

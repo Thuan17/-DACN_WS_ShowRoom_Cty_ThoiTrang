@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
     ShowCoun123()
+    ShowCoun()
     $('body').on('click', '.btnAddToCart', function (e) {
         e.preventDefault();
         var id = $(this).data('id');
@@ -93,6 +94,26 @@
                     {
                        
                         location.href = "/Account/Login";
+
+
+                      
+                        //var soLuong = 1;
+                        //var tQuantity = $('#quantity_value').text();
+                        //if (tQuantity != '') {
+                        //    soLuong = parseInt(tQuantity);
+                        //}
+                        //alert(id);
+                        //$.ajax({
+                        //    url: '/shoppingcart/addtocart',
+                        //    type: 'POST',
+                        //    data: { id: id, soLuong: soLuong },
+                        //    success: function (rs) {
+                        //        if (rs.Success) {
+                        //            $('#checkout_items').html(rs.Count);
+                        //            alert(rs.msg);
+                        //        }
+                        //    }
+                        //});
                     }
                 }
             }
@@ -211,21 +232,7 @@
 
     });
 
-    //////////////////////////////Huy Don Hang
-    $('body').on('click', '.btnCancelOrder', function (e) {
-        
-        var IdOrder = $(this).closest('.IdOrder').attr('id');
-        var divId = getIdOrderDetail();
-        var id = $(this).data("id");
-     
-
-        /* Hiển thị ID trong console để kiểm tra*/
-        console.log('ID của div:', divId);
-
-       
-        sendIdOrderDetail(IdOrder,divId);
-
-    });
+   
 
 
     //////////////////////////////Tra Don Hang
@@ -289,10 +296,98 @@
         });
     });
 
+    //////////////////////////////Huy Don Hang
+    $('body').on('click', '.btnCancelOrder', function (e) {
+
+        var IdOrder = $(this).closest('.IdOrder').attr('id');
+        var divId = getIdOrderDetail();
+        var id = $(this).data("id");
 
 
-   
+        /* Hiển thị ID trong console để kiểm tra*/
+        console.log('ID của div:', divId);
+
+
+        sendIdOrderDetail(IdOrder, divId);
+
+    });
+
+
+
+
+    $('.btnListReturn').on('click', function () {
+        // Lấy danh sách ProductId từ các checkbox đã chọn
+        var id = $(this).data('id');
+        var selectedProductIds = getSelectedProductIdstestReturn();
+        if (selectedProductIds != null) {
+            sendAjaxRequesttestReturn(id,selectedProductIds);
+        }
+        else {
+
+        }
+
+    });
+
+
+
 });
+
+///////test trả hàng
+
+//////////////////////////////Dat hang
+//chi lay 1 checkbox
+function getSelectedProductIdstestReturn() {
+    var selectedProductIds = [];
+    $('.cbkItem:checked').each(function () {
+        selectedProductIds.push($(this).data('id'));
+    });
+    return selectedProductIds;
+}
+
+//gui list vao dat hang
+function sendAjaxRequesttestReturn(id,selectedProductIds) {
+
+    $.ajax({
+        url: '/User/DatHang',
+        type: 'POST',
+        data: {id:id, productIds: selectedProductIds },
+        dataType: 'json',
+        success: function (result) {
+            // Xử lý kết quả từ server nếu cần
+            if (result.Success) {
+                console.log('Đặt hàng thành công');
+            
+            } else {
+                if (result.code == -2) {
+                    alert("Vui lòng chọn sản phẩm");
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Vui lòng chọn sản phẩm",
+
+                    });
+
+                }
+            }
+        },
+        error: function (error) {
+            console.error('Lỗi khi gọi API:', error);
+        }
+    });
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
 
 //////////////////////////////Huy Don Hang
 
@@ -434,12 +529,21 @@ function ShowCoun123() {
         url: '/TestCart/ShowCount',
         type: 'GET',
         success: function (rs) {
-            $('#checkout_items').html(rs.Count);
+            $('#checkout_items_client').html(rs.Count);
         }
     });
 }
 
 
+function ShowCoun() {
+    $.ajax({
+        url: '/ShoppingCart/ShowCount',
+        type: 'GET',
+        success: function (rs) {
+            $('#checkout_items').html(rs.Count);
+        }
+    });
+}
 
 
 function LoadCart() {

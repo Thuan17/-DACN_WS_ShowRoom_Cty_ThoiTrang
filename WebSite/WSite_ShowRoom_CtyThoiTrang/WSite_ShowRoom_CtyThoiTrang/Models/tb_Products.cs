@@ -29,7 +29,6 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public string Image { get; set; }
         public Nullable<decimal> Price { get; set; }
         public Nullable<decimal> PriceSale { get; set; }
-        public Nullable<int> Quantity { get; set; }
         public Nullable<bool> IsHome { get; set; }
         public Nullable<bool> IsSale { get; set; }
         public Nullable<bool> IsFeature { get; set; }

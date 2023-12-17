@@ -21,7 +21,6 @@ create table tb_Products(
 	Image nvarchar(250),
 	Price decimal(18,2),
 	PriceSale decimal(18,2),
-	Quantity int ,
 	IsHome bit ,
 	IsSale bit ,
 	IsFeature bit,
@@ -286,6 +285,16 @@ go
 
 
 
+create table tb_ReturnDetail (
+	Id int IDENTITY(1,1) NOT NULL primary key ,
+	ReturnId int NOT NULL,
+	Price decimal(18, 2) NOT NULL,
+	Quantity int NOT NULL,
+	ProductDetai int
+)
+go
+
+
 
 
 
@@ -318,6 +327,18 @@ go
 
 
 -----------------------------------------------------------------------FK 
+alter table tb_ReturnDetail
+add constraint ReturnDetailtoReturn
+foreign key (ReturnId)
+references tb_Return
+
+
+
+alter table tb_ReturnDetail
+add constraint ReturnDetailtoProductDetail
+foreign key (ProductDetai)
+references tb_ProductDetai
+
 alter table tb_ProductDetai
 add constraint ProductDetaitoProducts
 foreign key (ProductId)
@@ -564,7 +585,7 @@ select * from tb_PhanQuyen
 select * from tb_ChucNang
 
 select * from tb_Return
-select * from tb_KhoReturn
+select * from tb_Order
 select * from tb_OrderDetail
 select * from tb_KhoReturn
 select * from tb_KhachHang

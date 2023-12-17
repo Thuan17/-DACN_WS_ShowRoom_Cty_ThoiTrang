@@ -1,15 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="CONGTYTHOITRANGModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-  </EntityType>
   <EntityType Name="tb_Cart">
     <Key>
       <PropertyRef Name="CartId" />
@@ -30,8 +20,9 @@
     <Property Name="Price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
     <Property Name="PriceTotal" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
     <Property Name="TemPrice" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="ProductDetai" Type="Int32" />
     <NavigationProperty Name="tb_Cart" Relationship="Self.ChiTietGioHangtoGioHang1" FromRole="tb_CartItem" ToRole="tb_Cart" />
-    <NavigationProperty Name="tb_Products" Relationship="Self.ChiTietGioHangtoSanPham" FromRole="tb_CartItem" ToRole="tb_Products" />
+    <NavigationProperty Name="tb_ProductDetai" Relationship="Self.CartItemtoProducdetai" FromRole="tb_CartItem" ToRole="tb_ProductDetai" />
   </EntityType>
   <EntityType Name="tb_ChucNang">
     <Key>
@@ -194,13 +185,13 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="OrderId" Type="Int32" Nullable="false" />
-    <Property Name="ProductId" Type="Int32" Nullable="false" />
     <Property Name="Price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="Quantity" Type="Int32" Nullable="false" />
     <Property Name="CartItem" Type="Int32" />
     <Property Name="damagedProduct" Type="Boolean" />
+    <Property Name="ProductDetai" Type="Int32" />
     <NavigationProperty Name="tb_Order" Relationship="Self.tb_OrderDetail_toi_tb_Order" FromRole="tb_OrderDetail" ToRole="tb_Order" />
-    <NavigationProperty Name="tb_Products" Relationship="Self.OrderDetailtoProducts" FromRole="tb_OrderDetail" ToRole="tb_Products" />
+    <NavigationProperty Name="tb_ProductDetai" Relationship="Self.OrderDetailtoProductDetail" FromRole="tb_OrderDetail" ToRole="tb_ProductDetai" />
   </EntityType>
   <EntityType Name="tb_ProductCategory">
     <Key>
@@ -230,7 +221,10 @@
     <Property Name="Modifeby" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Alias" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="ProductId" Type="Int32" />
+    <NavigationProperty Name="tb_CartItem" Relationship="Self.CartItemtoProducdetai" FromRole="tb_ProductDetai" ToRole="tb_CartItem" />
+    <NavigationProperty Name="tb_OrderDetail" Relationship="Self.OrderDetailtoProductDetail" FromRole="tb_ProductDetai" ToRole="tb_OrderDetail" />
     <NavigationProperty Name="tb_Products" Relationship="Self.ProductDetaitoProducts" FromRole="tb_ProductDetai" ToRole="tb_Products" />
+    <NavigationProperty Name="tb_SellerDetail" Relationship="Self.SellerDetailtoProductDetai" FromRole="tb_ProductDetai" ToRole="tb_SellerDetail" />
   </EntityType>
   <EntityType Name="tb_ProductImage">
     <Key>
@@ -270,12 +264,9 @@
     <Property Name="IsActive" Type="Boolean" />
     <Property Name="ViewCount" Type="Int32" Nullable="false" />
     <Property Name="OrigianlPrice" Type="Decimal" Precision="18" Scale="2" />
-    <NavigationProperty Name="tb_CartItem" Relationship="Self.ChiTietGioHangtoSanPham" FromRole="tb_Products" ToRole="tb_CartItem" />
-    <NavigationProperty Name="tb_OrderDetail" Relationship="Self.OrderDetailtoProducts" FromRole="tb_Products" ToRole="tb_OrderDetail" />
     <NavigationProperty Name="tb_ProductCategory" Relationship="Self.ProductstoProductCategory" FromRole="tb_Products" ToRole="tb_ProductCategory" />
     <NavigationProperty Name="tb_ProductDetai" Relationship="Self.ProductDetaitoProducts" FromRole="tb_Products" ToRole="tb_ProductDetai" />
     <NavigationProperty Name="tb_ProductImage" Relationship="Self.ProImgtoProduc" FromRole="tb_Products" ToRole="tb_ProductImage" />
-    <NavigationProperty Name="tb_SellerDetail" Relationship="Self.SellerDetailtoProducts" FromRole="tb_Products" ToRole="tb_SellerDetail" />
   </EntityType>
   <EntityType Name="tb_PhanQuyen">
     <Key>
@@ -314,7 +305,7 @@
     <Property Name="Quantity" Type="Int32" Nullable="false" />
     <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
     <Property Name="Modifiedby" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="TypePayment" Type="Int32" Nullable="false" />
     <NavigationProperty Name="tb_SellerDetail" Relationship="Self.SellerDetailtoSeller" FromRole="tb_Seller" ToRole="tb_SellerDetail" />
@@ -325,10 +316,10 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="SellerId" Type="Int32" Nullable="false" />
-    <Property Name="ProductId" Type="Int32" Nullable="false" />
     <Property Name="Price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="Quantity" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="tb_Products" Relationship="Self.SellerDetailtoProducts" FromRole="tb_SellerDetail" ToRole="tb_Products" />
+    <Property Name="ProductDetai" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tb_ProductDetai" Relationship="Self.SellerDetailtoProductDetai" FromRole="tb_SellerDetail" ToRole="tb_ProductDetai" />
     <NavigationProperty Name="tb_Seller" Relationship="Self.SellerDetailtoSeller" FromRole="tb_SellerDetail" ToRole="tb_Seller" />
   </EntityType>
   <Association Name="ChiTietGioHangtoGioHang1">
@@ -355,15 +346,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="ChiTietGioHangtoSanPham">
-    <End Role="tb_Products" Type="Self.tb_Products" Multiplicity="1" />
+  <Association Name="CartItemtoProducdetai">
+    <End Role="tb_ProductDetai" Type="Self.tb_ProductDetai" Multiplicity="0..1" />
     <End Role="tb_CartItem" Type="Self.tb_CartItem" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="tb_Products">
-        <PropertyRef Name="ProductId" />
+      <Principal Role="tb_ProductDetai">
+        <PropertyRef Name="ProductDetai" />
       </Principal>
       <Dependent Role="tb_CartItem">
-        <PropertyRef Name="ProductId" />
+        <PropertyRef Name="ProductDetai" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -547,15 +538,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="OrderDetailtoProducts">
-    <End Role="tb_Products" Type="Self.tb_Products" Multiplicity="1" />
+  <Association Name="OrderDetailtoProductDetail">
+    <End Role="tb_ProductDetai" Type="Self.tb_ProductDetai" Multiplicity="0..1" />
     <End Role="tb_OrderDetail" Type="Self.tb_OrderDetail" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="tb_Products">
-        <PropertyRef Name="ProductId" />
+      <Principal Role="tb_ProductDetai">
+        <PropertyRef Name="ProductDetai" />
       </Principal>
       <Dependent Role="tb_OrderDetail">
-        <PropertyRef Name="ProductId" />
+        <PropertyRef Name="ProductDetai" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -583,6 +574,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="SellerDetailtoProductDetai">
+    <End Role="tb_ProductDetai" Type="Self.tb_ProductDetai" Multiplicity="1" />
+    <End Role="tb_SellerDetail" Type="Self.tb_SellerDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_ProductDetai">
+        <PropertyRef Name="ProductDetai" />
+      </Principal>
+      <Dependent Role="tb_SellerDetail">
+        <PropertyRef Name="ProductDetai" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="ProImgtoProduc">
     <End Role="tb_Products" Type="Self.tb_Products" Multiplicity="1" />
     <End Role="tb_ProductImage" Type="Self.tb_ProductImage" Multiplicity="*" />
@@ -591,18 +594,6 @@
         <PropertyRef Name="ProductId" />
       </Principal>
       <Dependent Role="tb_ProductImage">
-        <PropertyRef Name="ProductId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="SellerDetailtoProducts">
-    <End Role="tb_Products" Type="Self.tb_Products" Multiplicity="1" />
-    <End Role="tb_SellerDetail" Type="Self.tb_SellerDetail" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Products">
-        <PropertyRef Name="ProductId" />
-      </Principal>
-      <Dependent Role="tb_SellerDetail">
         <PropertyRef Name="ProductId" />
       </Dependent>
     </ReferentialConstraint>
@@ -620,7 +611,6 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="CONGTYTHOITRANGEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
     <EntitySet Name="tb_Cart" EntityType="Self.tb_Cart" />
     <EntitySet Name="tb_CartItem" EntityType="Self.tb_CartItem" />
     <EntitySet Name="tb_ChucNang" EntityType="Self.tb_ChucNang" />
@@ -649,8 +639,8 @@
       <End Role="tb_KhachHang" EntitySet="tb_KhachHang" />
       <End Role="tb_Cart" EntitySet="tb_Cart" />
     </AssociationSet>
-    <AssociationSet Name="ChiTietGioHangtoSanPham" Association="Self.ChiTietGioHangtoSanPham">
-      <End Role="tb_Products" EntitySet="tb_Products" />
+    <AssociationSet Name="CartItemtoProducdetai" Association="Self.CartItemtoProducdetai">
+      <End Role="tb_ProductDetai" EntitySet="tb_ProductDetai" />
       <End Role="tb_CartItem" EntitySet="tb_CartItem" />
     </AssociationSet>
     <AssociationSet Name="NhanVientoChucVu" Association="Self.NhanVientoChucVu">
@@ -713,8 +703,8 @@
       <End Role="tb_Order" EntitySet="tb_Order" />
       <End Role="tb_OrderDetail" EntitySet="tb_OrderDetail" />
     </AssociationSet>
-    <AssociationSet Name="OrderDetailtoProducts" Association="Self.OrderDetailtoProducts">
-      <End Role="tb_Products" EntitySet="tb_Products" />
+    <AssociationSet Name="OrderDetailtoProductDetail" Association="Self.OrderDetailtoProductDetail">
+      <End Role="tb_ProductDetai" EntitySet="tb_ProductDetai" />
       <End Role="tb_OrderDetail" EntitySet="tb_OrderDetail" />
     </AssociationSet>
     <AssociationSet Name="ProductstoProductCategory" Association="Self.ProductstoProductCategory">
@@ -725,13 +715,13 @@
       <End Role="tb_Products" EntitySet="tb_Products" />
       <End Role="tb_ProductDetai" EntitySet="tb_ProductDetai" />
     </AssociationSet>
+    <AssociationSet Name="SellerDetailtoProductDetai" Association="Self.SellerDetailtoProductDetai">
+      <End Role="tb_ProductDetai" EntitySet="tb_ProductDetai" />
+      <End Role="tb_SellerDetail" EntitySet="tb_SellerDetail" />
+    </AssociationSet>
     <AssociationSet Name="ProImgtoProduc" Association="Self.ProImgtoProduc">
       <End Role="tb_Products" EntitySet="tb_Products" />
       <End Role="tb_ProductImage" EntitySet="tb_ProductImage" />
-    </AssociationSet>
-    <AssociationSet Name="SellerDetailtoProducts" Association="Self.SellerDetailtoProducts">
-      <End Role="tb_Products" EntitySet="tb_Products" />
-      <End Role="tb_SellerDetail" EntitySet="tb_SellerDetail" />
     </AssociationSet>
     <AssociationSet Name="SellerDetailtoSeller" Association="Self.SellerDetailtoSeller">
       <End Role="tb_Seller" EntitySet="tb_Seller" />

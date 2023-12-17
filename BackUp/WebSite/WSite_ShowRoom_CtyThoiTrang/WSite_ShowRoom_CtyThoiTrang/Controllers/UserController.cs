@@ -232,8 +232,8 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                             CanceltItem item = new CanceltItem
                             {
                                 OrderId = id,
-                                ProductId = OrderDetail.ProductId,
-                                ProductName = OrderDetail.tb_Products.Title,
+                                ProductId = (int)OrderDetail.ProductDetai,
+                                ProductName = OrderDetail.tb_ProductDetai.tb_Products.Title,
                                 SoLuong = OrderDetail.Quantity,
                                 Price = OrderDetail.Price,
                                 PriceTotal = checkIdOrder.TotalAmount,

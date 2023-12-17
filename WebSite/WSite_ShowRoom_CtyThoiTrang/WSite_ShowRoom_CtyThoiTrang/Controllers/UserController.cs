@@ -286,7 +286,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                             var itemOrder = db.tb_Order.FirstOrDefault(x => x.IdKhachHang == idKhach && x.OrderId == item.OrderId);
                             if (itemOrder != null)
                             {
-                                var checkQuantityPro = db.tb_Products.Find(item.ProductId);
+                                var checkQuantityPro = db.tb_ProductDetai.Find(item.ProductId);
                                 if (checkQuantityPro != null)
                                 {
                                     checkQuantityPro.Quantity += item.SoLuong;//capp nhap lai so luong cho ban porducts
@@ -381,6 +381,103 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             var item = db.tb_Order.Find(id);
             return View(item);
         }
+
+
+
+
+        //test
+
+
+
+
+        public ActionResult Partial_purchaselist()
+        {
+            ShoppingCart cart = (ShoppingCart)Session["Cart"];
+            if (cart != null && cart.Items.Any())
+            {
+                return PartialView(cart.Items);
+            }
+            return PartialView();
+        }
+
+
+
+        [HttpPost]
+        public ActionResult DatHang(int id ,List<int> productIds)
+        {
+            var code = new { Success = false, msg = "", code = -1 };
+            if (productIds != null && productIds.Any())
+            {
+                if (Session["IdKhachHang"] != null)
+                {
+                    int idKhach = (int)Session["IdKhachHang"];
+                    var checkIdOrder = db.tb_Order.SingleOrDefault(x => x.OrderId==id);
+                    if (checkIdOrder != null)
+                    {
+                        int checkId = checkIdOrder.OrderId;
+
+                        ShoppingCart cart = (ShoppingCart)Session[""];
+                        if (cart == null)
+                        {
+                            cart = new ShoppingCart();
+                        }
+
+                        foreach (var productId in productIds)
+                        {
+                            var cartItem = db.tb_OrderDetail.SingleOrDefault(row => row.OrderId == checkId && row.ProductDetai == productId);
+                            if (cartItem != null)
+                            {
+                                var checkSanPham = db.tb_ProductDetai.FirstOrDefault(row => row.ProductDetai == productId);
+                                if (checkSanPham != null)
+                                {
+                                    ShoppingCartItem item = new ShoppingCartItem
+                                    {
+                                        ProductId = (int)cartItem.ProductDetai,
+                                        ProductName = cartItem.tb_ProductDetai.tb_Products.Title.ToString(),
+                                        CategoryName = cartItem.tb_ProductDetai.tb_Products.tb_ProductCategory.Title.ToString(),
+                                        Alias = cartItem.tb_ProductDetai.tb_Products.Alias.ToString(),
+                                        SoLuong = cartItem.Quantity,
+                                    };
+
+                                    if (cartItem.tb_ProductDetai.tb_Products.tb_ProductImage.FirstOrDefault(x => x.IsDefault) != null)
+                                    {
+                                        item.ProductImg = cartItem.tb_ProductDetai.tb_Products.tb_ProductImage.FirstOrDefault(row => row.IsDefault).Image;
+                                    }
+
+                                    item.Price = (decimal)checkSanPham.tb_Products.Price;
+                                    if (checkSanPham.tb_Products.PriceSale > 0)
+                                    {
+                                        item.Price = (decimal)checkSanPham.tb_Products.PriceSale;
+                                    }
+                                    item.PriceTotal = item.SoLuong * item.Price;
+                                    cart.AddToCart(item, cartItem.Quantity);
+                                }
+                            }
+                        }
+
+                        Session["Cart"] = cart;
+                        code = new
+                        {
+                            Success = true,
+                            msg = "",
+                            code = 1
+                        };
+                        //return RedirectToAction("CheckOut");
+                    }
+                }
+            }
+            else
+            {
+                code = new { Success = false, msg = "", code = -2 };
+
+
+            }
+
+
+            return Json(code);
+        }
+
+
 
 
         [HttpPost]

@@ -379,7 +379,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                             var checkOrderDetaill = db.tb_OrderDetail.Find(item);
                             if (checkOrderDetaill != null) 
                             {
-                                var FindProduct = db.tb_Products.Find(checkOrderDetaill.ProductId);
+                                var FindProduct = db.tb_ProductDetai.Find(checkOrderDetaill.ProductDetai);
                                 if (FindProduct != null) 
                                 {
                                     checkReturn.Confirm = true;

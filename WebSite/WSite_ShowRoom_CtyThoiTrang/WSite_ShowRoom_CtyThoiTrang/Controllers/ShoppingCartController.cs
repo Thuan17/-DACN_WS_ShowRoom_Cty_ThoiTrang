@@ -25,7 +25,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
 
         public ActionResult Index()
         {
-            ShoppingCart cart = (ShoppingCart)Session["Cart"];
+            ShoppingCartNoneClient cart = (ShoppingCartNoneClient)Session["CartNoneClient"];
             if (cart != null && cart.Items.Any())
             {
                 ViewBag.Cart = cart;
@@ -35,7 +35,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
 
         public ActionResult ShowCount()
         {
-            ShoppingCart cart = (ShoppingCart)Session["Cart"];
+            ShoppingCartNoneClient cart = (ShoppingCartNoneClient)Session["CartNoneClient"];
             if (cart != null && cart.Items.Any())
             {
                 return Json(new { Count = cart.Items.Count }, JsonRequestBehavior.AllowGet);
@@ -46,7 +46,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
 
         public ActionResult Partial_ItemCart()
         {
-            ShoppingCart cart = (ShoppingCart)Session["Cart"];
+            ShoppingCartNoneClient cart = (ShoppingCartNoneClient)Session["CartNoneClient"];
             if (cart != null && cart.Items.Any())
             {
                 return PartialView(cart.Items);
@@ -62,7 +62,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
         public ActionResult P_ChiTietSanPhamMua()
         {
 
-            ShoppingCart cart = (ShoppingCart)Session["Cart"];
+            ShoppingCartNoneClient cart = (ShoppingCartNoneClient)Session["CartNoneClient"];
             if (cart != null && cart.Items.Any())
             {
                 return PartialView(cart.Items);
@@ -80,7 +80,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
         public ActionResult Delete(int id)
         {
             var code = new { Success = false, msg = "", code = -1, Count = 0 };
-            ShoppingCart cart = (ShoppingCart)Session["Cart"];
+            ShoppingCartNoneClient cart = (ShoppingCartNoneClient)Session["CartNoneClient"];
             if (cart != null)
             {
                 var checkSanPham = cart.Items.FirstOrDefault(row => row.ProductId == id);
@@ -97,7 +97,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
         [HttpPost]
         public ActionResult DeleteAll()
         {
-            ShoppingCart cart = (ShoppingCart)Session["Cart"];
+            ShoppingCartNoneClient cart = (ShoppingCartNoneClient)Session["CartNoneClient"];
 
             if (cart != null)
             {
@@ -117,7 +117,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
 
         public ActionResult CheckOut()
         {
-            ShoppingCart cart = (ShoppingCart)Session["Cart"];
+            ShoppingCartNoneClient cart = (ShoppingCartNoneClient)Session["CartNoneClient"];
             if (cart != null && cart.Items.Any())
             {
                 ViewBag.Cart = cart;
@@ -132,7 +132,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             var code = new { Success = false, Code = -1, Url="" };
             if (ModelState.IsValid)
             {
-                ShoppingCart cart = (ShoppingCart)Session["Cart"];
+                ShoppingCartNoneClient cart = (ShoppingCartNoneClient)Session["CartNoneClient"];
                 if (cart != null)
                 {
 
@@ -163,6 +163,31 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                     db.tb_Order.Add(order);
                     db.SaveChanges();
 
+                    //cap nhap lai so luong san pham
+
+                    foreach (var item in cart.Items)
+                    {
+                        var checkQuantityPro = db.tb_ProductDetai.Find(item.ProductId);
+                        if (checkQuantityPro != null)
+                        {
+                            if (checkQuantityPro.Quantity >= item.SoLuong)
+                            {
+                                checkQuantityPro.Quantity -= item.SoLuong;
+
+                               
+
+                                db.Entry(checkQuantityPro).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                            else
+                            {
+                                code = new { Success = false, Code = -3, Url = "" };//Số lượng hiện không đủ !
+                            }
+                        }
+                    }
+
+
+
                     //Gui Mail cho khach Hang
 
                     var SanPham = "";
@@ -184,11 +209,11 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                     contentCustomer = contentCustomer.Replace("{{NgayDat}}", DateTime.Now.ToString("dd/MM/yyyy"));
                     contentCustomer = contentCustomer.Replace("{{TenKhachHang}}", order.CustomerName);
                     contentCustomer = contentCustomer.Replace("{{Phone}}", order.Phone);
-                    //contentCustomer = contentCustomer.Replace("{{Email}}", req.Email);
+                    contentCustomer = contentCustomer.Replace("{{Email}}", req.Email);
                     contentCustomer = contentCustomer.Replace("{{DiaChiNhanHang}}", order.Address);
                     contentCustomer = contentCustomer.Replace("{{ThanhTien}}", WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(thanhTien, 0));
                     contentCustomer = contentCustomer.Replace("{{TongTien}}", WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(tongTien, 0));
-                    //WSite_ShowRoom_CtyThoiTrang.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, contentCustomer.ToString(), req.Email);
+                    WSite_ShowRoom_CtyThoiTrang.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, contentCustomer.ToString(), req.Email);
 
                     string contentAdmin = System.IO.File.ReadAllText(Server.MapPath("~/Content/templates/send1.html"));
                     contentAdmin = contentAdmin.Replace("{{MaDon}}", order.Code);
@@ -203,12 +228,15 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                     WSite_ShowRoom_CtyThoiTrang.Common.Common.SendMail("ShopOnline", "Đơn hàng mới #" + order.Code, contentAdmin.ToString(), ConfigurationManager.AppSettings["EmailAdmin"]);
                     cart.ClearCart(); 
                     var url = UrlPayment(req.TypePaymentVNPay, order.Code);
-                    code = new { Success = true, Code = 1, Url = "" };
-                    //return RedirectToAction("MuaThanhCong");
+                    code = new { Success = true, Code = 1, Url = "" };//Mua hàng thành công
+                    
                 }
             }
-
-            return PartialView();
+            else 
+            {
+                code = new { Success = false, Code = -2, Url = "" };//Không có sản phẩm trong giỏ hàng
+            }
+            return Json(code);
         }
 
 
@@ -219,49 +247,69 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
         public ActionResult AddToCart(int id, int soluong)
         {
             var code = new { Success = false, msg = "", code = -1, Count = 0 };
-            var checkSanPham = db.tb_Products.FirstOrDefault(row => row.ProductId == id);
-            if (checkSanPham != null)
+
+            var checkProducDetail =db.tb_ProductDetai.FirstOrDefault(x => x.ProductDetai == id);
+            if (checkProducDetail != null) 
             {
-
-                if (checkSanPham.Quantity >= soluong)
+                var checkSanPham = db.tb_Products.FirstOrDefault(row => row.ProductId == checkProducDetail.ProductId);
+                if (checkSanPham != null)
                 {
-                    ShoppingCart cart = (ShoppingCart)Session["Cart"];
-                    if (cart == null)
+
+                    if (checkProducDetail.Quantity >= soluong)
                     {
-                        cart = new ShoppingCart();
+                        ShoppingCartNoneClient cart = (ShoppingCartNoneClient)Session["CartNoneClient"];
+                        if (cart == null)
+                        {
+                            cart = new ShoppingCartNoneClient();
+                        }
+                        ShoppingCartNoneClientItem item = new ShoppingCartNoneClientItem
+                        {
+                            ProductId = checkProducDetail.ProductDetai,
+                            ProductName = checkSanPham.Title,
+                            CategoryName = checkSanPham.tb_ProductCategory.Title,
+                            Alias = checkSanPham.Alias,
+                            SoLuong = soluong,
+                        };
+                        if (checkSanPham.tb_ProductImage.FirstOrDefault(x => x.IsDefault) != null)
+                        {
+                            item.ProductImg = checkSanPham.tb_ProductImage.FirstOrDefault(x => x.IsDefault).Image;
+                        }
+                        item.Price = (decimal)checkSanPham.Price;
+                        if (checkSanPham.PriceSale > 0)
+                        {
+                            item.Price = (decimal)checkSanPham.PriceSale;
+                        }
+                        item.PriceTotal = item.SoLuong * item.Price;
+                        //checkSanPham.Quantity = -soluong;
+                        cart.AddToCart(item, soluong);
+                        Session["CartNoneClient"] = cart;
+                        code = new { Success = true, msg = "Thêm sản phẩm vào giở hàng thành công!", code = 1, Count = cart.Items.Count };
+
                     }
-                    ShoppingCartItem item = new ShoppingCartItem
+                    else
                     {
-                        ProductId = checkSanPham.ProductId,
-                        ProductName = checkSanPham.Title,
-                        CategoryName = checkSanPham.tb_ProductCategory.Title,
-                        Alias = checkSanPham.Alias,
-                        SoLuong = soluong,
-                    };
-                    if (checkSanPham.tb_ProductImage.FirstOrDefault(x => x.IsDefault) != null)
-                    {
-                        item.ProductImg = checkSanPham.tb_ProductImage.FirstOrDefault(x => x.IsDefault).Image;
+                        code = new { Success = false, msg = "Số lượng không đủ vui lòng liên hệ Shop!", code = -3, Count = 0 };
                     }
-                    item.Price = (decimal)checkSanPham.Price;
-                    if (checkSanPham.PriceSale > 0)
-                    {
-                        item.Price = (decimal)checkSanPham.PriceSale;
-                    }
-                    item.PriceTotal = item.SoLuong * item.Price;
-                    //checkSanPham.Quantity = -soluong;
-                    cart.AddToCart(item, soluong);
-                    Session["Cart"] = cart;
-                    code = new { Success = true, msg = "Thêm sản phẩm vào giở hàng thành công!", code = 1, Count = cart.Items.Count };
 
                 }
-                else
-                {
-                    code = new { Success = true, msg = "Số lượng không đủ vui lòng liên hệ Shop!", code = 1, Count = 0 };
-                }
-
             }
+            else
+            {
+                code = new { Success = false, msg = "Không tìm thấy sản phẩm", code = -2, Count = 0 };
+            }
+
+
+          
             return Json(code);
         }
+
+
+        public ActionResult CheckOutSuccess() 
+        {
+                return View();
+        
+        }
+
 
 
         #region

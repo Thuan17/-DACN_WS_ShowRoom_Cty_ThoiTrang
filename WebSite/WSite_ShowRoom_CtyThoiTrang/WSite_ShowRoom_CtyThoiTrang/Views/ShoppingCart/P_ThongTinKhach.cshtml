@@ -10,8 +10,21 @@
 }, new { @Id = "myForm" }))
 {
     <script>
-        function OnSuccessCO() {
-            location.href = "/ShoppingCart/CheckOutSuccess";
+        function OnSuccessCO(res) {
+            if (res.Success) {
+                if (res.Code == 1) {
+                    location.href = "/ShoppingCart/CheckOutSuccess";
+                }
+            }
+            else {
+                if (res.Code == -2) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Không có sản phẩm trong giỏ hàng",
+                    });
+                }
+            }
         }
         function OnFailure() {
 
