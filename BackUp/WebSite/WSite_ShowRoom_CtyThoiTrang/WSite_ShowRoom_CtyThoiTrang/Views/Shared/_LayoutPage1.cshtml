@@ -30,6 +30,8 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css" rel="stylesheet">
 
 
+   
+
 
     <!--<!--script_breadcrum-->
     <!--@@RenderSection("css", required: false)
@@ -171,17 +173,27 @@
                                 </li>
 
                             </ul>
+
+                            <div>
+                                <a href="/testCart/index" style="padding-left:15px">
+                                    <i class="fa fa-shopping-cart" aria-hidden="true">  <span id="checkout_items_client" class="checkout_items text-red">0</span></i>
+                                </a>
+
+                            </div>
                         }
                         else
                         {
 
                             <a class=" text-black" href="/Account/Login"><i class="fas fa-user"></i></a>
+                            @*<a href="/ShoppingCart/index" style="padding-left:15px">
+                                <i class="fa fa-shopping-cart" aria-hidden="true">  <span id="checkout_items" class="checkout_items text-red">0</span></i>
+                            </a>*@
                         }
                     </div>
                     <div>
-                        <a href="/testCart/index" style="padding-left:15px">
+                        @*<a href="/testCart/index" style="padding-left:15px">
                             <i class="fa fa-shopping-cart" aria-hidden="true">  <span id="checkout_items" class="checkout_items text-red">0</span></i>
-                        </a>
+                        </a>*@
 
                     </div>
                     <div id="thunho" class="p-2">

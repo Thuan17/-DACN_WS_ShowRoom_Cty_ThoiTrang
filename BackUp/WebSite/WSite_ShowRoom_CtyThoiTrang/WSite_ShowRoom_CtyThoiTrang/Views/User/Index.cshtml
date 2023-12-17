@@ -6,80 +6,82 @@
 
 
 
-
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
 
 
 
 <!-- Main content -->
 <section class="content">
 
-   
-   
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
-                    
-                        <div class="card">
-                            <div class="card-header p-2">
-                                <ul class="nav nav-pills">
-                                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Tất cả</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Chờ thanh toán</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Chờ giao hàng</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#Success" data-toggle="tab">Hoàn thành</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#Canceled" data-toggle="tab">Đã hủy</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#Return" data-toggle="tab">Đã hủy</a></li>
-                                </ul>
-                            </div><!-- /.card-header -->
-                            <div class="card-body">
-                                <div class="tab-content">
-                                    <div class="active tab-pane" id="activity">
-
-                                        Tất cả
-                                        @Html.Action("Partail_AllOrder", "User");
-                                    </div>
 
 
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
 
-                                    <div class="tab-pane" id="timeline">
-                                        <div class="row">
-                                            @Html.Action("WaitPayOrder", "User");
-                                        </div>
-                                    </div>
+                <div class="card">
+                    <div class="card-header p-2">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Tất cả</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Chờ thanh toán</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Chờ giao hàng</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#Success" data-toggle="tab">Hoàn thành</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#Canceled" data-toggle="tab">Đã hủy</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#Return" data-toggle="tab">Đã hủy</a></li>
+                        </ul>
+                    </div><!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="active tab-pane" id="activity">
 
-
-                                    <div class="tab-pane" id="settings">
-                                        Chờ giao hàng
-                                        @Html.Action("Partail_AllOrder", "User");
-                                    </div>
-
-                                    <div class="tab-pane" id="Success">
-                                        Hoàn thành
-                                    </div>
-                                    <div class="tab-pane" id="Canceled">
-                                        Đã hủy
-                                        @Html.Action("Partial_OrderCanceled", "User");
-
-                                    </div>
-                                    <div class="tab-pane" id="Return">
-                                       Trả hàng
-                                        @Html.Action("Partial_OrderReturn", "User");
-
-                                    </div>
-                                </div>
-                                
+                                Tất cả
+                                @Html.Action("Partail_AllOrder", "User");
                             </div>
-                          
-                        </div> 
-                    
+
+
+
+                            <div class="tab-pane" id="timeline">
+                                <div class="row">
+                                    @Html.Action("WaitPayOrder", "User");
+                                </div>
+                            </div>
+
+
+                            <div class="tab-pane" id="settings">
+                                Chờ giao hàng
+                                @Html.Action("Partail_ChoGiaoHang", "User");
+                            </div>
+
+                            <div class="tab-pane" id="Success">
+                                Hoàn thành
+                            </div>
+                            <div class="tab-pane" id="Canceled">
+                                Đã hủy
+                                @Html.Action("Partial_OrderCanceled", "User");
+
+                            </div>
+                            <div class="tab-pane" id="Return">
+                                Trả hàng
+                                @Html.Action("Partial_OrderReturn", "User");
+
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
+
             </div>
         </div>
-       
-      
+    </div>
+
+
 </section>
 
 
 @section  scripts{
+    <script src="~/Content/assets/js/categories_custom.js"></script>
     <script>
         $(document).ready(function () {
             $('.auto').autoNumeric('init');
@@ -129,19 +131,19 @@
             var str = "";
             if (currentId == 1) {
                 str += `<tr id="trow_${currentId}">
-                                <td class="text-center">${currentId}</td>
-                                <td class="text-center"><img width="80" src="${url}" /> <input type='hidden' value="${url}" name="Images"/></td>
-                                <td class="text-center"><input type="radio" name="rDefault" value="${currentId}" checked="checked"/></td>
-                                <td class="text-center"><a href="#" data-id="${currentId}" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a></td>
-                                </tr>`;
+                                        <td class="text-center">${currentId}</td>
+                                        <td class="text-center"><img width="80" src="${url}" /> <input type='hidden' value="${url}" name="Images"/></td>
+                                        <td class="text-center"><input type="radio" name="rDefault" value="${currentId}" checked="checked"/></td>
+                                        <td class="text-center"><a href="#" data-id="${currentId}" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a></td>
+                                        </tr>`;
             }
             else {
                 str += `<tr id="trow_${currentId}">
-                                <td class="text-center">${currentId}</td>
-                                <td class="text-center"><img width="80" src="${url}" /> <input type='hidden' value="${url}" name="Images"/></td>
-                                <td class="text-center"><input type="radio" name="rDefault" value="${currentId}"/></td>
-                                <td class="text-center"><a href="#" data-id="${currentId}" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a></td>
-                                </tr>`;
+                                        <td class="text-center">${currentId}</td>
+                                        <td class="text-center"><img width="80" src="${url}" /> <input type='hidden' value="${url}" name="Images"/></td>
+                                        <td class="text-center"><input type="radio" name="rDefault" value="${currentId}"/></td>
+                                        <td class="text-center"><a href="#" data-id="${currentId}" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a></td>
+                                        </tr>`;
             }
             $('#tbHtml').append(str);
             $('#tCurrentId').val(currentId);

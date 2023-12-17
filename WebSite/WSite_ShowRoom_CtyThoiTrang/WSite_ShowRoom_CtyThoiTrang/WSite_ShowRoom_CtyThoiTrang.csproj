@@ -3472,6 +3472,7 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <Content Include="Areas\Admin\Views\Seller\Partail_ProducDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\Statistical\StatisticalTopProductsOnDay.cshtml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
@@ -3780,6 +3781,10 @@
     <Content Include="Views\Product\DetaiSize.cshtml" />
     <Content Include="Views\Product\Detail.cshtml" />
     <Content Include="Views\ShoppingCart\CheckOutSuccess.cshtml" />
+    <Content Include="Views\Product\Partial_ProductDetailLayOut.cshtml" />
+    <Content Include="Views\Product\Partial_ImgByProduct.cshtml" />
+    <Content Include="Views\Product\Partail_Detail.cshtml" />
+    <Content Include="Views\User\Partail_ChoGiaoHang.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

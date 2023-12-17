@@ -1,24 +1,24 @@
 ﻿@model WSite_ShowRoom_CtyThoiTrang.Models.tb_KhachHang
 
-    @if (Model != null)
-    {
+@if (Model != null)
+{
 
-        <h3 class="text-danger"><i class="fas fa-location-arrow"></i> Địa Chỉ Nhận Hàng </h3>
-        <b>Tên người nhận : @Model.TenKhachHang </b>
-        <br />
-        <b> Số điện thoại: @Model.SDT</b>
-        <br />
-        if (Model.DiaChi != null)
-        {
-            <p>@Model.DiaChi</p>
-        }
-        else
-        {
-            <span class="text-danger">
-                Bạn chưa có địa chỉ nhận hàng ! Vui lòng cập nhật <a href="">tại đây</a>
-            </span>
-        }
-        @*<div class="form-group">
+    <h3 class="text-danger text-center"><i class="fas fa-location-arrow"></i> Địa Chỉ Nhận Hàng </h3>
+    <b>Tên người nhận : </b> @Model.TenKhachHang
+    <br />
+    <b> Số điện thoại: </b>@Model.SDT
+    <br />
+    if (Model.DiaChi != null)
+    {
+        <b>Địa Chỉ :</b> @Model.DiaChi
+    }
+    else
+    {
+        <span class="text-danger">
+            Bạn chưa có địa chỉ nhận hàng ! Vui lòng cập nhật <a href="">tại đây</a>
+        </span>
+    }
+    @*<div class="form-group">
             <label>Hình thức thanh toán</label>
             <select class="form-control" id="drTypePayment"  name="TypePayment">
                 <option value="1" selected>COD</option>
@@ -39,11 +39,11 @@
         <div class="form-group" id="load_send"></div>
         <div class="form-group">
             <button type="submit" class="btn btn-block btn-success btn-checkout" id="btnCheckOut">Đặt hàng111111</button>
-            
+
         </div>*@
 
 
-    }
+}
 
 
 

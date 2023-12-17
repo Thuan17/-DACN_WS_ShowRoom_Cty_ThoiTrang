@@ -79,7 +79,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             return View();
         }
 
-
+        //thong ke theo năm
 
         [HttpGet]
         public ActionResult GetYearlyStatistical(string fromDate, string toDate)
@@ -125,15 +125,16 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         }
 
 
-
+        // thong ke theo thang
 
         [HttpGet]
-        public ActionResult GetStatisticalByMon(string fromDate, string toDate) 
+        public ActionResult GetStatisticalByMon(string fromDate, string toDate)
         {
             var loinhuan = from a in db.tb_Order
                            join b in db.tb_OrderDetail on a.OrderId equals b.OrderId
                            join c in db.tb_ProductDetai on b.ProductDetai equals c.ProductDetai
                            join d in db.tb_Products on c.ProductId equals d.ProductId
+                           where (a.typeOrder == false)
                            select new
                            {
                                CreatedDate = a.CreatedDate,
@@ -150,7 +151,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             if (!string.IsNullOrEmpty(toDate))
             {
                 DateTime endDate = DateTime.ParseExact(toDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                loinhuan = loinhuan.Where(x => x.CreatedDate < endDate.AddDays(1)); // Include the end date
+                loinhuan = loinhuan.Where(x => x.CreatedDate < endDate.AddDays(1));
             }
 
             var result = loinhuan.GroupBy(x => new { x.CreatedDate.Year, x.CreatedDate.Month })
@@ -174,7 +175,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         }
 
 
-
+        //thong ke theo ngay
 
         [HttpGet]
         public ActionResult GetStatistical(string fromDate, string toDate)
@@ -188,6 +189,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                            on b.ProductDetai equals c.ProductDetai
                            join d in db.tb_Products
                            on c.ProductId equals d.ProductId
+                           where(a.typeOrder==false)
                            select new
                            {
                                CreatedDate = a.CreatedDate,
@@ -224,5 +226,53 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             });
             return Json(new { Data = result }, JsonRequestBehavior.AllowGet);
         }
+
+
+        //thong ke theo san pham ban nhieu nhat trong ngay
+        public ActionResult StatisticalTopProductsOnDay() 
+        {
+            return View();  
+        }
+
+
+        [HttpGet]
+        public ActionResult GetTopProductsSoldToday()
+        {
+            DateTime today = DateTime.Now.Date; 
+            var topProducts = db.tb_Order
+                .Where(x => DbFunctions.TruncateTime(x.CreatedDate) == today && x.typeOrder == false)
+                .Join(db.tb_OrderDetail, o => o.OrderId, od => od.OrderId, (o, od) => od)
+                .Join(db.tb_ProductDetai, od => od.ProductDetai, pd => pd.ProductDetai, (od, pd) => new
+                {
+                    ProductId = pd.ProductId,
+                    QuantitySold = od.Quantity,
+                    Price = od.Price, 
+                    OriginalPrice = od.tb_ProductDetai.tb_Products.OrigianlPrice 
+                })
+                .Join(db.tb_Products, pd => pd.ProductId, p => p.ProductId, (pd, p) => new
+                {
+                    ProductName = p.Title,
+                    QuantitySold = pd.QuantitySold,
+                    Price = pd.Price,
+                    OriginalPrice = pd.OriginalPrice
+                })
+                .GroupBy(x => x.ProductName)
+                .Select(g => new
+                {
+                    ProductName = g.Key,
+                    TotalQuantitySold = g.Sum(x => x.QuantitySold),
+                    TotalRevenue = g.Sum(x => x.QuantitySold * x.Price),
+                    TotalCost = g.Sum(x => x.QuantitySold * x.OriginalPrice) 
+                })
+                .OrderByDescending(x => x.TotalQuantitySold)
+                .Take(10)
+                .ToList();
+
+            return Json(new { Data = topProducts }, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
     }
 }

@@ -44,6 +44,16 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             return PartialView(item);
         }
 
+        public ActionResult Partail_ProducDetail(int id) 
+        {
+            var item = db.tb_ProductDetai.Where(x => x.ProductId == id).ToList();
+            return PartialView(item);   
+        }
+
+
+
+
+
         public ActionResult Partail_ProductSeller()
         {
             SellerCart cart = (SellerCart)Session["Seller"];
@@ -85,7 +95,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         public ActionResult AddListProduct(int id, int soluong)
         {
             var code = new { Success = false, Code = -1, Count = 0 };
-            var checkSanPham = db.tb_Products.FirstOrDefault(row => row.ProductId == id);
+            var checkSanPham = db.tb_ProductDetai.FirstOrDefault(row => row.ProductDetai == id);
             if (checkSanPham != null)
             {
 
@@ -98,20 +108,20 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                     }
                     SellerCartItem item = new SellerCartItem
                     {
-                        ProductId = checkSanPham.ProductId,
-                        ProductName = checkSanPham.Title,
-                        CategoryName = checkSanPham.tb_ProductCategory.Title,
+                        ProductId = checkSanPham.ProductDetai,
+                        ProductName = checkSanPham.tb_Products.Title,
+                        CategoryName = checkSanPham.tb_Products.tb_ProductCategory.Title,
                         Alias = checkSanPham.Alias,
                         SoLuong = soluong,
                     };
-                    if (checkSanPham.tb_ProductImage.FirstOrDefault(x => x.IsDefault) != null)
+                    if (checkSanPham.tb_Products.tb_ProductImage.FirstOrDefault(x => x.IsDefault) != null)
                     {
-                        item.ProductImg = checkSanPham.tb_ProductImage.FirstOrDefault(x => x.IsDefault).Image;
+                        item.ProductImg = checkSanPham.tb_Products.tb_ProductImage.FirstOrDefault(x => x.IsDefault).Image;
                     }
-                    item.Price = (decimal)checkSanPham.Price;
-                    if (checkSanPham.PriceSale > 0)
+                    item.Price = (decimal)checkSanPham.tb_Products.Price;
+                    if (checkSanPham.tb_Products.PriceSale > 0)
                     {
-                        item.Price = (decimal)checkSanPham.PriceSale;
+                        item.Price = (decimal)checkSanPham.tb_Products.PriceSale;
                     }
                     item.PriceTotal = item.SoLuong * item.Price;
 

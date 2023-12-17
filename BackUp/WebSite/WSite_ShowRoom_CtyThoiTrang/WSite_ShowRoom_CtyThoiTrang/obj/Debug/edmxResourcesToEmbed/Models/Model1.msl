@@ -1,6 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="CONGTYTHOITRANGModelStoreContainer" CdmEntityContainer="CONGTYTHOITRANGEntities">
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="CONGTYTHOITRANGModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="tb_Cart">
       <EntityTypeMapping TypeName="CONGTYTHOITRANGModel.tb_Cart">
         <MappingFragment StoreEntitySet="tb_Cart">
@@ -225,7 +236,6 @@
           <ScalarProperty Name="Image" ColumnName="Image" />
           <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="PriceSale" ColumnName="PriceSale" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="IsHome" ColumnName="IsHome" />
           <ScalarProperty Name="IsSale" ColumnName="IsSale" />
           <ScalarProperty Name="IsFeature" ColumnName="IsFeature" />
@@ -263,6 +273,17 @@
           <ScalarProperty Name="OrderId" ColumnName="OrderId" />
           <ScalarProperty Name="IdKhachHang" ColumnName="IdKhachHang" />
           <ScalarProperty Name="Satus" ColumnName="Satus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_ReturnDetail">
+      <EntityTypeMapping TypeName="CONGTYTHOITRANGModel.tb_ReturnDetail">
+        <MappingFragment StoreEntitySet="tb_ReturnDetail">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ReturnId" ColumnName="ReturnId" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ProductDetai" ColumnName="ProductDetai" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

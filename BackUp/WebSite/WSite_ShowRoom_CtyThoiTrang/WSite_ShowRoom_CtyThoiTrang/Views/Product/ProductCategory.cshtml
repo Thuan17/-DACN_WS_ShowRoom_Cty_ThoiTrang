@@ -5,7 +5,7 @@
 }
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
-<div class="container product_section_container">
+<div class="container">
     <div class="row">
         <div class="col product_section clearfix">
 
@@ -139,36 +139,44 @@
 
                             <!-- Product Grid -->
 
-                            <div class="product-grid d-flex">
-
-                                <!-- Product 1 -->
-                                @if (Model != null && Model.Any())
+                            <div class="row product-grid">
+                                <!-- Product Items Loop -->
+                                @foreach (var item in Model)
                                 {
-                                    foreach (var item in Model)
+                                    var checkQuantity = item.tb_ProductDetai.FirstOrDefault(x => x.ProductId == item.ProductId);
+                                    var isOutOfStock = checkQuantity == null;
+
+                                    var strImage = "";
+                                    var img = item.tb_ProductImage.FirstOrDefault(x => x.IsDefault);
+                                    if (img != null)
                                     {
-                                        var strImge = "";
-                                        var img = item.tb_ProductImage.FirstOrDefault(x => x.IsDefault);
-                                        if (img != null)
-                                        {
-                                            strImge = img.Image;
-                                        }
-                                        <div class="product-item @item.tb_ProductCategory.Alias">
+                                        strImage = img.Image;
+                                    }
+
+                                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                                        <div class="product-item w-100 @item.tb_ProductCategory.Alias @(isOutOfStock ? "out-of-stock" : "")">
                                             <div class="product discount product_filter">
+                                                @if (isOutOfStock)
+                                                {
+                                                    <p class="out-of-stock-message">Hết hàng</p>
+                                                }
+                                                else
+                                                {
+                                                    <p></p>
+                                                }
                                                 <div class="product_image">
-                                                    <img src="@strImge" alt="@item.Title">
+                                                    <img src="@strImage" alt="@item.Title">
                                                 </div>
                                                 <div class="favorite favorite_left"></div>
                                                 @if (item.PriceSale > 0)
                                                 {
                                                     <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
                                                 }
-                                                @* <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>*@
                                                 <div class="product_info">
-                                                    <a href="@Url.Action("Detail", "Product", new { id =item.ProductId, alias = item.Alias })">@item.Title</a>
+                                                    <h6 class="product_name"><a href="@Url.Action("Detail", "Product", new { id = item.ProductId, alias = item.Alias })">@item.Title</a></h6>
                                                     @if (item.PriceSale > 0)
                                                     {
                                                         <div class="product_price">@WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(item.PriceSale, 0)<span>@WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(item.Price, 0)</span></div>
-
                                                         <div style="display:none;" class="in_product_price"> @item.PriceSale</div>
                                                     }
                                                     else
@@ -178,12 +186,11 @@
                                                     }
                                                 </div>
                                             </div>
-                                            <div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart123" data-id="@item.ProductId">Thêm vào giỏ hàng</a></div>
+                                            <div class="">@Html.Action("Partial_ProductDetailLayOut", "Product", new { id = item.ProductId })</div>
                                         </div>
-                                    }
+                                    </div>
                                 }
-
-
+                                <!-- End Product Items Loop -->
                             </div>
 
                             <!-- Product Sorting -->

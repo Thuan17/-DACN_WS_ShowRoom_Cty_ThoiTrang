@@ -95,6 +95,29 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             return PartialView();
         }
 
+        public ActionResult Partail_ChoGiaoHang() 
+        {
+            int idKhach = (int)Session["IdKhachHang"];
+            var cheCheckORderDetail = db.tb_Order.Find(idKhach);
+            if (cheCheckORderDetail != null)
+            {
+                var checkOutOrder = db.tb_KhoXuat.Where(x => x.OrderId == cheCheckORderDetail.OrderId).ToList();
+                if (checkOutOrder != null)
+                {
+                    ViewBag.Out = "XuatKho";
+                    return PartialView(cheCheckORderDetail);
+                }
+                else
+                {
+                    return PartialView(cheCheckORderDetail);
+
+                }
+
+            }
+            return PartialView();
+        }
+
+
 
         public ActionResult Partial_OrderCanceled()
         {

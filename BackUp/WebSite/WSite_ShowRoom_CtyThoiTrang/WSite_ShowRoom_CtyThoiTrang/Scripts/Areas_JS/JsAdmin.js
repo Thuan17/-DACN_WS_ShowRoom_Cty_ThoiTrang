@@ -3,6 +3,7 @@
         e.preventDefault();
         var id = $(this).data('id');
         var soluong = 1;
+       
         $.ajax({
             url: '/admin/seller/AddListProduct',
             type: 'POST',

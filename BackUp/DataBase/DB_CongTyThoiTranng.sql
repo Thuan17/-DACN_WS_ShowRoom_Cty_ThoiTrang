@@ -21,7 +21,6 @@ create table tb_Products(
 	Image nvarchar(250),
 	Price decimal(18,2),
 	PriceSale decimal(18,2),
-	Quantity int ,
 	IsHome bit ,
 	IsSale bit ,
 	IsFeature bit,
@@ -286,6 +285,16 @@ go
 
 
 
+create table tb_ReturnDetail (
+	Id int IDENTITY(1,1) NOT NULL primary key ,
+	ReturnId int NOT NULL,
+	Price decimal(18, 2) NOT NULL,
+	Quantity int NOT NULL,
+	ProductDetai int
+)
+go
+
+
 
 
 
@@ -318,6 +327,18 @@ go
 
 
 -----------------------------------------------------------------------FK 
+alter table tb_ReturnDetail
+add constraint ReturnDetailtoReturn
+foreign key (ReturnId)
+references tb_Return
+
+
+
+alter table tb_ReturnDetail
+add constraint ReturnDetailtoProductDetail
+foreign key (ProductDetai)
+references tb_ProductDetai
+
 alter table tb_ProductDetai
 add constraint ProductDetaitoProducts
 foreign key (ProductId)
@@ -484,23 +505,23 @@ references tb_KhachHang
 
 
 
------------------------------------------------------------------------TRIGGER
-CREATE TRIGGER trg_UpdateIshome
-ON tb_Products -- Thay YourTableName bằng tên bảng thực tế của bạn loi 
-AFTER UPDATE
-AS
-BEGIN
-    SET NOCOUNT ON;
+-------------------------------------------------------------------------TRIGGER
+--CREATE TRIGGER trg_UpdateIshome
+--ON tb_Products -- Thay YourTableName bằng tên bảng thực tế của bạn loi 
+--AFTER UPDATE
+--AS
+--BEGIN
+--    SET NOCOUNT ON;
 
-    IF UPDATE(quantity)
-    BEGIN
-        UPDATE tb_Products
-        SET ishome = 0
-        FROM inserted i
-        WHERE tb_Products.ProductID = i.ProductID
-          AND i.quantity = 0;
-    END
-END;
+--    IF UPDATE(quantity)
+--    BEGIN
+--        UPDATE tb_Products
+--        SET ishome = 0
+--        FROM inserted i
+--        WHERE tb_Products.ProductID = i.ProductID
+--          AND i.quantity = 0;
+--    END
+--END;
 
 
 -- Tạo trigger khi khhách hàng đăng ký sẽ tạo luôn cart
@@ -564,7 +585,7 @@ select * from tb_PhanQuyen
 select * from tb_ChucNang
 
 select * from tb_Return
-select * from tb_KhoReturn
+select * from tb_Order
 select * from tb_OrderDetail
 select * from tb_KhoReturn
 select * from tb_KhachHang

@@ -10,6 +10,16 @@
         background: #f1f2f7;
     }
 
+    .thuan {
+        list-style-type: none;
+    }
+
+        .thuan li a {
+            text-decoration: none;
+            color: #808080;
+        }
+
+
     /*panel*/
     .panel {
         border: none;
@@ -199,57 +209,88 @@
 
 
     
-    <div class="pt-4">
-        <section class="panel">
-            <div class="panel-body">
-                <form action="#" method="get">
-                    <div class="input-group">
-                        @using (Html.BeginForm("Find", "Seller", FormMethod.Post))
-                        {
-                            @Html.TextBox("Search", "", new { @class = "form-control input-lg", @placeholder = "Mã sản phẩm SP***" })
-                            <button type="submit" class="btn btn-success rounded-end-pill" style="width: 40px" value="Search">  <i class="fas fa-search"></i></button>
-                        }
+<div class="pt-4">
+    <section class="panel">
+        <div class="panel-body">
+
+            @using (Html.BeginForm("Find", "Seller", FormMethod.Post))
+            {<form id="search-form">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row no-gutters">
+
+                                <div class="col-lg-8 col-md-6 col-sm-12 p-0">
+                                    @Html.TextBox("Search", "", new { @class = "form-control w-100 ", @placeholder = "Mã sản phẩm " })
+                                </div>
+                                <div class="col-lg-1 col-md-3 col-sm-12 p-0">
+                                    <button type="submit" class="btn btn-base" value="Search">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                             class="feather feather-search">
+                                            <circle cx="11" cy="11" r="8"></circle>
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                        </svg>
+                                    </button>
+                                    @*<button type="submit" class="btn btn-success " style="width: 70px" value="Search">  <i style="color:white" class="fa-solid fa-magnifying-glass"></i></button>*@
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
 
+            }
 
 
 
-
-
-
-
-            </div>
-        </section>
-        <hr />
-        <section class="panel">
-            <header class="panel-heading">
-                Loại sản phẩm
-            </header>
-            <div class="panel-body">
-                <ul class="nav prod-cat">
-                    @foreach (var item in Model)
+            @*<form action="#" method="get">
+                <div class="input-group">
+                    @using (Html.BeginForm("Find", "Seller", FormMethod.Post))
                     {
-                        if (ViewBag.id == item.ProductCategoryId)
-                        {
-                            @*<li class="active"><a href="/Product/ProductCategory/@item.ProductCategoryId"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>@item.Title</a></li>*@
-                            <li>
-                                <a href="#"><i class="fa fa-angle-right"></i> <a href="/Product/ProductCategory/@item.ProductCategoryId"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>@item.Title</a></a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li><a href="/Product/ProductCategory/@item.ProductCategoryId">@item.Title</a></li>
-                        }
+                        @Html.TextBox("Search", "", new { @class = "form-control input-lg", @placeholder = "Mã sản phẩm SP***" })
+                        <button type="submit" class="btn btn-success rounded-end-pill" style="width: 40px" value="Search">  <i class="fas fa-search"></i></button>
                     }
+                </div>
+            </form>*@
 
 
-                </ul>
-            </div>
-        </section>
 
 
-    </div>
+
+
+
+
+        </div>
+    </section>
+    <hr />
+    <section class="panel">
+        <header class="panel-heading">
+            Loại sản phẩm
+        </header>
+        <div class="panel-body">
+            <ul class="thuan" style="list-style-type: none; ">
+                @foreach (var item in Model)
+                {
+                    if (ViewBag.id == item.ProductCategoryId)
+                    {
+                        
+                        <li >
+                            <i class="fa fa-angle-right"></i> <a href="/Product/ProductCategory/@item.ProductCategoryId" style="text-decoration: none; color: #808080; "><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>@item.Title</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li><a href="/Product/ProductCategory/@item.ProductCategoryId">@item.Title</a></li>
+                    }
+                }
+
+
+            </ul>
+        </div>
+    </section>
+
+
+
+</div>
 
 
 }

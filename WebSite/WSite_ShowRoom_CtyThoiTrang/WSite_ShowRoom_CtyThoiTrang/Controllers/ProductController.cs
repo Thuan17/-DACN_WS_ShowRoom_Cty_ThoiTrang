@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,15 +12,25 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
     {
         CONGTYTHOITRANGEntities db = new CONGTYTHOITRANGEntities();
         // GET: Product
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
+            IEnumerable<tb_Products> items = db.tb_Products.OrderByDescending(x => x.ProductId);
 
-            var item = db.tb_Products.ToList();
-            return View(item);
+            var pageSize = 12;
+            if (page == null)
+            {
+                page = 1;
+            }
+            var pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+            items = items.ToPagedList(pageIndex, pageSize);
+            ViewBag.PageSize = pageSize;
+            ViewBag.Page = page;
+            return View(items);
         }
 
+
         [HttpPost]
-        public ActionResult Find(string Search="") 
+        public ActionResult Find(string Search = "")
         {
             if (!string.IsNullOrEmpty(Search))
             {
@@ -29,6 +40,13 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             }
             return View();
         }
+        public ActionResult Partial_ImgByProduct(int id)
+        {
+            var item = db.tb_ProductImage.Where(x => x.ProductId == id).ToList();
+            return PartialView(item);
+        }
+
+
 
 
         public ActionResult Partial_ProByIdCate()
@@ -47,7 +65,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
 
         public ActionResult Partail_ProCategory()
         {
-            var item=db.tb_ProductCategory.ToList();
+            var item = db.tb_ProductCategory.ToList();
             return PartialView(item);
         }
 
@@ -58,12 +76,18 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
         public ActionResult Detail(string alias, int id)
         {
             var item = db.tb_Products.Find(id);
-           
+
 
             return View(item);
         }
 
-        //public ActionResult DetailBySize()
+        public ActionResult Partail_Detail(int id) 
+        {
+            var item = db.tb_Products.Find(id);
+
+
+            return View(item);
+        }
 
 
         public ActionResult Partial_ProductDetail(int id) 
@@ -72,6 +96,18 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             return PartialView(item.ToList());   
 
         }
+
+
+
+
+
+        public ActionResult Partial_ProductDetailLayOut(int id)
+        {
+            var item = db.tb_ProductDetai.Where(row => row.ProductId == id);
+            return PartialView(item.ToList());
+
+        }
+
 
 
         public ActionResult DetaiSize(int id) 

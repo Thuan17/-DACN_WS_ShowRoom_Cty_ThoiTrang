@@ -3,16 +3,27 @@
 {
     foreach (var item in Model)
     {
-        var strImg = "";
-        var img = item.tb_ProductImage.FirstOrDefault(row => row.IsDefault);
+        var checkQuantity = item.tb_ProductDetai.FirstOrDefault(x => x.ProductId == item.ProductId);
+        var isOutOfStock = checkQuantity == null;
+
+        var strImage = "";
+        var img = item.tb_ProductImage.FirstOrDefault(x => x.IsDefault);
         if (img != null)
         {
-            strImg = img.Image;
+            strImage = img.Image;
         }
-        <div class="product-item @item.tb_ProductCategory.Alias">
+        <div class="product-item @item.tb_ProductCategory.Alias    @item.tb_ProductCategory.Alias @(isOutOfStock ? "out-of-stock" : "")">
             <div class="product discount product_filter w-100">
-                <div class="product_image w-75">
-                    <img src="@strImg" alt="@item.Title">
+                @if (isOutOfStock)
+                {
+                    <p class="out-of-stock-message text-danger">Hết hàng</p>
+                }
+                else
+                {
+                    <p></p>
+                }
+                <div class="product_image w-75 container d-flex align-items-center">
+                    <img src="@strImage" alt="@item.Title" class=" ">
                 </div>
                 <div class="favorite favorite_left d-flex"></div>
                 @if (item.PriceSale > 0)
@@ -33,9 +44,9 @@
                         <div class="product_price">@WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(item.Price, 0)</div>
                     }
                 </div>
+                <div class="">@Html.Action("Partial_ProductDetailLayOut", "Product", new { id = item.ProductId })</div>
             </div>
-            @*<div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart123" data-id="@item.ProductId">Thêm vào giỏ hàng</a></div>*@
-            @*<div class="red_button add_to_cart_button"><a href="/TestCart/AddtoCart" class="btnAddToCart123" data-id="@item.ProductId">Thêm vào giỏ hàng</a></div>*@
+            
         </div>
 
     }

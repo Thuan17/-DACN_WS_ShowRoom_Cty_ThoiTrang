@@ -88,7 +88,7 @@
                     data: { fromDate: '', toDate: '' },
                     success: function (rs) {
                         $.each(rs.Data, function (i, item) {
-                            arrDate.push(item.Month + '/' + item.Year); // Format: MM/YYYY
+                            arrDate.push(item.Month + '/' + item.Year); 
                             arrDoanhThu.push(item.DoanhThu);
                             arrLoiNhuan.push(item.LoiNhuan);
                         });

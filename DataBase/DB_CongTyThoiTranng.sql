@@ -505,23 +505,23 @@ references tb_KhachHang
 
 
 
------------------------------------------------------------------------TRIGGER
-CREATE TRIGGER trg_UpdateIshome
-ON tb_Products -- Thay YourTableName bằng tên bảng thực tế của bạn loi 
-AFTER UPDATE
-AS
-BEGIN
-    SET NOCOUNT ON;
+-------------------------------------------------------------------------TRIGGER
+--CREATE TRIGGER trg_UpdateIshome
+--ON tb_Products -- Thay YourTableName bằng tên bảng thực tế của bạn loi 
+--AFTER UPDATE
+--AS
+--BEGIN
+--    SET NOCOUNT ON;
 
-    IF UPDATE(quantity)
-    BEGIN
-        UPDATE tb_Products
-        SET ishome = 0
-        FROM inserted i
-        WHERE tb_Products.ProductID = i.ProductID
-          AND i.quantity = 0;
-    END
-END;
+--    IF UPDATE(quantity)
+--    BEGIN
+--        UPDATE tb_Products
+--        SET ishome = 0
+--        FROM inserted i
+--        WHERE tb_Products.ProductID = i.ProductID
+--          AND i.quantity = 0;
+--    END
+--END;
 
 
 -- Tạo trigger khi khhách hàng đăng ký sẽ tạo luôn cart

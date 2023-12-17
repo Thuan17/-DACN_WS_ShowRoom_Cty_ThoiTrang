@@ -1,11 +1,24 @@
-﻿@model IEnumerable<WSite_ShowRoom_CtyThoiTrang.Models.tb_Products>
+﻿@model PagedList.PagedList<WSite_ShowRoom_CtyThoiTrang.Models.tb_Products>
+@using PagedList.Mvc
 @{
     ViewBag.Title = "Danh Sách Sản Phẩm";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
+<style>
+    .Hethang.out-of-stock {
+        opacity: 1;
+        filter: blur(5px);
+    }
+
+  
+    .out-of-stock-message {
+        color: red;
+        font-weight: bold;
+    }
+</style>
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
-<div class="container product_section_container">
+<div class="container ">
     <div class="row">
         <div class="col product_section clearfix">
 
@@ -13,8 +26,8 @@
 
             <div class="breadcrumbs d-flex flex-row align-items-center">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active"><a href="/"><i class="fa fa-angle-right" aria-hidden="true"></i>Men's</a></li>
+                    <li><a href="/Home/index">Home</a></li>
+                    <li class="active"><a href="/"><i class="fa fa-angle-right" aria-hidden="true"></i>Tất cả sản phẩm</a></li>
                 </ul>
             </div>
 
@@ -23,26 +36,12 @@
             <div class="sidebar">
                 <div class="sidebar_section">
                     <div class="sidebar_title">
-                        <h5>Product Category</h5>
+                        <h5>Loại Sản Phẩm</h5>
                     </div>
                     @Html.Action("MenuLeft", "Menu")
                 </div>
 
-                <!-- Price Range Filtering -->
-                <div class="sidebar_section">
-                    <div class="sidebar_title">
-                        <h5>Filter by Price</h5>
-                    </div>
-                    <p>
-                        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                    </p>
-                    <div id="slider-range"></div>
-                    <div class="filter_button"><span>filter</span></div>
-
-                   
-                </div>
-
-
+              
 
             </div>
 
@@ -97,32 +96,42 @@
 
                             <!-- Product Grid -->
 
-                            <div class="product-grid">
-
-                                <!-- Product 1 -->
-                                @if (Model != null && Model.Any())
+                            <div class="row product-grid">
+                                <!-- Product Items Loop -->
+                                @foreach (var item in Model)
                                 {
-                               foreach(var item in Model)
+                                    var checkQuantity = item.tb_ProductDetai.FirstOrDefault(x => x.ProductId == item.ProductId);
+                                    var isOutOfStock = checkQuantity == null;
+
+                                    var strImage = "";
+                                    var img = item.tb_ProductImage.FirstOrDefault(x => x.IsDefault);
+                                    if (img != null)
                                     {
-                                        var strImge = "";
-                                        var img = item.tb_ProductImage.FirstOrDefault(x => x.IsDefault);
-                                        if (img != null)
-                                        {
-                                            strImge = img.Image;
-                                        }
-                                        <div class="product-item @item.tb_ProductCategory.Alias">
+                                        strImage = img.Image;
+                                    }
+
+                                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                                        <div class="product-item w-100 @item.tb_ProductCategory.Alias @(isOutOfStock ? "out-of-stock" : "")">
                                             <div class="product discount product_filter">
-                                                <div class="product_image">
-                                                    <img src="@strImge" alt="@item.Title">
+                                                @if (isOutOfStock)
+                                                {
+                                                    <p class="out-of-stock-message">Hết hàng</p>
+                                                }
+                                                else
+                                                {
+                                                    <p></p>
+                                                }
+                                                <div class="product_image container d-flex align-items-center">
+                                                    <img src="@strImage" alt="@item.Title">
+                                                   
                                                 </div>
                                                 <div class="favorite favorite_left"></div>
                                                 @if (item.PriceSale > 0)
                                                 {
                                                     <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
                                                 }
-                                                @* <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>*@
                                                 <div class="product_info">
-                                                    <h6 class="product_name"><a href="@Url.Action("Detail", "Product", new { id =item.ProductId, alias = item.Alias })">@item.Title</a></h6>
+                                                    <h6 class="product_name"><a href="@Url.Action("Detail", "Product", new { id = item.ProductId, alias = item.Alias })">@item.Title</a></h6>
                                                     @if (item.PriceSale > 0)
                                                     {
                                                         <div class="product_price">@WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(item.PriceSale, 0)<span>@WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(item.Price, 0)</span></div>
@@ -135,36 +144,49 @@
                                                     }
                                                 </div>
                                             </div>
-                                            @*<div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart123" data-id="@item.ProductId">add to cart</a></div>*@
+                                            <div class="">@Html.Action("Partial_ProductDetailLayOut", "Product", new { id = item.ProductId })</div>
                                         </div>
-                                    }
+                                    </div>
                                 }
-
-
+                                <!-- End Product Items Loop -->
                             </div>
 
-                            <!-- Product Sorting -->
-
-                            <div class="product_sorting_container product_sorting_container_bottom clearfix">
-                                <ul class="product_sorting">
-                                    <li>
-                                        <span>Show:</span>
-                                        <span class="num_sorting_text">04</span>
-                                        <i class="fa fa-angle-down"></i>
-                                        <ul class="sorting_num">
-                                            <li class="num_sorting_btn"><span>01</span></li>
-                                            <li class="num_sorting_btn"><span>02</span></li>
-                                            <li class="num_sorting_btn"><span>03</span></li>
-                                            <li class="num_sorting_btn"><span>04</span></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-
-
-                            </div>
 
                         </div>
-                    </div>
+                            <div class="">
+                                <div class="">
+                                    <div class="row">
+                                        <div class="col-6"></div>
+                                        <div class="col-6" style="text-align:right;">
+
+                                            @Html.PagedListPager(Model, page => Url.Action("Index", new { page ,@class="btn"}))
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                               
+                                <!-- Product Sorting -->
+
+                                @*<div class="product_sorting_container product_sorting_container_bottom clearfix">
+                                    <ul class="product_sorting">
+                                        <li>
+                                            <span>Show:</span>
+                                            <span class="num_sorting_text">04</span>
+                                            <i class="fa fa-angle-down"></i>
+                                            <ul class="sorting_num">
+                                                <li class="num_sorting_btn"><span>01</span></li>
+                                                <li class="num_sorting_btn"><span>02</span></li>
+                                                <li class="num_sorting_btn"><span>03</span></li>
+                                                <li class="num_sorting_btn"><span>04</span></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+
+
+                                </div>*@
+
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>
