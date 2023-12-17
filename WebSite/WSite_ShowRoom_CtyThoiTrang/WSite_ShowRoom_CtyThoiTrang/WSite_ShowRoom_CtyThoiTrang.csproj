@@ -3473,6 +3473,15 @@
     </Content>
     <Content Include="Areas\Admin\Views\Seller\Partail_ProducDetail.cshtml" />
     <Content Include="Areas\Admin\Views\Statistical\StatisticalTopProductsOnDay.cshtml" />
+    <Content Include="Areas\Admin\Views\Seller\Bill.cshtml" />
+    <Content Include="Areas\Admin\Views\Seller\Partial_GetBill.cshtml" />
+    <Content Include="Areas\Admin\Views\Seller\DetailSeller.cshtml" />
+    <Content Include="Areas\Admin\Views\Seller\Partail_DetailSeller.cshtml" />
+    <Content Include="Areas\Admin\Views\Seller\Partial_GetBillToDay.cshtml" />
+    <Content Include="Areas\Admin\Views\Seller\Partial_CheckBill.cshtml" />
+    <Content Include="Areas\Admin\Views\Seller\FindBill.cshtml" />
+    <None Include="Properties\PublishProfiles\giathuan25-001-site1 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\giathuan25-001-site1 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
@@ -3611,6 +3620,7 @@
     <Compile Include="Models\ReturnAndCancelOrder.cs" />
     <Compile Include="Models\ReturnOrder.cs" />
     <Compile Include="Models\ReturnOrderToken.cs" />
+    <Compile Include="Models\Seller.cs" />
     <Compile Include="Models\SellerCart.cs" />
     <Compile Include="Models\SellerPay.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
@@ -3785,6 +3795,10 @@
     <Content Include="Views\Product\Partial_ImgByProduct.cshtml" />
     <Content Include="Views\Product\Partail_Detail.cshtml" />
     <Content Include="Views\User\Partail_ChoGiaoHang.cshtml" />
+    <Content Include="Views\Home\dieukien.cshtml" />
+    <Content Include="Views\Home\doitra.cshtml" />
+    <Content Include="Views\Home\ThanhToan.cshtml" />
+    <Content Include="Views\Home\Khuyenmai.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

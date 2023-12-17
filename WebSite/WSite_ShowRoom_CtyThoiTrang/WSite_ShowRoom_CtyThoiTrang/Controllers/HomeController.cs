@@ -16,8 +16,27 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
            
             return View(); 
         }
+        public ActionResult dieukien()
+        {
 
+            return View();
+        }
+        public ActionResult doitra()
+        {
 
+            return View();
+        }
+        public ActionResult ThanhToan()
+        {
+
+            return View();
+        }
+        public ActionResult Khuyenmai()
+        {
+
+            return View();
+        }
+       
 
 
     }

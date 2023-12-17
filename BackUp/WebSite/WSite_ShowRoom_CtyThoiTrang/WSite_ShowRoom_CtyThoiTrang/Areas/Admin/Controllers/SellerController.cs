@@ -44,10 +44,10 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
             return PartialView(item);
         }
 
-        public ActionResult Partail_ProducDetail(int id) 
+        public ActionResult Partail_ProducDetail(int id)
         {
             var item = db.tb_ProductDetai.Where(x => x.ProductId == id).ToList();
-            return PartialView(item);   
+            return PartialView(item);
         }
 
 
@@ -195,21 +195,21 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Partial_ThanhToanDaCoTaiKhoan(int id) 
+        public ActionResult Partial_ThanhToanDaCoTaiKhoan(int id)
         {
 
             ViewBag.id = id;
-               
-                return PartialView();
-          
-                
-                
-           
+
+            return PartialView();
+
+
+
+
         }
 
 
         [HttpPost]
-        public ActionResult UpdateQuanTity(int id,int quantity) 
+        public ActionResult UpdateQuanTity(int id, int quantity)
         {
             SellerCart cart = (SellerCart)Session["Seller"];
             if (cart != null && cart.Items.Any())
@@ -217,12 +217,8 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                 cart.UpSoLuong(id, quantity);
                 return Json(new { Success = true });
             }
-            return Json(new { Success = false });   
+            return Json(new { Success = false });
         }
-
-
-
-
 
 
 
@@ -241,6 +237,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CheckOut(OrderViewModel req)
         {
+            tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
             var code = new { Success = false, Code = -1, Url = "" };
             if (ModelState.IsValid)
             {
@@ -252,7 +249,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
 
                     if (req.Phone != null)
                     {
-                        
+
                         foreach (var item in cart.Items)
                         {
                             var checkQuantityPro = db.tb_ProductDetai.Find(item.ProductId);
@@ -300,8 +297,8 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                         seller.TotalAmount = cart.Items.Sum(x => (x.Price * x.SoLuong));
                         seller.TypePayment = req.TypePayment;
                         seller.CreatedDate = DateTime.Now;
-                        seller.ModifiedDate = DateTime.Now;
-                        seller.CreatedBy = req.Phone;
+                        seller.ModifiedDate = null;
+                        seller.CreatedBy = nvSession.TenNhanVien;
                         Random rd = new Random();
                         seller.Code = "HD" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
 
@@ -326,14 +323,15 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CheckOutClient(SellerPay req ,tb_Products model )
+        public ActionResult CheckOutClient(SellerPay req, tb_Products model)
         {
+            tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
             var code = new { Success = false, Code = -1, Url = "" };
-            var checkClient = db.tb_KhachHang.FirstOrDefault(row=>row.IdKhachHang== req.idKhachHang);
+            var checkClient = db.tb_KhachHang.FirstOrDefault(row => row.IdKhachHang == req.idKhachHang);
             if (checkClient != null)
             {
                 SellerCart cart = (SellerCart)Session["Seller"];
-                if (cart != null) 
+                if (cart != null)
                 {
 
 
@@ -348,7 +346,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                             {
                                 checkQuantityPro.Quantity -= item.SoLuong;
 
-                             
+
 
                                 db.Entry(checkQuantityPro).State = System.Data.Entity.EntityState.Modified;
                                 db.SaveChanges();
@@ -356,7 +354,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                             else
                             {
                                 code = new { Success = false, Code = -7, Url = "" };//Số lượng sản phẩm hiện không đủ 
-                              
+
                             }
                         }
                     }
@@ -365,7 +363,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                     tb_Seller seller = new tb_Seller();
                     seller.CustomerName = checkClient.TenKhachHang;
                     seller.Phone = checkClient.SDT;
-                 
+
                     cart.Items.ForEach(x => seller.tb_SellerDetail.Add(new tb_SellerDetail
                     {
                         ProductDetai = x.ProductId,
@@ -376,8 +374,8 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                     seller.TotalAmount = cart.Items.Sum(x => (x.Price * x.SoLuong));
                     seller.TypePayment = req.TypePayment;
                     seller.CreatedDate = DateTime.Now;
-                    seller.ModifiedDate = DateTime.Now;
-                    seller.CreatedBy = checkClient.SDT;
+                    seller.ModifiedDate = null;
+                    seller.CreatedBy = nvSession.TenNhanVien;
                     Random rd = new Random();
                     seller.Code = "HD" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
 
@@ -411,13 +409,183 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                     code = new { Success = false, Code = -3, Url = "" }; // Không có sản phẩm
                 }
             }
-            else 
+            else
             {
                 code = new { Success = false, Code = -2, Url = "" }; // Lỗi không tìm thấy khách hàng
             }
-            return Json(code);  
-        
+            return Json(code);
+
         }
+
+        ////////Huy hoa don
+        public ActionResult Bill()
+        {
+
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("DangNhap", "Account");
+            }
+            else
+            {
+
+                tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
+                var item = db.tb_PhanQuyen.SingleOrDefault(row => row.MSNV == nvSession.MSNV && row.IdChucNang == 4);
+                if (item == null)
+                {
+                    return RedirectToAction("NonRole", "HomePage");
+                }
+                else
+                {
+
+                    Seller model = new Seller();
+
+                    return View(model);
+                }
+            }
+
+        }
+
+        [HttpGet]
+        public ActionResult Partial_GetBill(string search ,int? page)
+        {
+            IEnumerable<tb_Seller> items = db.tb_Seller.OrderByDescending(x => x.SellerId);
+            var pageSize = 12;
+            if (page == null)
+            {
+                page = 1;
+            }
+            var pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+            items = items.ToPagedList(pageIndex, pageSize);
+            ViewBag.PageSize = pageSize;
+            ViewBag.Page = page;
+            return PartialView(items);
+        }
+       
+        [HttpGet]
+        public ActionResult Partial_GetBillToDay(string search, int? page) 
+        {
+            DateTime today = DateTime.Today;
+            DateTime startOfDay = today.Date;
+            DateTime endOfDay = today.Date.AddDays(1).AddTicks(-1);
+            IEnumerable<tb_Seller> items = db.tb_Seller.Where(row => row.CreatedDate >= startOfDay && row.CreatedDate <= endOfDay).OrderByDescending(x => x.SellerId);
+            var pageSize = 12;
+            if (page == null)
+            {
+                page = 1;
+            }
+            var pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+            items = items.ToPagedList(pageIndex, pageSize);
+            ViewBag.PageSize = pageSize;
+            ViewBag.Page = page;
+            return PartialView(items);
+
+        }
+
+
+
+
+        [HttpPost]
+        public ActionResult FindBill(string Search = "")
+        {
+            if (!string.IsNullOrEmpty(Search))
+            {
+                var FindBill = db.tb_Seller.Where(x => x.Code.ToUpper().Trim().Contains(Search.ToUpper().Trim()));
+                ViewBag.Find = Search;
+                return View(FindBill.ToList());
+            }
+            return View("Partial_CheckBill");
+        }
+
+        [HttpGet]
+        public ActionResult Partial_CheckBill() 
+        {
+            
+            return PartialView(); 
+        }
+
+
+
+
+
+        public ActionResult DetailSeller(int id)
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("DangNhap", "Account");
+            }
+            else
+            {
+                var item = db.tb_Seller.Find(id);
+                return View(item);
+            }
+        }
+
+        public ActionResult Partail_DetailSeller(int id)
+        {
+            var item = db.tb_SellerDetail.Where(row => row.SellerId == id).ToList();
+            return PartialView(item);
+        }
+
+
+
+        [HttpPost]
+        public ActionResult SanPhamTra(List<int> productIds, int id ,tb_SellerDetail model )
+        {
+            var code = new { Success = false, msg = "", code = -1 };
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("DangNhap", "Account");
+            }
+            else
+            {
+
+                if (productIds != null && productIds.Any())
+                {
+                    foreach (var IdSellerDetail in productIds) 
+                    {
+                        var checkSellerItem = db.tb_SellerDetail.SingleOrDefault(x => x.Id == IdSellerDetail && x.SellerId == id);
+                        if (checkSellerItem != null) 
+                        {
+                           
+                            var updateProducts = db.tb_ProductDetai.FirstOrDefault(x => x.ProductDetai == checkSellerItem.ProductDetai);
+                            if (updateProducts != null)
+                            {
+                                db.tb_SellerDetail.Remove(checkSellerItem);
+                                db.SaveChanges();
+
+                                updateProducts.Quantity += checkSellerItem.Quantity;
+                                db.Entry(updateProducts).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                                code = new { Success = true, msg = "", code = 1 };//Chỉnh sửa thành công
+
+                            }
+                            else 
+                            {
+                                code = new { Success = false, msg = "", code = -4 };//Sản phẩm không tồn tại 
+                            }
+
+
+                        }
+                        else 
+                        {
+                            code = new { Success = false, msg = "", code = -3 };// Không tồn tại trong hóa đơn
+                        }
+
+
+                    }
+                       
+            }
+                else
+                {
+                    code = new { Success = false, msg = "", code = -2 };// Vui lòng chọn sản phẩm trả
+                }
+            }
+             
+                return Json(code);
+        }
+
+
+
 
 
 

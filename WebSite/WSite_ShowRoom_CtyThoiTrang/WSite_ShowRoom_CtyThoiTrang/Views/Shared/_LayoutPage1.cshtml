@@ -113,45 +113,29 @@
                         <li class="nav-1">
                             <a href="#" style="color:black"><h4>Khuyễn Mãi</h4></a>
                         </li>
-                        @*<li class="nav-1">
-                            <a style="color:black" href=" #"><h4>Trang Nội Dung</h4></a>
-                            <ul class="nav-2">
-                                <li>
-                                    <a href="#">Gaming</a>
-                                </li>
-                                <li>
-                                    <a href="#">Văn Phòng</a>
-                                </li>
-                                <li>
-                                    <a href="#">Editor</a>
-                                </li>
-                                <li>
-                                    <a href="#">Học Sinh - Sinh Viên</a>
-                                </li>
-                            </ul>*@
-                        @*</li>*@
                         <li class="nav-1">
-                            <div class="input-group form-group form-inline">
+                            @using (Html.BeginForm("Find", "Product", FormMethod.Post))
+                            {
+                                <div class="input-group form-group form-inline d-flex">
 
-
-                                @using (Html.BeginForm("Find", "Product", FormMethod.Post))
-                                {
                                     @Html.TextBox("Search", "", new { @class = "form-control form-control rounded-start-pill" })
                                     <button type="submit" class="btn btn-success rounded-end-pill" style="width: 70px" value="Search">  <i style="color:white" class="fa-solid fa-magnifying-glass"></i></button>
 
-                                }
-                            </div>
+                                </div>
+
+
+                            }
                         </li>
                     </ul>
                 </div>
-                <div class="d-flex" style="width: 150px; height: 50px; padding-left: 15px">
-                    <div style="padding-left:15px">
+                <div class="d-flex" style="width: 270px; height: 50px;">
+                    <div>
                         @if (Session["SDT"] != null)
                         {
 
 
-                            <ul>
-                                <li class="nav-1 ">
+                            <ul style="display:flex">
+                                <li class="nav-1 " style="margin:10px">
                                     <a style="color: black; text-decoration: none" href=" #">
                                         <i class="fas fa-user">
                                             <span> @Session["TenKhachHang"]</span>
@@ -166,34 +150,28 @@
                                             <a href="/account/logout" style=" text-decoration: none">Đăng xuất</a>
                                         </li>
                                         <li>
-                                            <a href="# " style=" text-decoration: none">Tài Khoản</a>
+                                            <a href="# " style=" text-decoration: none">Hồ Sơ</a>
                                         </li>
 
                                     </ul>
                                 </li>
+                                <li class="nav-1" style="margin:10px">
+                                    <a href="/testCart/index">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true">  <span id="checkout_items_client" class="checkout_items text-red">0</span></i>
+                                    </a>
+
+                                </li>
 
                             </ul>
-
-                            <div>
-                                <a href="/testCart/index" style="padding-left:15px">
-                                    <i class="fa fa-shopping-cart" aria-hidden="true">  <span id="checkout_items_client" class="checkout_items text-red">0</span></i>
-                                </a>
-
-                            </div>
                         }
                         else
                         {
 
-                            <a class=" text-black" href="/Account/Login"><i class="fas fa-user"></i></a>
-                            @*<a href="/ShoppingCart/index" style="padding-left:15px">
-                                <i class="fa fa-shopping-cart" aria-hidden="true">  <span id="checkout_items" class="checkout_items text-red">0</span></i>
-                            </a>*@
+                            <a class=" text-black text-decoration-none m-1" href="/Account/Login"><i class="fas fa-user"></i>Tài Khoản</a>
+
                         }
                     </div>
                     <div>
-                        @*<a href="/testCart/index" style="padding-left:15px">
-                            <i class="fa fa-shopping-cart" aria-hidden="true">  <span id="checkout_items" class="checkout_items text-red">0</span></i>
-                        </a>*@
 
                     </div>
                     <div id="thunho" class="p-2">
@@ -202,10 +180,11 @@
                 </div>
             </div>
         </div>
-        <div class="container body-content p-3">
-            @RenderBody()
-        </div>
 
+
+    </div>
+    <div class="container body-content p-5">
+        @RenderBody()
     </div>
     <footer>
         <div class="bg-light">
@@ -229,15 +208,15 @@
 
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <h4> <b>ĐIỀU KHOẢN&amp;CHÍNH SÁCH</b></h4>
-                        <a class="nav-link mt-2" href="/DieuKhoanChinhSachHoTro/DieuKhoanDieuKien">- Điều khoản điều kiện</a>
-                        <a class="nav-link mt-2" href="/DieuKhoanChinhSachHoTro/ChinhSachGiaoHang">- Chính sách giao hàng</a>
-                        <a class="nav-link mt-2" href="/DieuKhoanChinhSachHoTro/ChinhSachThanhToan">- Chính sách thanh toán</a>
+                        <a class="nav-link mt-2" href="/home/dieukien" style="color:black">- Điều khoản điều kiện</a>
+                        <a class="nav-link mt-2" href="/home/doitra" style="color:black">- Chính sách đổi trả</a>
+                        <a class="nav-link mt-2" href="/home/ThanhToan" style="color:black">- Chính sách thanh toán</a>
                     </div>
 
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <h4><b>HỖ TRỢ KHÁCH HÀNG</b></h4>
-                        <a class="nav-link mt-2" href="#">- Sản phẩm khuyến mãi</a>
-                        <a class="nav-link mt-2" href="#">- Sản phẩm nổi bật</a>
+                        <a class="nav-link mt-2" href="#" style="color:black">- Sản phẩm khuyến mãi</a>
+                        <a class="nav-link mt-2" href="#" style="color:black">- Sản phẩm nổi bật</a>
                         <a><img class="img-fluid w-50 h-auto" src="~/hinh/bocongthuong.png" /></a>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6">
