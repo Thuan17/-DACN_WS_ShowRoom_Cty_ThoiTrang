@@ -235,7 +235,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CheckOut(OrderViewModel req)
+        public ActionResult CheckOut(ThongTinKhachHangBanHangKhongTaiKHoan req)
         {
             tb_NhanVien nvSession = (tb_NhanVien)Session["user"];
             var code = new { Success = false, Code = -1, Url = "" };
@@ -244,7 +244,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
                 SellerCart cart = (SellerCart)Session["Seller"];
                 if (cart != null)
                 {
-
+                    
 
 
                     if (req.Phone != null)
@@ -585,6 +585,33 @@ namespace WSite_ShowRoom_CtyThoiTrang.Areas.Admin.Controllers
         }
 
 
+
+
+        [HttpPost]
+        public ActionResult DeleteSeller(int id )
+        {
+            var code = new { Success = false, msg = "", code = -1 };
+            if (id != null)
+            {
+                var checkSeller=db.tb_Seller.Find(id);  
+                if (checkSeller != null) 
+                {
+                    
+                }
+                else
+                {
+                    code = new { Success = false, msg = "", code = -3 };// Không tìm thấy đơn hàng trong hệ thống
+                }
+            }
+            else 
+            {
+                code = new { Success = false, msg = "", code = -2 };// Không tìm thấy đơn hàng trong hệ thống
+            }
+
+
+            return Json(code);
+
+        }
 
 
 

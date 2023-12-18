@@ -52,7 +52,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <link href="~/Content/CSS/Css_LayOut.css" rel="stylesheet" />
 </head>
-<body>
+<body class="bg-white">
 
     <style>
         .body-content {
@@ -136,7 +136,7 @@
 
                             <ul style="display:flex">
                                 <li class="nav-1 " style="margin:10px">
-                                    <a style="color: black; text-decoration: none" href=" #">
+                                    <a style="color: black; text-decoration: none" href=" /account/Profile">
                                         <i class="fas fa-user">
                                             <span> @Session["TenKhachHang"]</span>
                                         </i>
@@ -183,12 +183,12 @@
 
 
     </div>
-    <div class="container body-content p-5">
+    <div class="container bg-white body-content p-5">
         @RenderBody()
     </div>
-    <footer>
-        <div class="bg-light">
-            <div class="container p-1">
+    <footer >
+        <div class="bg-white">
+            <div class="container bg-white p-1">
                 <div class="row">
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <h3><b>Về KTA MODE</b></h3>

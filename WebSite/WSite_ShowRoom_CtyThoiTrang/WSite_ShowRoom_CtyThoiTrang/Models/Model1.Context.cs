@@ -25,7 +25,6 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<tb_Cart> tb_Cart { get; set; }
         public virtual DbSet<tb_CartItem> tb_CartItem { get; set; }
         public virtual DbSet<tb_ChucNang> tb_ChucNang { get; set; }

@@ -9,41 +9,16 @@
 
 }, new { @Id = "myForm" }))
 {
+
     <script>
-        function OnBeginCO() {
-            $('#btnOutOrder').attr("disabled", "disabled");
-        }
-
         function OnSuccessCO(res) {
-            if (res.Succss) {
-                if (res.Code == 1) {
-
-                    location.reload(true);
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.onmouseenter = Swal.stopTimer;
-                            toast.onmouseleave = Swal.resumeTimer;
-                        }
-                    });
-
-                    Toast.fire({
-                        icon: "success",
-                        title: "Bán hàng thành công"
-                    });
-
-                }
+            if (res.Success && res.Code === 1) {
+                window.location.replace("/admin/seller/index");
+            } else {
+                // Hiển thị thông báo hoặc thực hiện các xử lý khác nếu cần thiết
+                console.error("Chuyển hướng không thành công. Success: " + res.Success + ", Code: " + res.Code);
             }
-
         }
-
-
-
-
     </script>
 
 
@@ -61,7 +36,7 @@
             <input type="hidden" id="Id" name="idKhachHang" value="@ViewBag.Id" />
         }
     </div>
-    
+
 
 
 

@@ -327,12 +327,60 @@
         }
 
     });
+    //////////////////////////////Mua Lai
+    $('body').on('click', '.btnMuaLai', function (e) {
+        var IdOrder = $(this).closest('.IdOrder').attr('id');
+        var divId = getIdMualLai();
+        var id = $(this).data("id");
 
+
+        console.log('ID của div:', divId);
+
+        sendIdMualLail(IdOrder, divId);
+
+    });
 
 
 });
 
-///////test trả hàng
+//////////////////////////////Mua Lai
+function getIdMualLai() {
+    var selectedProductIds = [];
+    $(".yourDivClass").each(function () {
+        var divId = $(this).attr("id");
+        selectedProductIds.push(divId);
+    });
+
+    return selectedProductIds;
+}
+//gui list vao Mua Lai
+function sendIdMualLail(id, selectedProductIds) {
+    if (selectedProductIds.length > 0) {
+        $.ajax({
+            url: '/TestCart/DatHang',
+            type: 'POST',
+            data: {  productIds: selectedProductIds },
+            dataType: 'json',
+            success: function (result) {
+                // Xử lý kết quả từ server nếu cần
+                if (result.Success) {
+
+                    window.location.href = '/User/CancelOrder';
+                } else {
+                    console.error('Lỗi khi hủy đặt hàng. Lỗi:', result.msg, 'Mã lỗi:', result.code);
+                }
+            },
+            error: function (error) {
+                console.error('Lỗi khi gọi API:', error);
+            }
+        });
+    } else {
+        console.warn('Danh sách productIds rỗng. Không có gì để gửi.');
+    }
+}
+
+
+
 
 //////////////////////////////Dat hang
 //chi lay 1 checkbox

@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<WSite_ShowRoom_CtyThoiTrang.Models.tb_NhanVien>
 @{
-    ViewBag.Title = " Nhân viên";
+    ViewBag.Title = "Quản lý Nhân viên";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,11 +12,9 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/admin" class="nav-link">Trang chủ</a>
+            <a href="/admin/home/index" class="nav-link">Trang chủ</a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="/admin/category" class="nav-link">@ViewBag.Title</a>
-        </li>
+       
     </ul>
 }
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
@@ -25,7 +23,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Quản lý chức năng</h1>
+                <h1>Quản lý nhân viên</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -46,7 +44,7 @@
 
             <div class="card-tools">
                 <a href="/admin/Staff/add" class="btn btn-primary">Thêm mới</a>
-                <a href="#" class="btn btn-danger" id="BtnDeleteAll">Xóa</a>
+              
             </div>
         </div>
         <div class="card-body">
@@ -92,7 +90,7 @@
                                 <td>
                                     <a href="/admin/Staff/Details/@item.MSNV.Trim()" class="btn btn-sm btn-success">Xem</a>
                                     <a href="/admin/Staff/edit/@item.MSNV" class="btn btn-sm btn-primary">Sửa</a>
-                                    <a href="#" data-id="@item.MSNV" class="btn btn-sm btn-danger btnDelete">Xóa</a>
+                                   
                                 </td>
                             </tr>
                             i++;

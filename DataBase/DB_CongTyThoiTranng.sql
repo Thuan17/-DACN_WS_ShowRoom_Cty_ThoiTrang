@@ -406,15 +406,6 @@ foreign key (IdKho)
 references tb_Kho
 
 
-----alter table tb_KhoReturn
-----add constraint KhoReturntoOrder
-----foreign key (OrderId)
-----references tb_Order
-
-
-
-
-
 alter table tb_KhoNhap
 add constraint KhoNhaptoNhanVien
 foreign key (MSNV)
@@ -506,22 +497,7 @@ references tb_KhachHang
 
 
 -------------------------------------------------------------------------TRIGGER
---CREATE TRIGGER trg_UpdateIshome
---ON tb_Products -- Thay YourTableName bằng tên bảng thực tế của bạn loi 
---AFTER UPDATE
---AS
---BEGIN
---    SET NOCOUNT ON;
 
---    IF UPDATE(quantity)
---    BEGIN
---        UPDATE tb_Products
---        SET ishome = 0
---        FROM inserted i
---        WHERE tb_Products.ProductID = i.ProductID
---          AND i.quantity = 0;
---    END
---END;
 
 
 -- Tạo trigger khi khhách hàng đăng ký sẽ tạo luôn cart
@@ -541,79 +517,4 @@ END;
 
 
 
---CREATE TRIGGER CreateReturnOnInsertKhachHang
---ON tb_KhachHang
---AFTER INSERT
---AS
---BEGIN
---    SET NOCOUNT ON;
-
---    -- Chèn dữ liệu mới vào bảng tb_Cart
---    INSERT INTO tb_Return (IdKhachHang)
---    SELECT IdKhachHang
---    FROM inserted;
---END;
-
-
 -----------------------------------------------------------------------DATA
-
-
-select * from tb_ProductDetai
-
-
-select * from tb_Products
-
-
-
-select * from tb_Seller
-select * from tb_SellerDetail
-select * from tb_Return
-select * from tb_Order
-select * from tb_OrderDetail
-select * from tb_Products
-
-select * from tb_Products
-
-
-select * from tb_Products
-select * from tb_Order
-
-select * from tb_OrderDetail
-select * from tb_Products
-select * from tb_NhanVien
-select * from tb_PhanQuyen
-select * from tb_ChucNang
-
-select * from tb_Return
-select * from tb_Order
-select * from tb_OrderDetail
-select * from tb_KhoReturn
-select * from tb_KhachHang
-select * from tb_ChucNang
-
-
-
-select * from tb_Cart
-select * from tb_CartItem
-select * from tb_KhachHang
-select * from tb_ChucNang
-INSERT into tb_ChucNang VALUES ( N'admin', N'admin',N'Gia Thuan',GETDATE(), NULL, NULL)
-
-
-INSERT [dbo].[tb_PhanQuyen] ([MSNV], [IdChucNang], [GhiChu]) VALUES (N'202105', 1, N'')
-
-
-
-select * from tb_Products
-
-insert into  tb_Cart values ('1') 
-insert into  tb_Cart values ('2') 
-
-INSERT [dbo].[tb_KhachHang] ([IdKhachHang], [SDT], [TenKhachHang], [Email], [Password], [Image], [Birthday], [DiaChi], [SoLanMua]) VALUES ('123', N'thuan', N'mapuucntt@gmail.com', N'202cb962ac59075b964b07152d234b70', NULL, NULL, NULL, 1)
-select * from tb_NhanVien
-
-
-
-INSERT into  tb_NhanVien VALUES (N'202105', N'0329867771', N'Gia Thuận', N'123         ', N'mapuucntt3@gmail.com', N'202cb962ac59075b964b07152d234b70', NULL, CAST(N'2002-11-12' AS Date), N'ấp 4', CAST(N'2023-11-12' AS Date), CAST(10000000.00 AS Decimal(18, 2)), N'nam',GETDATE(),1 ,null )  
-
- 

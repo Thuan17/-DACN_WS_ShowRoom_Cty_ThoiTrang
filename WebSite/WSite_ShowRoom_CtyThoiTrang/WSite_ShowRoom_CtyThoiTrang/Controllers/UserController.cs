@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -58,10 +59,10 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             if (Session["IdKhachHang"] != null)
             {
                 int idKhach = (int)Session["IdKhachHang"];
-                var cheCheckORder = db.tb_Order.Where(x => x.IdKhachHang == idKhach && x.TypePayment == 1).ToList();
+                var cheCheckORder = db.tb_Order.Where(x => x.IdKhachHang == idKhach && x.TypePayment == 1).OrderByDescending(x => x.OrderId).ToList();
                 if (cheCheckORder != null)
                 {
-                    return View(cheCheckORder);
+                    return PartialView(cheCheckORder);
                 }
             }
             else
@@ -95,35 +96,13 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             return PartialView();
         }
 
-        public ActionResult Partail_ChoGiaoHang() 
-        {
-            int idKhach = (int)Session["IdKhachHang"];
-            var cheCheckORderDetail = db.tb_Order.Find(idKhach);
-            if (cheCheckORderDetail != null)
-            {
-                var checkOutOrder = db.tb_KhoXuat.Where(x => x.OrderId == cheCheckORderDetail.OrderId).ToList();
-                if (checkOutOrder != null)
-                {
-                    ViewBag.Out = "XuatKho";
-                    return PartialView(cheCheckORderDetail);
-                }
-                else
-                {
-                    return PartialView(cheCheckORderDetail);
-
-                }
-
-            }
-            return PartialView();
-        }
-
-
+       
 
         public ActionResult Partial_OrderCanceled()
         {
 
             int idKhach = (int)Session["IdKhachHang"];
-            var checkORder = db.tb_Order.Where(x => x.IdKhachHang == idKhach && x.typeOrder == true).ToList();
+            var checkORder = db.tb_Order.Where(x => x.IdKhachHang == idKhach && x.typeOrder == true).OrderByDescending(x => x.OrderId).ToList();
             if (checkORder != null)
             {
                 return PartialView(checkORder);
@@ -136,7 +115,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
         public ActionResult Partial_OrderReturn()
         {
             int idKhach = (int)Session["IdKhachHang"];
-            var checkORder = db.tb_Order.Where(x => x.IdKhachHang == idKhach && x.typeReturn == true).ToList();
+            var checkORder = db.tb_Order.Where(x => x.IdKhachHang == idKhach && x.typeReturn == true).OrderByDescending(x => x.OrderId).ToList();
             if (checkORder != null)
             {
                 return PartialView(checkORder);
@@ -158,7 +137,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             if (Session["IdKhachHang"] != null)
             {
                 int idKhach = (int)Session["IdKhachHang"];
-                var cheCheckORder = db.tb_Order.Where(x => x.IdKhachHang == idKhach && x.Confirm == true).ToList();
+                var cheCheckORder = db.tb_Order.Where(x => x.IdKhachHang == idKhach && x.Confirm == true).OrderByDescending(x => x.OrderId).ToList();
                 if (cheCheckORder != null)
                 {
                     return View(cheCheckORder);
@@ -179,7 +158,7 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
         public ActionResult Par_OrderDetailSuccess(int id)
         {
             int idKhach = (int)Session["IdKhachHang"];
-            var cheCheckORderDetail = db.tb_OrderDetail.Where(x => x.OrderId == id).ToList();
+            var cheCheckORderDetail = db.tb_OrderDetail.Where(x => x.OrderId == id).OrderByDescending(x => x.OrderId).ToList();
             if (cheCheckORderDetail != null)
             {
                 return PartialView(cheCheckORderDetail);
@@ -187,7 +166,16 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             return PartialView();
         }
 
-
+        public ActionResult Par_OrderDetailCancel(int id)
+        {
+            int idKhach = (int)Session["IdKhachHang"];
+            var cheCheckORderDetail = db.tb_OrderDetail.Where(x => x.OrderId == id).OrderByDescending(x => x.OrderId).ToList();
+            if (cheCheckORderDetail != null)
+            {
+                return PartialView(cheCheckORderDetail);
+            }
+            return PartialView();
+        }
 
 
 
@@ -260,9 +248,13 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
                                 SoLuong = OrderDetail.Quantity,
                                 Price = OrderDetail.Price,
                                 PriceTotal = checkIdOrder.TotalAmount,
-
+                                Size=(int) OrderDetail.tb_ProductDetai.Size
 
                             };
+                            if (OrderDetail.tb_ProductDetai.tb_Products.tb_ProductImage.FirstOrDefault(x => x.IsDefault) != null)
+                            {
+                                item.ProductImg = OrderDetail.tb_ProductDetai.tb_Products.tb_ProductImage.FirstOrDefault(row => row.IsDefault).Image;
+                            }
                             ViewBag.TotalPrice = checkIdOrder.TotalAmount;
                             can.AddToCart(item, OrderDetail.Quantity);
 
@@ -280,6 +272,16 @@ namespace WSite_ShowRoom_CtyThoiTrang.Controllers
             }
             return Json(code);
         }
+
+
+
+
+
+
+
+
+
+
 
         public ActionResult CancelOrder()
         {

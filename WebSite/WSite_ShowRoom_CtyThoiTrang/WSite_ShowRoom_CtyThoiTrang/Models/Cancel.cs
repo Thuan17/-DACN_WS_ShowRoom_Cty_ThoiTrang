@@ -50,6 +50,8 @@ namespace WSite_ShowRoom_CtyThoiTrang.Models
         public int SoLuong { get; set; }
         public decimal Price { get; set; }
         public decimal PriceTotal { get; set; }
+        public int Size { get;set; }
+        public string ProductImg { get; set; }
 
     }
 }

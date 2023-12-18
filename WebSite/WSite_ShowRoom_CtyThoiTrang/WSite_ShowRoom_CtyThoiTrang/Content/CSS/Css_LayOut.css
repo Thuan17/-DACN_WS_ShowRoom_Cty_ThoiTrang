@@ -1,14 +1,12 @@
 ﻿body {
     background-size: cover;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    background-color: white;
 }
 
 * {
 }
 
 .super_container {
-    background-color: white;
 }
 
 #slideshow {

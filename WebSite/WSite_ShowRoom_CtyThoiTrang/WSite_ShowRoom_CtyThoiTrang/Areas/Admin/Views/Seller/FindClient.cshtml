@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<WSite_ShowRoom_CtyThoiTrang.Models.tb_KhachHang>
 
 @{
-    ViewBag.Title = "FindClient";
+    ViewBag.Title = "Thông tin khách hàng";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutSeller.cshtml";
 }
 @section naviheader{
@@ -42,9 +42,12 @@
         <div class="col-md-9">
             @using (Html.BeginForm("FindClient", "Seller", FormMethod.Post, new { id = "searchForm" }))
             {
-                @Html.TextBox("Search", "", new { @class = "form-control form-control rounded-start-pill" })
-                <button type="submit" class="btn btn-success rounded-end-pill" style="width: 70px" value="Search">  <i style="color:white" class="fa-solid fa-magnifying-glass"></i></button>
+                <div class="input-group w-50">
+                    @Html.TextBox("Search", "", new { @class = "form-control form-control rounded-start-pill" })
+                    <button type="submit" class="btn btn-success rounded-end-pill" style="width: 70px" value="Search">  <i style="color:white" class="fa-solid fa-magnifying-glass"></i>Tìm</button>
 
+                </div>
+               
 
             }
 

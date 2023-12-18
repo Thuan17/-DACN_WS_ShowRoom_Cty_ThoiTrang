@@ -3,7 +3,6 @@
 {
     var i = 0;
     var tongTien = decimal.Zero;
-    <span>@Model.Count()</span>
     <div class="table-responsive shopping-cart">
         <table class="table">
             <thead>
@@ -20,9 +19,24 @@
                     <tr>
                         <td>
                             <div class="product-item">
-                                <a class="product-thumb" href="#"><img src="https://www.bootdey.com/image/220x180/FF0000/000000" alt="Product"></a>
+                                <a class="product-thumb" href="#"> <img src="@item.ProductImg" class="img-cart"></a>
                                 <div class="product-info">
-                                    <h4 class="product-title"><a href="#">@item.ProductName</a></h4><span><em>Size:</em> 10.5</span><span><em>Color:</em></span>
+                                    @if (item.Size == 1)
+                                    {
+                                        <h4 class="product-title"><a href="#">@item.ProductName</a></h4><span><em>Size:</em> S</span><span></span>
+                                    }
+                                    else if (item.Size == 2)
+                                    {
+
+                                        <h4 class="product-title"><a href="#">@item.ProductName</a></h4><span><em>Size:</em> M</span><span></span>
+                                    }
+                                    else if (item.Size == 3)
+                                    {
+                                        <h4 class="product-title"><a href="#">@item.ProductName</a></h4><span><em>Size:</em> Xl</span><span></span>
+
+                                    }
+
+                                   
                                 </div>
                             </div>
                         </td>
@@ -39,10 +53,7 @@
     </div>
     <div class="shopping-cart-footer">
         <div class="column">
-            <form class="coupon-form" method="post">
-                <input class="form-control form-control-sm" type="text" placeholder="Coupon code" required="">
-                <button class="btn btn-outline-primary btn-sm" type="submit">Apply Coupon</button>
-            </form>
+           
         </div>
         <div class="column text-lg">Tổng tiền đơn hàng: <span class="text-medium">      @WSite_ShowRoom_CtyThoiTrang.Common.Common.FormatNumber(tongTien, 0) đ</span></div>
     </div>
